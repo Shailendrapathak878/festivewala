@@ -1,0 +1,72 @@
+[
+  {
+    "id": "family",
+    "nameEn": "Family Wishes",
+    "nameHi": "पारिवारिक मंगल",
+    "count": 60,
+    "icon": "Users"
+  },
+  {
+    "id": "friends",
+    "nameEn": "Friends Wishes",
+    "nameHi": "मित्र व साथी",
+    "count": 60,
+    "icon": "Sparkles"
+  },
+  {
+    "id": "short",
+    "nameEn": "Short & Sweet Wishes",
+    "nameHi": "संक्षिप्त व मधुर",
+    "count": 60,
+    "icon": "MessageCircle"
+  },
+  {
+    "id": "traditional",
+    "nameEn": "Traditional Wishes",
+    "nameHi": "पारंपरिक वंदना",
+    "count": 50,
+    "icon": "Flame"
+  },
+  {
+    "id": "love",
+    "nameEn": "Love & Romantic Wishes",
+    "nameHi": "प्रेम व आत्मीयता",
+    "count": 50,
+    "icon": "Heart"
+  },
+  {
+    "id": "emotional",
+    "nameEn": "Emotional Wishes",
+    "nameHi": "भावुक व आत्मीय",
+    "count": 50,
+    "icon": "Feather"
+  },
+  {
+    "id": "professional",
+    "nameEn": "Professional Wishes",
+    "nameHi": "कॉरपोरेट व व्यावसायिक",
+    "count": 50,
+    "icon": "Briefcase"
+  },
+  {
+    "id": "funny",
+    "nameEn": "Funny Wishes",
+    "nameHi": "हास्य व मस्ती",
+    "count": 40,
+    "icon": "Smile"
+  },
+  {
+    "id": "captions",
+    "nameEn": "Social Media Captions",
+    "nameHi": "सोशल मीडिया कैप्शन",
+    "count": 40,
+    "icon": "Hash"
+  },
+  {
+    "id": "business",
+    "nameEn": "Business & Customers Wishes",
+    "nameHi": "व्यापार व ग्राहक",
+    "count": 40,
+    "icon": "Building2"
+  }
+]

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <rect width="48" height="48" rx="12" fill="#24113D"/>
+  <circle cx="24" cy="24" r="21" stroke="#D4AF37" stroke-width="1" stroke-dasharray="3 3" opacity="0.6"/>
+  <!-- Diya base -->
+  <path d="M12 28C12 34 17.37 37 24 37C30.63 37 36 34 36 28C36 27.2 35.3 26.6 34.5 26.6C29 27.5 19 27.5 13.5 26.6C12.7 26.6 12 27.2 12 28Z" fill="url(#goldGradient)"/>
+  <!-- Flame -->
+  <path d="M24 9C24 9 20 16 20 20C20 22.2 21.8 24 24 24C26.2 24 28 22.2 28 20C28 16 24 9 24 9Z" fill="#F2D98B"/>
+  <circle cx="24" cy="20.5" r="2" fill="#D4AF37"/>
+  <!-- Radiant spark -->
+  <circle cx="24" cy="6" r="1.5" fill="#F2D98B"/>
+  <defs>
+    <linearGradient id="goldGradient" x1="12" y1="26" x2="36" y2="37" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F2D98B"/>
+      <stop offset="0.5" stop-color="#D4AF37"/>
+      <stop offset="1" stop-color="#B8860B"/>
+    </linearGradient>
+  </defs>
+</svg>
+

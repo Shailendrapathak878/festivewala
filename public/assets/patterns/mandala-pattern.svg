@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
+  <!-- Subtle geometric mandala repeat tile -->
+  <circle cx="40" cy="40" r="32" stroke="#D4AF37" stroke-width="0.75" stroke-dasharray="2 3" opacity="0.18"/>
+  <circle cx="40" cy="40" r="20" stroke="#D4AF37" stroke-width="0.5" opacity="0.15"/>
+  <circle cx="40" cy="40" r="8" stroke="#D4AF37" stroke-width="0.75" opacity="0.2"/>
+  <circle cx="40" cy="40" r="2" fill="#D4AF37" opacity="0.25"/>
+  <!-- Petals -->
+  <path d="M40 8C36 20 44 20 40 32C36 20 44 20 40 8Z" stroke="#D4AF37" stroke-width="0.5" opacity="0.15"/>
+  <path d="M40 72C36 60 44 60 40 48C36 60 44 60 40 72Z" stroke="#D4AF37" stroke-width="0.5" opacity="0.15"/>
+  <path d="M8 40C20 36 20 44 32 40C20 36 20 44 8 40Z" stroke="#D4AF37" stroke-width="0.5" opacity="0.15"/>
+  <path d="M72 40C60 36 60 44 48 40C60 36 60 44 72 40Z" stroke="#D4AF37" stroke-width="0.5" opacity="0.15"/>
+  <!-- Corners -->
+  <path d="M0 0L8 8M80 0L72 8M0 80L8 72M80 80L72 72" stroke="#D4AF37" stroke-width="0.5" opacity="0.12"/>
+</svg>
+

@@ -1,0 +1,32 @@
+# FestiveWala Robots.txt
+# Domain: https://festivewala.in
+# Search Engine Crawlers Directive
+
+User-agent: *
+Allow: /
+Allow: /festivals
+Allow: /festivals/*
+Allow: /rangoli
+Allow: /decoration-ideas
+Allow: /gift-ideas
+Allow: /festival-guides
+Allow: /festival-guides/*
+Allow: /wishes
+Allow: /greeting-cards
+Allow: /about
+Allow: /contact
+Allow: /privacy-policy
+Allow: /terms-of-service
+Allow: /disclaimer
+
+# Disallow internal assets and technical endpoints
+Disallow: /api/
+Disallow: /*.json$
+Disallow: /scripts/
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1
+
+# XML Sitemap Index
+Sitemap: https://festivewala.in/sitemap.xml
+

@@ -1,0 +1,278 @@
+export interface GiftIdea {
+  id: string;
+  nameEn: string;
+  nameHi: string;
+  category:
+    | 'family'
+    | 'friends'
+    | 'parents'
+    | 'partner'
+    | 'children'
+    | 'corporate'
+    | 'handmade'
+    | 'budget'
+    | 'personalized'
+    | 'eco-friendly';
+  categoryLabelEn: string;
+  categoryLabelHi: string;
+  recipientCategory: 'parents' | 'family' | 'friends' | 'partner' | 'children' | 'corporate' | 'general';
+  recipientLabelEn: string;
+  recipientLabelHi: string;
+  budgetTier: 'under-250' | '250-500' | '500-1000' | '1000-2500' | 'above-2500';
+  budgetDisplay: string;
+  descEn: string;
+  descHi: string;
+  whyGoodGiftEn: string;
+  whyGoodGiftHi: string;
+  diyOrPersonalizationEn: string;
+  diyOrPersonalizationHi: string;
+  occasion: string;
+  icon: string;
+}
+
+export const GIFT_CATEGORIES = [
+  { id: 'all', labelEn: 'All Gift Ideas', labelHi: 'सभी उपहार' },
+  { id: 'family', labelEn: 'For Family', labelHi: 'परिवार हेतु' },
+  { id: 'parents', labelEn: 'For Parents', labelHi: 'माता-पिता हेतु' },
+  { id: 'partner', labelEn: 'For Partner', labelHi: 'जीवनसाथी हेतु' },
+  { id: 'friends', labelEn: 'For Friends', labelHi: 'मित्रों हेतु' },
+  { id: 'children', labelEn: 'For Children', labelHi: 'बच्चों हेतु' },
+  { id: 'corporate', labelEn: 'Corporate & Colleagues', labelHi: 'कॉरपोरेट व सहयोगी' },
+  { id: 'handmade', labelEn: 'Handmade Crafts', labelHi: 'हस्तनिर्मित उपहार' },
+  { id: 'budget', labelEn: 'Budget-Friendly', labelHi: 'किफायती उपहार' },
+  { id: 'personalized', labelEn: 'Personalized Keepsakes', labelHi: 'व्यक्तिगत स्मृति' },
+  { id: 'eco-friendly', labelEn: 'Eco-Friendly Gifts', labelHi: 'पर्यावरण-अनुकूल' },
+];
+
+export const BUDGET_TIERS = [
+  { id: 'all', labelEn: 'All Budgets', labelHi: 'सभी बजट' },
+  { id: 'under-250', labelEn: 'Under ₹250', labelHi: '₹२५० से कम' },
+  { id: '250-500', labelEn: '₹250–₹500', labelHi: '₹२५०–₹५००' },
+  { id: '500-1000', labelEn: '₹500–₹1,000', labelHi: '₹५००–₹१,०००' },
+  { id: '1000-2500', labelEn: '₹1,000–₹2,500', labelHi: '₹१,०००–₹२,५००' },
+  { id: 'above-2500', labelEn: 'Above ₹2,500', labelHi: '₹२,५०० से अधिक' },
+];
+
+export const RECIPIENT_FILTERS = [
+  { id: 'all', labelEn: 'All Recipients', labelHi: 'सभी के लिए' },
+  { id: 'parents', labelEn: 'Parents & Elders', labelHi: 'माता-पिता व अग्रज' },
+  { id: 'family', labelEn: 'Family & Siblings', labelHi: 'परिवार व भाई-बहन' },
+  { id: 'partner', labelEn: 'Spouse & Partner', labelHi: 'जीवनसाथी' },
+  { id: 'friends', labelEn: 'Friends & Peers', labelHi: 'मित्र व सखा' },
+  { id: 'children', labelEn: 'Kids & Teens', labelHi: 'बच्चे' },
+  { id: 'corporate', labelEn: 'Clients & Colleagues', labelHi: 'ग्राहक व सहकर्मी' },
+];
+
+export const GIFTS_DATA: GiftIdea[] = [
+  {
+    id: 'handcrafted-terracotta-diyas',
+    nameEn: 'Hand-Painted Artisan Terracotta Diya Set',
+    nameHi: 'हस्तशिल्पित चित्रित मिट्टी के दीयों का सेट',
+    category: 'budget',
+    categoryLabelEn: 'Budget-Friendly Gifts',
+    categoryLabelHi: 'किफायती उपहार',
+    recipientCategory: 'friends',
+    recipientLabelEn: 'For Friends & Neighbors',
+    recipientLabelHi: 'मित्रों और पड़ोसियों के लिए',
+    budgetTier: 'under-250',
+    budgetDisplay: 'Under ₹250',
+    descEn: 'A set of 6 hand-painted clay lamps crafted by local potters, embellished with vibrant acrylic colors and sparkling mirror sequins.',
+    descHi: 'स्थानीय कुम्हारों द्वारा हस्तनिर्मित ६ रंगीन मिट्टी के दीयों का सुंदर सेट, जिस पर पारंपरिक मीनाकारी और कांच के बारीक काम किए गए हैं।',
+    whyGoodGiftEn: 'Directly supports local potters and artisans while providing an authentic, reusable decorative festive necessity.',
+    whyGoodGiftHi: 'कुम्हारों की आजीविका को सहयोग देता है और त्योहार पर सीधे काम आने वाला पावन व किफायती उपहार है।',
+    diyOrPersonalizationEn: 'Pack in a natural jute pouch with a handwritten festive tag tied with red Kalava.',
+    diyOrPersonalizationHi: 'जूट की छोटी पोटली में रखें और हाथ से लिखा शुभकामना संदेश कलावे से बांधें।',
+    occasion: 'Diwali, Govardhan Puja, Chhath',
+    icon: '🪔',
+  },
+  {
+    id: 'indoor-air-purifying-plant',
+    nameEn: 'Lucky Bamboo or Jade Plant in Ceramic Pot',
+    nameHi: 'सिरेमिक गमले में लकी बैम्बू या जेड प्लांट',
+    category: 'eco-friendly',
+    categoryLabelEn: 'Eco-Friendly Gifts',
+    categoryLabelHi: 'पर्यावरण-अनुकूल',
+    recipientCategory: 'corporate',
+    recipientLabelEn: 'For Colleagues & Friends',
+    recipientLabelHi: 'सहकर्मियों और मित्रों के लिए',
+    budgetTier: '250-500',
+    budgetDisplay: '₹250–₹500',
+    descEn: 'A resilient, air-purifying indoor succulent planted in a glossy ceramic pot with decorative white pebbles.',
+    descHi: 'घर या ऑफिस डेस्क के लिए सौभाग्य और शुद्ध हवा प्रदान करने वाला जेड या बैम्बू का सुंदर हरा पौधा।',
+    whyGoodGiftEn: 'A living gift that grows over time, representing flourishing prosperity and positive energy.',
+    whyGoodGiftHi: 'एक जीवित उपहार जो समय के साथ फलता-फूलता है और निरंतर ताजगी व उन्नति का स्मरण कराता है।',
+    diyOrPersonalizationEn: 'Tie a personalized gold ribbon around the planter neck with the recipient’s name.',
+    diyOrPersonalizationHi: 'गमले के चारों ओर सुनहरी रिबन पर प्राप्तकर्ता का नाम लिखकर सजाएं।',
+    occasion: 'New Year, Diwali, Corporate Festivals',
+    icon: '🌱',
+  },
+  {
+    id: 'kashmiri-dry-fruit-chest',
+    nameEn: 'Hand-Carved Sheesham Wood Dry Fruit Box',
+    nameHi: 'शीशम की नक्काशीदार लकड़ी की डिब्बी में शाही मेवा',
+    category: 'family',
+    categoryLabelEn: 'For Family',
+    categoryLabelHi: 'परिवार हेतु',
+    recipientCategory: 'parents',
+    recipientLabelEn: 'For Parents & Elders',
+    recipientLabelHi: 'माता-पिता व अग्रजों के लिए',
+    budgetTier: '1000-2500',
+    budgetDisplay: '₹1,000–₹2,500',
+    descEn: 'Four-compartment solid Sheesham wood box with brass inlay work, packed with premium California almonds, cashews, raisins, and walnuts.',
+    descHi: 'चार खानों वाली शुद्ध शीशम की नक्काशीदार डिब्बी जिसमें उच्च गुणवत्ता के बादाम, काजू, किशमिश और अखरोट भरे हों।',
+    whyGoodGiftEn: 'A respectful, health-conscious traditional gift that respects elder wellness and offers a keepsake box.',
+    whyGoodGiftHi: 'स्वास्थ्यवर्धक और अत्यंत सम्मानीय उपहार; मेवा समाप्त होने के बाद यह डिब्बी वर्षों तक काम आती है।',
+    diyOrPersonalizationEn: 'Include a jar of raw organic forest honey with a small brass spoon.',
+    diyOrPersonalizationHi: 'साथ में छोटी शीशी में शुद्ध शहद और पीतल की चम्मच रखकर उपहार को और खास बनाएं।',
+    occasion: 'Diwali, New Year, Raksha Bandhan',
+    icon: '🌰',
+  },
+  {
+    id: 'pure-silver-lakshmi-coin',
+    nameEn: 'Hallmarked 10g Pure Silver Lakshmi-Ganesh Coin',
+    nameHi: '१० ग्राम शुद्ध चांदी का महालक्ष्मी-गणेश सिक्का',
+    category: 'personalized',
+    categoryLabelEn: 'Personalized Keepsakes',
+    categoryLabelHi: 'व्यक्तिगत स्मृति',
+    recipientCategory: 'parents',
+    recipientLabelEn: 'For Parents & Elders',
+    recipientLabelHi: 'माता-पिता व पूजनीयों के लिए',
+    budgetTier: '1000-2500',
+    budgetDisplay: '₹1,000–₹2,500',
+    descEn: 'Certified 999 fine silver coin embossed with divine deities, encased in an airtight velvet presentation case.',
+    descHi: '९९९ शुद्ध चांदी का हॉलमार्क सिक्का जिस पर भगवान गणेश और माता लक्ष्मी की छवि अंकित हो, मखमली डिब्बी में पैक।',
+    whyGoodGiftEn: 'Traditional store of auspicious wealth that families preserve in their puja altars for generations.',
+    whyGoodGiftHi: 'पारंपरिक मांगलिक संपत्ति जिसे परिवार अपने मंदिर और तिजोरी में पीढ़ियों तक सहेजकर रखते हैं।',
+    diyOrPersonalizationEn: 'Tuck inside a handwritten blessing card from FestiveWala expressing lifelong gratitude.',
+    diyOrPersonalizationHi: 'साथ में फेस्टिववाला का हस्तलिखित आभार कार्ड रखकर माता-पिता के चरण स्पर्श करें।',
+    occasion: 'Dhanteras, Diwali, Akshaya Tritiya',
+    icon: '🪙',
+  },
+  {
+    id: 'handcrafted-scented-candle-box',
+    nameEn: 'Soy Wax Sandalwood & Mogra Festive Candles',
+    nameHi: 'चंदन व मोगरा सुगंधित प्राकृतिक मोमबत्तियां',
+    category: 'handmade',
+    categoryLabelEn: 'Handmade Crafts',
+    categoryLabelHi: 'हस्तनिर्मित उपहार',
+    recipientCategory: 'partner',
+    recipientLabelEn: 'For Partner & Spouse',
+    recipientLabelHi: 'जीवनसाथी के लिए',
+    budgetTier: '500-1000',
+    budgetDisplay: '₹500–₹1,000',
+    descEn: 'Hand-poured 100% soy wax candles infused with natural Indian essential oils in reusable frosted amber glass jars.',
+    descHi: 'शुद्ध सोया वैक्स और प्राकृतिक चंदन-मोगरा के तेल से बनी धुआं-रहित मोमबत्तियों का सुगंधित सेट।',
+    whyGoodGiftEn: 'Creates an intimate, aromatic sanctuary at home after the busy rush of festive preparations.',
+    whyGoodGiftHi: 'त्योहार की थकान के बाद घर में शांत, सुगंधित और रोमांटिक वातावरण बनाने के लिए एकदम सही।',
+    diyOrPersonalizationEn: 'Pair with matches in a vintage bottle featuring a striker strip.',
+    diyOrPersonalizationHi: 'सुंदर विंटेज कांच की शीशी में रंगीन माचिस की तीलियां साथ रखें।',
+    occasion: 'Diwali, Christmas, New Year, Valentine',
+    icon: '🕯️',
+  },
+  {
+    id: 'artisanal-mithai-assortment',
+    nameEn: 'Gourmet Artisanal Sweet Hamper (Khoya & Dates)',
+    nameHi: 'शाही मेवे व खजूर की शुद्ध देसी घी मिष्ठान टोकरी',
+    category: 'family',
+    categoryLabelEn: 'For Family',
+    categoryLabelHi: 'परिवार हेतु',
+    recipientCategory: 'family',
+    recipientLabelEn: 'For Family & Relatives',
+    recipientLabelHi: 'पारिवारिक संबंधियों के लिए',
+    budgetTier: '500-1000',
+    budgetDisplay: '₹500–₹1,000',
+    descEn: 'A handcrafted selection of refined sweets made with Medjool dates, anjeer, pistachio rolls, and pure desi ghee besan ladoos.',
+    descHi: 'बिना रिफाइंड चीनी के — खजूर, अंजीर, पिस्ता रोल और शुद्ध देसी घी के बेसन के लड्डुओं की स्वादिष्ट टोकरी।',
+    whyGoodGiftEn: 'Satisfies festival sweet cravings with guilt-free, nutritious ingredients suitable for all ages.',
+    whyGoodGiftHi: 'पारंपरिक स्वाद और स्वास्थ्य का संतुलन, जो बच्चों से लेकर बुजुर्गों तक सभी को पसंद आता है।',
+    diyOrPersonalizationEn: 'Present in a reusable cane bamboo basket lined with banana leaf paper.',
+    diyOrPersonalizationHi: 'बांस की पारंपरिक टोकरी में सजाकर ऊपर से लाल रिबन बांधें।',
+    occasion: 'Holi, Diwali, Raksha Bandhan, New Year',
+    icon: '🍬',
+  },
+  {
+    id: 'wooden-board-game-children',
+    nameEn: 'Traditional Wooden Board Games (Pachisi & Ludo)',
+    nameHi: 'पारंपरिक लकड़ी का पचीसी व लूडो बोर्ड गेम',
+    category: 'children',
+    categoryLabelEn: 'For Children',
+    categoryLabelHi: 'बच्चों हेतु',
+    recipientCategory: 'children',
+    recipientLabelEn: 'For Kids & Youngsters',
+    recipientLabelHi: 'बच्चों और युवा पीढ़ी के लिए',
+    budgetTier: '500-1000',
+    budgetDisplay: '₹500–₹1,000',
+    descEn: 'A handcrafted wooden board featuring classic Indian folk games with painted cowrie shells and wooden tokens.',
+    descHi: 'हस्तशिल्प लकड़ी का बोर्ड गेम जो बच्चों को स्क्रीन से दूर कर परिवार संग पारंपरिक खेल खेलने का आनंद देता है।',
+    whyGoodGiftEn: 'Brings generations together away from smartphone screens during festival holiday breaks.',
+    whyGoodGiftHi: 'छुट्टियों में बच्चों को मोबाइल से दूर रखकर पूरे परिवार को एक साथ बैठकर खेलने का मौका देता है।',
+    diyOrPersonalizationEn: 'Include an illustrated rules scroll explaining the historical origins of the ancient game.',
+    diyOrPersonalizationHi: 'साथ में खेल का इतिहास और प्राचीन नियम समझाने वाली एक सुंदर सचित्र पर्ची रखें।',
+    occasion: 'Diwali, Summer Holidays, New Year',
+    icon: '🎲',
+  },
+  {
+    id: 'khadi-cotton-kurta-set',
+    nameEn: 'Handloom Khadi Silk Kurta & Stole Set',
+    nameHi: 'हथकरघा खादी सिल्क कुर्ता व स्टोल सेट',
+    category: 'partner',
+    categoryLabelEn: 'For Partner',
+    categoryLabelHi: 'जीवनसाथी हेतु',
+    recipientCategory: 'partner',
+    recipientLabelEn: 'For Partner or Sibling',
+    recipientLabelHi: 'जीवनसाथी या भाई-बहन के लिए',
+    budgetTier: '1000-2500',
+    budgetDisplay: '₹1,000–₹2,500',
+    descEn: 'Breathable, hand-spun Indian Khadi silk kurta in festive mustard, emerald, or crimson with brass buttons.',
+    descHi: 'शुद्ध खादी सिल्क का बना आरामदायक और शाही कुर्ता जिस पर पीतल के बटन और बारीक कढ़ाई हो।',
+    whyGoodGiftEn: 'Supports rural weavers while offering a dapper, comfortable festive outfit ready for puja mornings.',
+    whyGoodGiftHi: 'भारतीय बुनकरों का समर्थन करने वाला, अत्यंत गरिमामय और पूजा के लिए तैयार पारंपरिक परिधान।',
+    diyOrPersonalizationEn: 'Have the recipient’s initials embroidered on the inner cuff.',
+    diyOrPersonalizationHi: 'कुर्ते के कफ़ या कॉलर पर उनका नाम या आद्याक्षर (initials) कसीदा करवाएं।',
+    occasion: 'Diwali, Rakhi, Holi, Eid',
+    icon: '👘',
+  },
+  {
+    id: 'copper-water-bottle-set',
+    nameEn: 'Hammered Pure Copper Water Carafe & Tumbler',
+    nameHi: 'शुद्ध तांबे की नक्काशीदार बोतल व गिलास सेट',
+    category: 'corporate',
+    categoryLabelEn: 'Corporate & Colleagues',
+    categoryLabelHi: 'कॉरपोरेट व सहयोगी',
+    recipientCategory: 'corporate',
+    recipientLabelEn: 'For Valued Clients & Boss',
+    recipientLabelHi: 'कार्यालयी सहयोगियों व ग्राहकों के लिए',
+    budgetTier: '500-1000',
+    budgetDisplay: '₹500–₹1,000',
+    descEn: 'Ayurvedic health vessel handcrafted with seamless pure copper, featuring ergonomic hammered texture.',
+    descHi: 'आयुर्वेदिक गुणों से भरपूर शुद्ध तांबे की बोतल जो स्वास्थ्य और कार्यक्षेत्र दोनों के लिए उपयोगी है।',
+    whyGoodGiftEn: 'Combines health benefits with sleek corporate utility, standing out from generic sweets.',
+    whyGoodGiftHi: 'मिठाइयों की तुलना में अत्यधिक उपयोगी, स्वास्थ्यवर्धक और लंबे समय तक चलने वाला उपहार।',
+    diyOrPersonalizationEn: 'Laser engrave their name or your corporate brand greeting on the cap.',
+    diyOrPersonalizationHi: 'ढक्कन पर उनका नाम या सुंदर शुभकामना लेजर प्रिंट करवाएं।',
+    occasion: 'Diwali, Corporate Milestone, New Year',
+    icon: '🏺',
+  },
+  {
+    id: 'luxury-brass-coffee-filter',
+    nameEn: 'South Indian Brass Filter Coffee Maker & Davarah Set',
+    nameHi: 'पारंपरिक पीतल का साउथ इंडियन फिल्टर कॉफी व डबरा सेट',
+    category: 'handmade',
+    categoryLabelEn: 'Handmade Crafts',
+    categoryLabelHi: 'हस्तनिर्मित उपहार',
+    recipientCategory: 'friends',
+    recipientLabelEn: 'For Friends & Coffee Lovers',
+    recipientLabelHi: 'मित्रों और कॉफी प्रेमियों के लिए',
+    budgetTier: '500-1000',
+    budgetDisplay: '₹500–₹1,000',
+    descEn: 'Authentic heavy-gauge brass coffee drip filter paired with a matching Davarah tumbler and freshly ground chicory coffee beans.',
+    descHi: 'भारी पीतल से बना पारंपरिक फिल्टर कॉफी मेकर और पारंपरिक डबरा-गिलास, ताजे पिसे कॉफी बीन्स के साथ।',
+    whyGoodGiftEn: 'Provides an authentic sensory coffee ritual that brightens up festive winter mornings.',
+    whyGoodGiftHi: 'त्योहार की सर्द सुबह में असली फिल्टर कॉफी का स्वाद और पुरानी परंपरा का आनंद देने वाला उपहार।',
+    diyOrPersonalizationEn: 'Include an artisanal pouch of freshly roasted Chikmagalur coffee powder.',
+    diyOrPersonalizationHi: 'साथ में चिकमगलूर की ताजी पिसी हुई सुगंधित कॉफी का पाउच भेंट करें।',
+    occasion: 'New Year, Christmas, Pongal, Diwali',
+    icon: '☕',
+  },
+];
+

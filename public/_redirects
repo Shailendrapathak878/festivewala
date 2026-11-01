@@ -1,0 +1,4 @@
+# Cloudflare Pages SPA Routing Redirects
+# Non-file requests are served index.html with a 200 status code
+/* /index.html 200
+

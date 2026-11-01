@@ -1,0 +1,27 @@
+{
+  "short_name": "FestiveWala",
+  "name": "FestiveWala — Celebrate. Create. Share.",
+  "description": "Create and share personalized Indian festival greetings, Rangoli ideas, festive decorations, and wishes.",
+  "icons": [
+    {
+      "src": "/assets/brand/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#FDFBF7",
+  "theme_color": "#4A0E4E",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "categories": ["lifestyle", "entertainment", "social"],
+  "lang": "en-IN"
+}
+

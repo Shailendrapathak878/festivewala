@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-brand-deep: #24113D;
+    --color-brand-royal: #45216B;
+    --color-brand-light: #F3ECFA;
+    --color-brand-gold: #D4AF37;
+    --color-brand-champagne: #F2D98B;
+    --color-brand-ivory: #FAF7F0;
+    --color-brand-white: #FFFFFF;
+    --color-brand-dark: #21182A;
+    --color-brand-muted: #766D7D;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: #FAF7F0;
+    color: #21182A;
+    font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', system-ui, sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Accessibility focus styles */
+  :focus-visible {
+    outline: 2px solid #D4AF37;
+    outline-offset: 3px;
+  }
+}
+
+@layer utilities {
+  /* Subtle luxury gold gradient text */
+  .text-gold-gradient {
+    background: linear-gradient(135deg, #F2D98B 0%, #D4AF37 50%, #C59B27 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Editorial Royal Deep background */
+  .bg-royal-gradient {
+    background: linear-gradient(160deg, #24113D 0%, #351759 60%, #45216B 100%);
+  }
+
+  /* Elegant thin gold border */
+  .border-gold-subtle {
+    border-color: rgba(212, 175, 55, 0.25);
+  }
+
+  .border-gold-glow {
+    border-color: rgba(212, 175, 55, 0.5);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
+  }
+
+  /* Subtle mandala pattern overlay */
+  .bg-mandala {
+    background-image: url('/assets/patterns/mandala-pattern.svg');
+    background-repeat: repeat;
+    background-size: 80px 80px;
+  }
+
+  /* Glassmorphism with warm luxury tint */
+  .glass-card-light {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+  }
+
+  .glass-card-dark {
+    background: rgba(36, 17, 61, 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+  }
+}
+
+/* Lightweight Festive Animations */
+@keyframes snowfall {
+  0% {
+    transform: translateY(-10px) translateX(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(105vh) translateX(25px);
+    opacity: 0;
+  }
+}
+
+.animate-snowfall {
+  animation: snowfall linear infinite;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+

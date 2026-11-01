@@ -1,0 +1,60 @@
+{
+  "totalWishes": 500,
+  "existingPreserved": 300,
+  "newlyAdded": 200,
+  "categoriesCount": 10,
+  "language": "bilingual (English & Hindi)",
+  "categoryBreakdown": {
+    "family": 60,
+    "friends": 60,
+    "short": 60,
+    "traditional": 50,
+    "love": 50,
+    "emotional": 50,
+    "professional": 50,
+    "funny": 40,
+    "captions": 40,
+    "business": 40
+  },
+  "recipients": [
+    "family",
+    "mother",
+    "father",
+    "brother",
+    "sister",
+    "friends",
+    "best-friend",
+    "partner",
+    "husband/wife",
+    "colleagues",
+    "customers",
+    "teachers",
+    "general"
+  ],
+  "tones": [
+    "emotional",
+    "heartwarming",
+    "romantic",
+    "funny",
+    "traditional",
+    "professional",
+    "respectful",
+    "inspirational",
+    "cute",
+    "simple"
+  ],
+  "lengths": [
+    "short",
+    "medium",
+    "long"
+  ],
+  "festivals": [
+    "diwali",
+    "chath-puja",
+    "bhai-dooj",
+    "govardhan-puja",
+    "dhanteras",
+    "new-year",
+    "general-festive"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "name": "festivewala",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build:sitemap": "node scripts/generate_sitemap.mjs",
+    "build": "node scripts/generate_sitemap.mjs && tsc -b && vite build",
+    "lint": "oxlint",
+    "test": "playwright test",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@mediapipe/tasks-vision": "^1.2.0",
+    "autoprefixer": "^10.6.2",
+    "framer-motion": "^14.9.0",
+    "lucide-react": "^1.66.0",
+    "postcss": "^8.5.32",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-router-dom": "^7.18.5",
+    "tailwindcss": "^3.4.19"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^24.19.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "autocannon": "^8.0.0",
+    "oxlint": "^1.89.0",
+    "playwright": "^1.64.1",
+    "typescript": "~7.0.2",
+    "vite": "^8.3.5"
+  }
+}

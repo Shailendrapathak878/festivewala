@@ -1,0 +1,342 @@
+export interface DecorationIdea {
+  id: string;
+  titleEn: string;
+  titleHi: string;
+  category:
+    | 'home'
+    | 'diwali'
+    | 'entrance'
+    | 'balcony'
+    | 'living-room'
+    | 'flower'
+    | 'diy-paper'
+    | 'eco-friendly'
+    | 'lighting-diyas'
+    | 'office';
+  categoryLabelEn: string;
+  categoryLabelHi: string;
+  difficulty: 'Easy' | 'Moderate' | 'Advanced';
+  difficultyHi: 'सरल' | 'मध्यम' | 'विस्तृत';
+  timeEstimateEn: string;
+  timeEstimateHi: string;
+  budgetCategory: 'Budget-Friendly' | 'Moderate' | 'Premium';
+  budgetCategoryHi: 'किफायती' | 'संतुलित' | 'विशिष्ट';
+  descEn: string;
+  descHi: string;
+  overviewEn: string;
+  overviewHi: string;
+  materialsEn: string[];
+  materialsHi: string[];
+  stepsEn: string[];
+  stepsHi: string[];
+  tipsEn: string[];
+  tipsHi: string[];
+  festivalAssociation: string[];
+  icon: string;
+}
+
+export const DECORATION_CATEGORIES = [
+  { id: 'all', labelEn: 'All Decor Ideas', labelHi: 'सभी सजावट' },
+  { id: 'home', labelEn: 'Home Decoration', labelHi: 'गृह सज्जा' },
+  { id: 'diwali', labelEn: 'Diwali Decor', labelHi: 'दीपावली सज्जा' },
+  { id: 'entrance', labelEn: 'Door & Entrance', labelHi: 'मुख्य द्वार व देहरी' },
+  { id: 'balcony', labelEn: 'Balcony & Veranda', labelHi: 'बालकनी व छज्जा' },
+  { id: 'living-room', labelEn: 'Living Room', labelHi: 'लिविंग रूम' },
+  { id: 'flower', labelEn: 'Flower Decoration', labelHi: 'पुष्प सज्जा' },
+  { id: 'diy-paper', labelEn: 'DIY Paper Crafts', labelHi: 'कागजी शिल्प (DIY)' },
+  { id: 'eco-friendly', labelEn: 'Eco-Friendly Decor', labelHi: 'पर्यावरण-अनुकूल' },
+  { id: 'lighting-diyas', labelEn: 'Lighting & Diyas', labelHi: 'दीप व रोशनी' },
+  { id: 'office', labelEn: 'Office & Desk', labelHi: 'कार्यालय व डेस्क' },
+];
+
+export const DECORATIONS_DATA: DecorationIdea[] = [
+  {
+    id: 'marigold-brass-urli-display',
+    titleEn: 'Floating Candle & Fresh Marigold Urli',
+    titleHi: 'पीतल की उरली में तैरते दीप व ताजे गेंदे के फूल',
+    category: 'living-room',
+    categoryLabelEn: 'Living Room',
+    categoryLabelHi: 'लिविंग रूम',
+    difficulty: 'Easy',
+    difficultyHi: 'सरल',
+    timeEstimateEn: '15 Mins',
+    timeEstimateHi: '१५ मिनट',
+    budgetCategory: 'Budget-Friendly',
+    budgetCategoryHi: 'किफायती',
+    descEn: 'A signature Indian centerpiece combining a traditional shallow brass bowl filled with clean water, fresh marigolds, red rose petals, and floating wax diyas.',
+    descHi: 'भारतीय घरों की पहचान — पानी से भरी पीतल की उरली, उसमें तैरते हुए ताजे गेंदे व गुलाब के फूल और प्रज्वलित फ्लोटिंग दीयों का मनमोहक दृश्य।',
+    overviewEn: 'Urli displays evoke the serenity of temple courtyards. The reflections of flame on water create a calming, ambient glow that immediately transforms any living room or foyer.',
+    overviewHi: 'उरली भारतीय संस्कृति में सात्विकता और शांति का प्रतीक है। जल पर दीपों का प्रतिबिंब लिविंग रूम में अत्यंत शांत व पवित्र माहौल बना देता है।',
+    materialsEn: ['Brass or terracotta urli bowl (10-14 inches)', '2 handfuls fresh orange & yellow marigold heads', '1 handful fresh rose petals', '4-6 Floating tea-light candles', '3 drops sandalwood or jasmine essential oil'],
+    materialsHi: ['१०-१४ इंच की पीतल या मिट्टी की उरली', '२ मुट्ठी ताजे गेंदे के फूल', '१ मुट्ठी लाल गुलाब की पंखुड़ियां', '४-६ तैरने वाले छोटे दीये', 'चंदन या चमेली का इत्र'],
+    stepsEn: [
+      'Clean the urli bowl with a damp cloth; polish with lemon and salt if using raw brass.',
+      'Fill with fresh, room-temperature water up to 1 inch below the rim.',
+      'Arrange marigold blossoms in an outer ring and cluster rose petals in the center.',
+      'Gently place floating candles between petals and light just before guests arrive.',
+    ],
+    stepsHi: [
+      'उरली को साफ करें; पीतल की उरली हो तो नींबू से चमका लें।',
+      'किनारे से १ इंच नीचे तक स्वच्छ पानी भरें।',
+      'बाहरी घेरे में गेंदे के फूल और केंद्र में गुलाब की पंखुड़ियां सजाएं।',
+      'फूलों के बीच में सावधानी से फ्लोटिंग दीये रखकर प्रज्वलित करें।',
+    ],
+    tipsEn: ['Add 2 teaspoons of salt to the water to keep the flower petals buoyant and fresh all evening.'],
+    tipsHi: ['पानी में थोड़ा सा नमक मिला दें, इससे फूल शाम भर ताजे और तैरते रहते हैं।'],
+    festivalAssociation: ['Diwali', 'Holi', 'New Year', 'General Festive'],
+    icon: '🪔',
+  },
+  {
+    id: 'mango-leaf-entrance-toran',
+    titleEn: 'Natural Mango Leaf & Marigold Door Toran',
+    titleHi: 'आम के पत्तों और गेंदे का पारंपरिक द्वार तोरण',
+    category: 'entrance',
+    categoryLabelEn: 'Door & Entrance',
+    categoryLabelHi: 'मुख्य द्वार व देहरी',
+    difficulty: 'Easy',
+    difficultyHi: 'सरल',
+    timeEstimateEn: '20 Mins',
+    timeEstimateHi: '२० मिनट',
+    budgetCategory: 'Budget-Friendly',
+    budgetCategoryHi: 'किफायती',
+    descEn: 'Handmade threshold hanging made from fresh glossy green mango leaves and fragrant marigold flower garlands, believed to ward off negative energies.',
+    descHi: 'मुख्य द्वार पर आम्रपल्लव और गेंदे के फूलों से बना पारंपरिक तोरण जो घर में सकारात्मक ऊर्जा और देवकृपा को आमंत्रित करता है।',
+    overviewEn: 'According to Vastu Shastra, mango leaves absorb carbon dioxide and emit clean pranic energy, creating a sanctified portal for arriving guests.',
+    overviewHi: 'वास्तुशास्त्र के अनुसार आम के पत्ते और गेंदे के फूल द्वार की नकारात्मकता को रोककर गृह में शुभता का प्रवेश कराते हैं।',
+    materialsEn: ['11 or 21 Fresh green mango leaves with stems', '1 Long garland of orange marigolds', 'Natural jute twine or red kalava thread', 'Scissors and needle'],
+    materialsHi: ['११ या २१ ताजे आम के पत्ते', '१ लंबी गेंदे की माला', 'सूती कलावा या जूट की डोरी', 'सुई व कैंची'],
+    stepsEn: [
+      'Wipe fresh mango leaves dry with a clean cloth.',
+      'Fold the top stem of each leaf over the jute twine and staple or thread with kalava.',
+      'Space leaves evenly 3 inches apart across the width of your door frame.',
+      'Drape the marigold garland over the leaf line in graceful swags.',
+    ],
+    stepsHi: [
+      'आम के पत्तों को धोकर सूखे कपड़े से पोंछ लें।',
+      'डंडी को मोड़कर कलावे या डोरी में बराबर दूरी (३ इंच) पर पिरोएं।',
+      'दरवाजे की चौखट की चौड़ाई के अनुसार तोरण तैयार करें।',
+      'पत्तों के ऊपर गेंदे की माला को घुमावदार अंदाज में लटकाएं।',
+    ],
+    tipsEn: ['Select leaves that are uniformly green without spots; dip the stems in water overnight to keep them fresh for days.'],
+    tipsHi: ['पत्ते बिल्कुल हरे चुनें; डंडी को पहले पानी में भिगोने से वे कई दिनों तक नहीं सूखते।'],
+    festivalAssociation: ['Diwali', 'Navratri', 'Raksha Bandhan', 'Makar Sankranti'],
+    icon: '🍃',
+  },
+  {
+    id: 'fairy-light-mason-lanterns',
+    titleEn: 'Upcycled Fairy Light Glass Lanterns',
+    titleHi: 'कांच के जार में फेयरी लाइट्स की देदीप्यमान लालटेन',
+    category: 'lighting-diyas',
+    categoryLabelEn: 'Lighting & Diyas',
+    categoryLabelHi: 'दीप व रोशनी',
+    difficulty: 'Easy',
+    difficultyHi: 'सरल',
+    timeEstimateEn: '15 Mins',
+    timeEstimateHi: '१५ मिनट',
+    budgetCategory: 'Budget-Friendly',
+    budgetCategoryHi: 'किफायती',
+    descEn: 'Transform ordinary recycled glass jam jars into magical glowing lanterns using warm micro copper-wire fairy lights and golden jute ribbons.',
+    descHi: 'घरों में बेकार पड़े कांच के जार या बोतलों में कॉपर वायर फेयरी लाइट्स डालकर तैयार की गई खूबसूरत व सुरक्षित लालटेन।',
+    overviewEn: 'Safe for indoor shelves, kid-friendly, fire-hazard-free, and reusable year after year across all festivals.',
+    overviewHi: 'आग के खतरे से पूर्णतः सुरक्षित, बच्चों और पालतू जानवरों के अनुकूल तथा बार-बार उपयोग में आने वाली सुंदर सजावट।',
+    materialsEn: ['3 Clean empty glass jars or bottles', '3 Battery-operated warm white micro LED strings', 'Jute rope or metallic gold ribbon', 'Dried star anise or cinnamon stick for decoration'],
+    materialsHi: ['३ साफ खाली कांच के जार', '३ बैटरी वाली वार्म व्हाइट माइक्रो एलईडी लाइट्स', 'जूट की पतली रस्सी या सुनहरी रिबन', 'दालचीनी या फूल चकरी सजावट के लिए'],
+    stepsEn: [
+      'Remove jar labels completely by soaking in warm soapy water.',
+      'Coil the copper fairy light string loosely inside the jar so bulbs spread uniformly.',
+      'Tape the tiny battery box invisibly beneath the jar lid.',
+      'Tie rustic jute rope or gold ribbon around the jar neck with a cinnamon quill accent.',
+    ],
+    stepsHi: [
+      'जार के लेबल साबुन के गुनगुने पानी में भिगोकर साफ कर लें।',
+      'लाइट्स के तार को घुमाते हुए जार के अंदर समान रूप से फैलाएं।',
+      'बैटरी बॉक्स को ढक्कन के नीचे टेप से चिपका दें।',
+      'जार के गले पर जूट की रस्सी या सुनहरी रिबन बांधकर सजाएं।',
+    ],
+    tipsEn: ['Choose warm white (2700K) lights rather than cold white for a soft, incandescent candlelight simulation.'],
+    tipsHi: ['वार्म व्हाइट (पीली रोशनी) वाली लाइट्स चुनें, यह मोमबत्ती जैसा सुखद प्रभाव देती हैं।'],
+    festivalAssociation: ['Diwali', 'Christmas', 'New Year'],
+    icon: '✨',
+  },
+  {
+    id: 'eco-friendly-terracotta-steps',
+    titleEn: 'Tiered Clay Diya Staircase Cascade',
+    titleHi: 'सीढ़ियों व बालकनी पर सीढ़ीदार मिट्टी के दीयों का झरना',
+    category: 'diwali',
+    categoryLabelEn: 'Diwali Decor',
+    categoryLabelHi: 'दीपावली सज्जा',
+    difficulty: 'Moderate',
+    difficultyHi: 'मध्यम',
+    timeEstimateEn: '30 Mins',
+    timeEstimateHi: '३० मिनट',
+    budgetCategory: 'Budget-Friendly',
+    budgetCategoryHi: 'किफायती',
+    descEn: 'Arrange unpainted red clay diyas in ascending triangular tiers along staircase edges and balcony borders, interspersed with whole marigolds.',
+    descHi: 'सीढ़ियों के किनारों और बालकनी की मुंडेरों पर मिट्टी के दीयों को त्रिकोण रूप में कतारबद्ध सजाना और बीच में गेंदे के फूल रखना।',
+    overviewEn: 'Creates a majestic optical cascade of light as seen in ancient temple stairways, guiding positive energy upward.',
+    overviewHi: 'प्राचीन घाटों और मंदिरों की सीढ़ियों जैसा भव्य दृश्य, जो घर के प्रवेश पथ को अत्यंत दिव्य बना देता है।',
+    materialsEn: ['24 Raw terracotta earthen diyas', 'Pure mustard or sesame oil', 'Hand-rolled cotton wicks', 'Loose orange marigold blossoms'],
+    materialsHi: ['२४ कच्चे मिट्टी के दीये', 'शुद्ध सरसों या तिल का तेल', 'कपास की लंबी बत्तियां', 'गेंदे के फूल'],
+    stepsEn: [
+      'Soak clay diyas in a bucket of water for 4 hours; dry completely in the sun.',
+      'Place diyas in sets of 3, 2, and 1 forming small pyramids on each stair step.',
+      'Insert cotton wicks pointing outwards and fill with oil up to 80% capacity.',
+      'Place an orange marigold blossom beside each diya cluster for color contrast.',
+    ],
+    stepsHi: [
+      'दीयों को ४ घंटे पानी में भिगोकर धूप में सुखा लें।',
+      'सीढ़ियों के किनारे ३, २, और १ के क्रम में त्रिकोण बनाकर दीये रखें।',
+      'रुई की बत्ती लगाकर ८०% तक तेल भरें।',
+      'हर समूह के पास एक गेंदे का फूल रखें।',
+    ],
+    tipsEn: ['Pour oil using a clean small teapot or squeeze bottle to avoid messy drips on the floor.'],
+    tipsHi: ['तेल डालने के लिए छोटी केतली या बोतल का प्रयोग करें ताकि फर्श पर तेल न गिरे।'],
+    festivalAssociation: ['Diwali', 'Dev Deepawali', 'Chhath Puja'],
+    icon: '🔥',
+  },
+  {
+    id: 'origami-paper-kandil',
+    titleEn: 'Handcrafted Origami Festive Paper Lantern (Kandil)',
+    titleHi: 'हस्तनिर्मित ओरिगेमी पेपर कंदील (आकाशदीप)',
+    category: 'diy-paper',
+    categoryLabelEn: 'DIY Paper Crafts',
+    categoryLabelHi: 'कागजी शिल्प (DIY)',
+    difficulty: 'Moderate',
+    difficultyHi: 'मध्यम',
+    timeEstimateEn: '40 Mins',
+    timeEstimateHi: '४० मिनट',
+    budgetCategory: 'Budget-Friendly',
+    budgetCategoryHi: 'किफायती',
+    descEn: 'A vibrant geometric paper lantern crafted with jewel-toned cardstock and shimmering gold foil fringe tails, suspended at windows or balconies.',
+    descHi: 'रंगीन कार्डशीट और सुनहरे गोटे की झालर से बना पारम्परिक आकाश कंदील जो खिड़की और बालकनी में उत्सव का रंग भर देता है।',
+    overviewEn: 'A traditional favorite across Maharashtra, Goa, and North India, symbolizing light guiding divine visitors.',
+    overviewHi: 'घर के आंगन में ऊंचा लटकाया जाने वाला कंदील घर में आनंद और उल्लास का संदेश प्रसारित करता है।',
+    materialsEn: ['2 sheets of contrasting colored cardstock (Purple, Gold, or Crimson)', 'Gold metallic ribbon or crepe paper for fringe tails', 'Glue stick and ruler', 'Hanging twine'],
+    materialsHi: ['२ रंगीन कार्डशीट (बैंगनी, लाल या सुनहरी)', 'सुनहरी गोटा रिबन झालर के लिए', 'गोंद व स्केल', 'लटकाने के लिए डोरी'],
+    stepsEn: [
+      'Form an inner central cylinder with sturdy ivory paper.',
+      'Slit outer colorful cardstock sheets at 1-cm parallel intervals and fold around the cylinder.',
+      'Glue fine gold crepe paper ribbons along the bottom rim to form sweeping flutter tails.',
+      'Fit a lightweight LED string light inside and suspend from your balcony hook.',
+    ],
+    stepsHi: [
+      'मजबूत कागज से अंदर का बेलनाकार (cylinder) ढांचा बनाएं।',
+      'बाहरी रंगीन शीट में १-१ सेमी की समानांतर धारियां काटकर ढांचे पर चिपकाएं।',
+      'नीचे के घेरे पर सुनहरे गोटे की लंबी झालरें चिपकाएं।',
+      'अंदर छोटा एलईडी बल्ब लगाकर बालकनी में टांगें।',
+    ],
+    tipsEn: ['Always use battery LEDs inside paper lanterns; never use real open flames or hot incandescent bulbs.'],
+    tipsHi: ['कागजी कंदील में हमेशा ठंडी एलईडी लाइट का प्रयोग करें; असली दीया या मोमबत्ती कभी न लगाएं।'],
+    festivalAssociation: ['Diwali', 'Christmas', 'New Year'],
+    icon: '🏮',
+  },
+  {
+    id: 'eco-friendly-plant-pot-rangoli',
+    titleEn: 'Green Terracotta Plant & Succulent Shrine',
+    titleHi: 'मिट्टी के गमलों व तुलसी चौबारे की पावन हरितिमा सज्जा',
+    category: 'eco-friendly',
+    categoryLabelEn: 'Eco-Friendly Decor',
+    categoryLabelHi: 'पर्यावरण-अनुकूल',
+    difficulty: 'Easy',
+    difficultyHi: 'सरल',
+    timeEstimateEn: '25 Mins',
+    timeEstimateHi: '२५ मिनट',
+    budgetCategory: 'Budget-Friendly',
+    budgetCategoryHi: 'किफायती',
+    descEn: 'Decorate outdoor planters and your sacred Tulsi plant with hand-painted Geru and white Chuna motifs, encircled with clay diyas and leafy fronds.',
+    descHi: 'घर के पौधों और तुलसी के चौबारे को लाल गेरू व सफेद चूने के पारंपरिक मांडने से सजाना और चारों ओर दीये लगाना।',
+    overviewEn: 'Celebrates nature-centric devotion without plastic waste, generating zero toxic runoff while nurturing plant vitality.',
+    overviewHi: 'प्रकृति के प्रति सम्मान — बिना किसी प्लास्टिक कचरे के घर के आंगन को सात्विक और मनोरम बनाने का श्रेष्ठ तरीका।',
+    materialsEn: ['Terracotta pots with Tulsi, Money plant, or jade', 'Natural red Geru and white rice flour paste', '4 Clay diyas with mustard oil'],
+    materialsHi: ['तुलसी या हरे पौधों के मिट्टी के गमले', 'लाल गेरू और सफेद चावल का घोल', '४ मिट्टी के दीये'],
+    stepsEn: [
+      'Wipe terracotta planter surfaces clean of dust.',
+      'Paint a traditional red Geru base band around the pot neck.',
+      'Paint delicate white dots and lotus petals over the dry red band.',
+      'Place 4 oil diyas around the base of the sacred Tulsi plant at sunset.',
+    ],
+    stepsHi: [
+      'गमलों की बाहरी सतह को साफ करें।',
+      'गमले के ऊपरी हिस्से पर लाल गेरू की पट्टी बनाएं।',
+      'गेरू सूखने पर सफेद ऐपन से बारीक बिंदु और कमल की आकृतियां बनाएं।',
+      'शाम के समय तुलसी के चारों ओर चार दीये सजाएं।',
+    ],
+    tipsEn: ['Natural Geru and rice paste nourish the soil when washed off by rain, leaving zero ecological trace.'],
+    tipsHi: ['गेरू और चावल का घोल बारिश में बहकर मिट्टी में मिल जाता है और पौधों को पोषण देता है।'],
+    festivalAssociation: ['Diwali', 'Chhath Puja', 'Tulsi Vivah', 'Makar Sankranti'],
+    icon: '🌱',
+  },
+  {
+    id: 'office-desk-festive-corner',
+    titleEn: 'Minimalist Corporate Desk Festival Accent',
+    titleHi: 'कार्यालय व वर्क-डेस्क के लिए सुरुचिपूर्ण मिनी फेस्टिव कोना',
+    category: 'office',
+    categoryLabelEn: 'Office & Desk',
+    categoryLabelHi: 'कार्यालय व डेस्क',
+    difficulty: 'Easy',
+    difficultyHi: 'सरल',
+    timeEstimateEn: '10 Mins',
+    timeEstimateHi: '१० मिनट',
+    budgetCategory: 'Budget-Friendly',
+    budgetCategoryHi: 'किफायती',
+    descEn: 'A tidy, clutter-free desktop arrangement featuring a brass battery tea-light, small wooden coaster with fresh marigold petals, and a framed festive affirmation.',
+    descHi: 'ऑफिस टेबल के लिए साफ-सुथरी और सुंदर सज्जा — छोटा पीतल का इलेक्ट्रॉनिक दीया, लकड़ी के कोस्टर पर ताजे फूल और शुभकामना कार्ड।',
+    overviewEn: 'Infuses festive cheer into modern professional workstations without fire risks, bulky props, or wire clutter.',
+    overviewHi: 'कार्यक्षेत्र में बिना किसी झंझट या आग के जोखिम के उत्सव का सकारात्मक माहौल बनाने का आदर्श तरीका।',
+    materialsEn: ['1 Battery operated brass-finish tea-light', 'Wooden or marble coaster', '3 Fresh marigold heads', 'Festive desk card or greeting'],
+    materialsHi: ['१ बैटरी वाला पीतल फिनिश टी-लाइट', 'लकड़ी या मार्बल का कोस्टर', '३ ताजे गेंदे के फूल', 'छोटा फेस्टिव कार्ड'],
+    stepsEn: [
+      'Clear a 6x6 inch corner on your work desk away from laptop cables.',
+      'Place the decorative coaster flat on the desk surface.',
+      'Rest the brass LED tea-light in the center and ring with plucked marigold petals.',
+      'Stand your FestiveWala customized greeting card behind the display.',
+    ],
+    stepsHi: [
+      'डेस्क के एक कोने को साफ करें।',
+      'कोस्टर रखें और उसके ऊपर एलईडी दीया स्थापित करें।',
+      'दीये के चारों ओर गेंदे की पंखुड़ियां बिखेरें।',
+      'पीछे अपना फेस्टिव कार्ड या शुभकामना संदेश रखें।',
+    ],
+    tipsEn: ['Use battery-powered LEDs in office buildings to strictly adhere to corporate fire safety codes.'],
+    tipsHi: ['ऑफिस में हमेशा बैटरी वाली एलईडी का प्रयोग करें ताकि फायर सेफ्टी नियमों का पालन हो सके।'],
+    festivalAssociation: ['Diwali', 'New Year', 'Holi'],
+    icon: '💼',
+  },
+  {
+    id: 'balcony-curtain-lights-drapes',
+    titleEn: 'Flowing Sheer Drapes & Cascading Fairy Curtain',
+    titleHi: 'बालकनी में सफेद पर्दों और गिरती हुई फेयरी लाइट्स का जादू',
+    category: 'balcony',
+    categoryLabelEn: 'Balcony & Veranda',
+    categoryLabelHi: 'बालकनी व छज्जा',
+    difficulty: 'Moderate',
+    difficultyHi: 'मध्यम',
+    timeEstimateEn: '35 Mins',
+    timeEstimateHi: '३५ मिनट',
+    budgetCategory: 'Moderate',
+    budgetCategoryHi: 'संतुलित',
+    descEn: 'Drape light sheer ivory fabrics along your balcony railing, illuminated from behind by a vertical cascade of warm golden fairy light strings.',
+    descHi: 'बालकनी की ग्रिल पर हल्के सफेद या क्रीम रंग के पारदर्शी पर्दे बांधें और उनके पीछे नीचे गिरती हुई फेयरी लाइट्स की लड़ियां सजाएं।',
+    overviewEn: 'Creates a dreamy, ethereal balcony evening lounge that looks stunning from both inside the home and from the street below.',
+    overviewHi: 'रात में बालकनी को परीलोक जैसा रूप देता है जो घर के अंदर से और बाहर सड़क से भी अत्यंत आकर्षक दिखता है।',
+    materialsEn: ['2 Sheer ivory curtain panels or dupattas', '1 Curtain fairy light set (3x2 meters, warm white)', 'Cable zip ties or string', 'Outdoor extension cord'],
+    materialsHi: ['२ पारदर्शी सफेद या क्रीम दुपट्टे/पर्दे', '१ कर्टेन फेयरी लाइट सेट (वार्म व्हाइट)', 'प्लास्टिक टाई या डोरी', 'एक्सटेंशन बोर्ड'],
+    stepsEn: [
+      'Fasten the top horizontal wire of the fairy lights along the balcony upper rail with zip ties.',
+      'Allow the vertical light drops to fall freely at equal 6-inch spaces.',
+      'Layer sheer curtains in front of the lights to diffuse the individual LED points into a gentle cloud of radiance.',
+      'Secure bottom hems neatly to avoid entanglement in windy weather.',
+    ],
+    stepsHi: [
+      'बालकनी की ऊपरी रेलिंग पर लाइट्स की मुख्य डोरी को प्लास्टिक टाई से बांधें।',
+      'वर्टिकल लड़ियों को नीचे की ओर समान दूरी पर खुला छोड़ें।',
+      'लाइट्स के आगे हल्के पारदर्शी पर्दे लगाएं ताकि रोशनी कोमल और फैली हुई दिखे।',
+      'हवा से उड़ने से रोकने के लिए नीचे के कोनों को हल्का सा बांध लें।',
+    ],
+    tipsEn: ['Ensure the plug socket and adapter are waterproofed with a plastic cover if your balcony is exposed to open rain.'],
+    tipsHi: ['खुली बालकनी में प्लग और एडाप्टर को प्लास्टिक कवर से अच्छी तरह सुरक्षित करें।'],
+    festivalAssociation: ['Diwali', 'Christmas', 'New Year', 'Holi'],
+    icon: '✨',
+  },
+];
+
