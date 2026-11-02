@@ -4,6 +4,8 @@
  * Strictly guarantees ZERO user photos, ZERO sender/recipient names, and ZERO custom text messages are logged.
  */
 
+export const GA4_MEASUREMENT_ID = 'G-D6RM3NJ0N3';
+
 type GAEventParams = Record<string, string | number | boolean | undefined>;
 
 declare global {
@@ -30,7 +32,7 @@ export const trackEvent = (eventName: string, params?: GAEventParams): void => {
 
 export const trackPageView = (path: string, title?: string): void => {
   if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-    const measurementId = import.meta.env.VITE_GA4_MEASUREMENT_ID;
+    const measurementId = import.meta.env.VITE_GA4_MEASUREMENT_ID || GA4_MEASUREMENT_ID;
     if (measurementId) {
       window.gtag('config', measurementId, {
         page_path: path,
@@ -39,4 +41,3 @@ export const trackPageView = (path: string, title?: string): void => {
     }
   }
 };
-
