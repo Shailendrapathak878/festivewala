@@ -1,4 +1,9 @@
-# Cloudflare Pages SPA Routing Redirects
-# Non-file requests are served index.html with a 200 status code
-/* /index.html 200
-
+# Cloudflare Pages Redirects
+#
+# Cloudflare Pages natively provides SPA fallback routing to /index.html
+# for all client-side routes when no 404.html file is present.
+# Note: Do NOT add "/* /index.html 200" here. Cloudflare Pages detects that
+# "/*" matches "/index.html" itself, flags it as an infinite loop, and ignores it.
+#
+# Define any custom 301 or 302 redirects below if needed:
+# /old-route /new-route 301
