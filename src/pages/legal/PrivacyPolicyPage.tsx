@@ -103,18 +103,30 @@ export const PrivacyPolicyPage: React.FC = () => {
           <section className="space-y-3">
             <h3 className="font-serif text-lg font-bold text-brand-deep flex items-center gap-2">
               <Eye size={18} className="text-brand-gold" />
-              <span>{isHindi ? '३. विज्ञापन नीति' : '3. Advertising Policies'}</span>
+              <span>{isHindi ? '३. विज्ञापन नीति व तृतीय-पक्ष कुकीज' : '3. Advertising Policies & Third-Party Cookies'}</span>
             </h3>
             <p>
               {isHindi
-                ? 'फेस्टिववाला को निःशुल्क बनाए रखने के लिए हम भविष्य में Google AdSense जैसे स्वीकृत विज्ञापन नेटवर्क के माध्यम से गैर-दखलंदाजी विज्ञापन प्रदर्शित कर सकते हैं।'
-                : 'To maintain FestiveWala as a free cultural utility, we may partner with reputable ad networks like Google AdSense in the future. Third-party vendors may use cookies to serve ads based on prior visits to our website or other websites on the Internet.'}
+                ? 'वर्तमान में फेस्टिववाला पूर्णतः विज्ञापन-मुक्त है और हमारी वेबसाइट पर कोई भी विज्ञापन कुकी या विज्ञापन ट्रैकिंग कोड सक्रिय नहीं है। भविष्य में मंच को निःशुल्क बनाए रखने हेतु यदि हम Google AdSense जैसे स्वीकृत विज्ञापन नेटवर्क से साझेदारी करते हैं, तो तृतीय-पक्ष कुकीज निम्नलिखित नीति के अनुसार कार्य करेंगी:'
+                : 'FestiveWala is currently 100% ad-free, and no advertising cookies, tags, or commercial ad scripts are active on our platform at this time. In the future, to sustain our cultural mission as a free public resource, we may partner with certified ad networks such as Google AdSense. In that event, third-party vendor cookies will operate under the following standard disclosures:'}
             </p>
-            <p>
-              {isHindi
-                ? 'उपयोगकर्ता Google Ad Settings (https://adssettings.google.com) पर जाकर व्यक्तिगत विज्ञापनों को नियंत्रित कर सकते हैं।'
-                : 'Users may opt out of personalized advertising by visiting Google Ads Settings (https://adssettings.google.com).'}
-            </p>
+            <ul className="list-disc pl-5 space-y-1.5 text-brand-dark/75">
+              <li>
+                {isHindi
+                  ? 'गूगल सहित तृतीय-पक्ष विक्रेता (Third-party vendors) हमारी वेबसाइट या अन्य वेबसाइटों पर उपयोगकर्ता की पिछली यात्राओं के आधार पर विज्ञापन परोसने के लिए कुकीज (Cookies) का उपयोग करते हैं।'
+                  : 'Third-party vendors, including Google, use cookies to serve ads based on a user’s prior visits to FestiveWala or other websites across the Internet.'}
+              </li>
+              <li>
+                {isHindi
+                  ? 'गूगल द्वारा विज्ञापन कुकीज का उपयोग उसे और उसके भागीदारों को इंटरनेट पर आपकी यात्राओं के आधार पर प्रासंगिक विज्ञापन दिखाने में सक्षम बनाता है।'
+                  : 'Google’s use of advertising cookies enables it and its partners to serve personalized ads to users based on their visits to our site and/or other sites on the Internet.'}
+              </li>
+              <li>
+                {isHindi
+                  ? 'उपयोगकर्ता Google Ad Settings (https://adssettings.google.com) पर जाकर व्यक्तिगत विज्ञापनों को नियंत्रित या बंद कर सकते हैं। इसके अतिरिक्त, उपयोगकर्ता www.aboutads.info पर जाकर तृतीय-पक्ष कुकीज से ऑप्ट-आउट कर सकते हैं।'
+                  : 'Users may opt out of personalized advertising by visiting Google Ads Settings (https://adssettings.google.com) or by visiting www.aboutads.info to opt out of third-party vendor cookie usage.'}
+              </li>
+            </ul>
           </section>
 
           <section className="space-y-3">

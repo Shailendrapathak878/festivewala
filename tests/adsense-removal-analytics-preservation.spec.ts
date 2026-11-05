@@ -2,21 +2,25 @@ import { test, expect } from '@playwright/test';
 import * as fs from 'fs';
 import * as path from 'path';
 
-test.describe('Google AdSense Removal & Google Analytics Preservation Audit', () => {
+test.describe('Google AdSense Restoration & Google Analytics Preservation Audit', () => {
 
-  test('1. Codebase Verification: Zero AdSense scripts, tags, or publisher IDs in index.html & _headers', async () => {
+  test('1. Codebase Verification: Exact recovered AdSense ca-pub-1146132802539965 script in index.html & matching CSP', async () => {
     // A. index.html
     const htmlPath = path.resolve('index.html');
     const htmlContent = fs.readFileSync(htmlPath, 'utf-8');
-    expect(htmlContent).not.toContain('pagead2.googlesyndication.com');
-    expect(htmlContent).not.toContain('adsbygoogle');
-    expect(htmlContent).not.toContain('ca-pub-');
+    expect(htmlContent).toContain('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1146132802539965');
+    expect(htmlContent).toContain('ca-pub-1146132802539965');
 
     // B. public/_headers
     const headersPath = path.resolve('public/_headers');
     const headersContent = fs.readFileSync(headersPath, 'utf-8');
-    expect(headersContent).not.toContain('pagead2.googlesyndication.com');
-    expect(headersContent).not.toContain('adsbygoogle');
+    expect(headersContent).toContain('https://pagead2.googlesyndication.com');
+
+    // C. public/ads.txt
+    const adsTxtPath = path.resolve('public/ads.txt');
+    expect(fs.existsSync(adsTxtPath)).toBe(true);
+    const adsTxtContent = fs.readFileSync(adsTxtPath, 'utf-8');
+    expect(adsTxtContent.trim()).toBe('google.com, pub-1146132802539965, DIRECT, f08c47fec0942fa0');
   });
 
   test('2. Google Analytics Preservation: GA4 tag, G-D6RM3NJ0N3, dataLayer & CSP strictly intact', async () => {
@@ -34,15 +38,7 @@ test.describe('Google AdSense Removal & Google Analytics Preservation Audit', ()
     expect(headersContent).toContain('https://region1.google-analytics.com');
   });
 
-  test('3. Browser Runtime Verification: window.dataLayer and gtag initialize without AdSense network calls', async ({ page }) => {
-    const loadedAdsenseUrls: string[] = [];
-    page.on('request', (req) => {
-      const url = req.url();
-      if (url.includes('pagead2') || url.includes('adsbygoogle') || url.includes('ca-pub')) {
-        loadedAdsenseUrls.push(url);
-      }
-    });
-
+  test('3. Browser Runtime Verification: window.dataLayer and gtag initialize alongside AdSense head tag', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
     // Verify window.dataLayer exists
@@ -57,22 +53,26 @@ test.describe('Google AdSense Removal & Google Analytics Preservation Audit', ()
     });
     expect(hasGtag).toBe(true);
 
-    // Verify NO AdSense network calls were dispatched
-    expect(loadedAdsenseUrls).toHaveLength(0);
+    // Verify AdSense script tag exists in head
+    const adsenseTag = await page.evaluate(() => {
+      const tag = document.querySelector('script[src*="pagead2.googlesyndication.com"]') as HTMLScriptElement | null;
+      return tag ? tag.src : null;
+    });
+    expect(adsenseTag).toContain('ca-pub-1146132802539965');
   });
 
-  test('4. Monetag Continuity: Zone 12199537, 5gvci.com, and ad placements remain active and unaffected', async ({ page }) => {
-    // Verify Service Worker file has Monetag Zone 12199537
+  test('4. Complete Monetag Absence: Zero Monetag ad networks, GA4 & AdSense clean, Greeting Studio protected', async ({ page }) => {
+    // Verify Service Worker file has NO Monetag Zone or domain
     const swPath = path.resolve('public/sw.js');
     const swContent = fs.readFileSync(swPath, 'utf-8');
-    expect(swContent).toContain('12199537');
-    expect(swContent).toContain('5gvci.com');
+    expect(swContent).not.toContain('12199537');
+    expect(swContent).not.toContain('5gvci.com');
+    expect(swContent).not.toContain('nap5k.com');
 
-    // Verify Homepage ad slot remains in place
+    // Verify Homepage has ZERO intrusive ad slots
     await page.goto('/', { waitUntil: 'domcontentloaded' });
     const hpAds = page.locator('[data-testid="monetag-ad-slot"]');
-    await expect(hpAds).toHaveCount(1);
-    await expect(hpAds.first()).toBeVisible();
+    expect(await hpAds.count()).toBe(0);
 
     // Verify Greeting Studio workspace remains 100% ad-free
     await page.goto('/greeting-cards?edit=true', { waitUntil: 'domcontentloaded' });

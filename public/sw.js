@@ -1,19 +1,4 @@
 /**
- * Monetag Web Push & In-Page Push Service Worker Integration
- * Zone ID: 12199537 | Edge Domain: 5gvci.com
- */
-self.options = {
-  "domain": "5gvci.com",
-  "zoneId": 12199537
-};
-self.lary = "";
-try {
-  importScripts('https://5gvci.com/act/files/service-worker.min.js?r=sw');
-} catch (e) {
-  console.warn('[FestiveWala SW] Monetag importScripts warning:', e);
-}
-
-/**
  * FestiveWala Production Service Worker
  * Designed for Cloudflare Pages Free Plan
  * Strategy:
@@ -52,7 +37,7 @@ self.addEventListener('activate', (event) => {
       return Promise.all(
         keys.map((key) => {
           // Strictly purge only obsolete FestiveWala-owned caches with 'fw-' prefix.
-          // Never delete unrelated caches created by Monetag, browser extensions, or third parties.
+          // Never delete unrelated caches created by browser extensions or third parties.
           if (key.startsWith('fw-') && key !== STATIC_CACHE && key !== RUNTIME_CACHE) {
             console.log('[FestiveWala SW] Purging obsolete FestiveWala cache:', key);
             return caches.delete(key);
@@ -67,8 +52,8 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // Bypass non-GET requests, data/blob schemes, and Monetag edge network
-  if (request.method !== 'GET' || url.protocol === 'data:' || url.protocol === 'blob:' || url.hostname.includes('5gvci.com')) {
+  // Bypass non-GET requests and data/blob schemes
+  if (request.method !== 'GET' || url.protocol === 'data:' || url.protocol === 'blob:') {
     return;
   }
 

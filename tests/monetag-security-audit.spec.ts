@@ -2,41 +2,39 @@ import { test, expect } from '@playwright/test';
 import * as fs from 'fs';
 import * as path from 'path';
 
-test.describe('Monetag Final Security & Production Audit Suite', () => {
+test.describe('Monetag Removal & Zero-Ad Production Security Audit Suite', () => {
 
-  test('1. Service Worker Code Audit: Exact Zone ID, Domain, importScripts, and selective fw- cache purge', async () => {
+  test('1. Service Worker Code Audit: Zero Monetag scripts or domains, fw- cache purge preserved', async () => {
     const swPath = path.resolve('public/sw.js');
     expect(fs.existsSync(swPath)).toBe(true);
     const swContent = fs.readFileSync(swPath, 'utf-8');
 
-    // Verify exact Monetag options
-    expect(swContent).toContain('"domain": "5gvci.com"');
-    expect(swContent).toContain('"zoneId": 12199537');
-    expect(swContent).toContain("importScripts('https://5gvci.com/act/files/service-worker.min.js?r=sw')");
+    // Verify Monetag options and imports are completely removed
+    expect(swContent).not.toContain('5gvci.com');
+    expect(swContent).not.toContain('12199537');
+    expect(swContent).not.toContain('nap5k.com');
+    expect(swContent).not.toContain('importScripts');
 
-    // Verify critical cache cleanup fix: only purges 'fw-' caches, never unrelated/Monetag caches
+    // Verify critical cache cleanup fix: only purges 'fw-' caches
     expect(swContent).toContain("key.startsWith('fw-')");
     expect(swContent).toContain("key !== STATIC_CACHE && key !== RUNTIME_CACHE");
 
-    // Verify bypass of 5gvci.com and data/blob in fetch handler
-    expect(swContent).toContain("url.hostname.includes('5gvci.com')");
+    // Verify data/blob handling in fetch handler
     expect(swContent).toContain("url.protocol === 'data:'");
     expect(swContent).toContain("url.protocol === 'blob:'");
   });
 
-  test('2. CSP & Security Headers Audit: No wildcards, no unsafe-eval, all domains justified', async () => {
+  test('2. CSP & Security Headers Audit: Zero Monetag origins, no wildcards, strict security intact', async () => {
     const headersPath = path.resolve('public/_headers');
     expect(fs.existsSync(headersPath)).toBe(true);
     const headers = fs.readFileSync(headersPath, 'utf-8');
 
-    // Confirm Monetag domain present in exact directives
-    expect(headers).toContain('https://5gvci.com');
-    expect(headers).toContain("worker-src 'self' blob: https://5gvci.com");
-    expect(headers).toContain("frame-src 'self' https://5gvci.com");
-
-    // Confirm no wildcards
-    expect(headers).not.toContain('*.5gvci.com');
-    expect(headers).not.toContain('https://*.');
+    // Confirm Monetag domains are completely absent
+    expect(headers).not.toContain('5gvci.com');
+    expect(headers).not.toContain('nap5k.com');
+    expect(headers).not.toContain('rtmark.net');
+    expect(headers).not.toContain('jhnwr.com');
+    expect(headers).not.toContain('aichouphaugn.com');
 
     // Confirm standard security headers are intact
     expect(headers).toContain('X-Content-Type-Options: nosniff');
@@ -45,13 +43,20 @@ test.describe('Monetag Final Security & Production Audit Suite', () => {
     expect(headers).toContain('Referrer-Policy: strict-origin-when-cross-origin');
   });
 
-  test('3. Real Browser Test: Service Worker registers with zero console errors and Monetag script loads', async ({ page }) => {
+  test('3. Real Browser Test: Service Worker registers with zero console errors and zero ad network requests', async ({ page }) => {
     const consoleErrors: string[] = [];
-    const cspViolations: string[] = [];
+    const adRequests: string[] = [];
 
     page.on('console', (msg) => {
       if (msg.type() === 'error') {
         consoleErrors.push(msg.text());
+      }
+    });
+
+    page.on('request', (req) => {
+      const url = req.url();
+      if (url.includes('5gvci.com') || url.includes('nap5k.com') || url.includes('jhnwr.com') || url.includes('rtmark.net') || url.includes('aichouphaugn.com')) {
+        adRequests.push(url);
       }
     });
 
@@ -71,8 +76,11 @@ test.describe('Monetag Final Security & Production Audit Suite', () => {
     console.log('[Audit Test] ServiceWorker registered in browser:', isSwRegistered);
     expect(isSwRegistered).toBe(true);
 
-    // Filter out external third-party network noise (e.g., adblock blocked ad requests)
-    const fatalAppErrors = consoleErrors.filter(e => !e.includes('net::ERR_') && !e.includes('5gvci.com') && !e.includes('google'));
+    // Verify zero ad requests were made
+    expect(adRequests).toHaveLength(0);
+
+    // Filter out external third-party network noise
+    const fatalAppErrors = consoleErrors.filter(e => !e.includes('net::ERR_') && !e.includes('google'));
     expect(fatalAppErrors).toHaveLength(0);
   });
 
@@ -102,21 +110,18 @@ test.describe('Monetag Final Security & Production Audit Suite', () => {
     expect(hasCachedShell).toBe(true);
   });
 
-  test('5. Placement & Layout Shift Verification: Homepage, Gallery, Wishes, Guides', async ({ page }) => {
+  test('5. Zero-Ad Verification: Homepage, Gallery, Wishes, Guides', async ({ page }) => {
     // A. Homepage
     await page.goto('/', { waitUntil: 'domcontentloaded' });
     const hpAds = page.locator('[data-testid="monetag-ad-slot"]');
-    await expect(hpAds).toHaveCount(1);
-    // Verify hero has 0 ads
-    const heroAds = page.locator('header [data-testid="monetag-ad-slot"], #hero [data-testid="monetag-ad-slot"]');
-    await expect(heroAds).toHaveCount(0);
+    await expect(hpAds).toHaveCount(0);
 
     // B. Wishes Page
     await page.goto('/wishes', { waitUntil: 'domcontentloaded' });
     const firstWish = page.locator('[data-testid="wish-card"]').first();
     await expect(firstWish).toBeVisible({ timeout: 10000 });
     const wishesAds = page.locator('[data-testid="monetag-ad-slot"]');
-    expect(await wishesAds.count()).toBeGreaterThanOrEqual(1);
+    expect(await wishesAds.count()).toBe(0);
 
     // Verify Copy Wish button is free of obstruction
     const copyBtn = page.locator('button:has-text("Copy"), button:has-text("कॉपी")').first();
@@ -128,7 +133,7 @@ test.describe('Monetag Final Security & Production Audit Suite', () => {
     const article = page.locator('article');
     await expect(article).toBeVisible({ timeout: 10000 });
     const articleAds = article.locator('[data-testid="monetag-ad-slot"]');
-    expect(await articleAds.count()).toBeGreaterThanOrEqual(2);
+    expect(await articleAds.count()).toBe(0);
   });
 
   test('6. Protected Greeting Studio Audit: Zero ads, unblocked free high-res download', async ({ page }) => {
@@ -157,10 +162,9 @@ test.describe('Monetag Final Security & Production Audit Suite', () => {
     const windowWidth = await page.evaluate(() => window.innerWidth);
     expect(bodyScrollWidth).toBeLessThanOrEqual(windowWidth + 5);
 
-    // Verify ad slot is visible and contained
-    const adSlot = page.locator('[data-testid="monetag-ad-slot"]').first();
-    await adSlot.scrollIntoViewIfNeeded();
-    await expect(adSlot).toBeVisible();
+    // Verify ZERO ad slots exist on mobile
+    const adSlots = page.locator('[data-testid="monetag-ad-slot"]');
+    expect(await adSlots.count()).toBe(0);
   });
 
 });

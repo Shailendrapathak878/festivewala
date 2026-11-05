@@ -108,5 +108,56 @@ test.describe('FestiveWala Live Production Verification (https://festivewala.in)
     await page.screenshot({ path: p5 });
     fs.copyFileSync(p5, path.join(brainDir, '05_live_homepage_mobile_390.png'));
   });
+
+  test('6. Live AdSense & GA4 Verification: Script in head & correct client ID', async ({ page }) => {
+    await page.goto('https://festivewala.in/', { waitUntil: 'domcontentloaded' });
+
+    const adsenseTag = await page.evaluate(() => {
+      const el = document.querySelector('script[src*="pagead2.googlesyndication.com"]') as HTMLScriptElement | null;
+      return el ? el.src : null;
+    });
+    expect(adsenseTag).toContain('ca-pub-1146132802539965');
+
+    const gaTag = await page.evaluate(() => {
+      const el = document.querySelector('script[src*="googletagmanager.com/gtag/js"]') as HTMLScriptElement | null;
+      return el ? el.src : null;
+    });
+    expect(gaTag).toContain('G-D6RM3NJ0N3');
+  });
+
+  test('7. Live ads.txt Verification: Returns text/plain with exact direct publisher declaration', async ({ request }) => {
+    const res = await request.get('https://festivewala.in/ads.txt');
+    expect(res.status()).toBe(200);
+    const contentType = res.headers()['content-type'] || '';
+    expect(contentType).toContain('text/plain');
+    const text = await res.text();
+    expect(text.trim()).toBe('google.com, pub-1146132802539965, DIRECT, f08c47fec0942fa0');
+  });
+
+  test('8. Live Inspiration Hub Verification: No Phase 5 notice & Hub cards render', async ({ page }) => {
+    await page.goto('https://festivewala.in/inspiration', { waitUntil: 'domcontentloaded' });
+    const bodyText = await page.innerText('body');
+    expect(bodyText).not.toContain('Phase 5');
+    expect(bodyText).not.toContain('फेज़ ५');
+    expect(bodyText).not.toContain('will arrive in Phase 5');
+
+    const rangoliLink = page.locator('a[href="/rangoli"]');
+    await expect(rangoliLink).toBeVisible({ timeout: 10000 });
+  });
+
+  test('9. Live Service Worker & CSP Purity: Zero Monetag tokens', async ({ request }) => {
+    const swRes = await request.get('https://festivewala.in/sw.js');
+    expect(swRes.status()).toBe(200);
+    const swText = await swRes.text();
+    expect(swText).not.toContain('12199537');
+    expect(swText).not.toContain('5gvci.com');
+    expect(swText).not.toContain('importScripts');
+
+    const homeRes = await request.get('https://festivewala.in/');
+    const csp = homeRes.headers()['content-security-policy'] || '';
+    expect(csp).not.toContain('5gvci.com');
+    expect(csp).not.toContain('nap5k.com');
+    expect(csp).toContain('pagead2.googlesyndication.com');
+  });
 });
 

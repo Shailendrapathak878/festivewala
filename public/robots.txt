@@ -4,24 +4,29 @@
 
 User-agent: *
 Allow: /
+Allow: /manifest.json
 Allow: /festivals
 Allow: /festivals/*
 Allow: /rangoli
 Allow: /decoration-ideas
 Allow: /gift-ideas
+Allow: /gift-ideas/*
 Allow: /festival-guides
 Allow: /festival-guides/*
 Allow: /wishes
+Allow: /wishes/*
 Allow: /greeting-cards
+Allow: /greetings/*
+Allow: /photo-greetings/*
+Allow: /inspiration
 Allow: /about
 Allow: /contact
 Allow: /privacy-policy
 Allow: /terms-of-service
 Allow: /disclaimer
 
-# Disallow internal assets and technical endpoints
+# Disallow internal technical endpoints and non-public scripts
 Disallow: /api/
-Disallow: /*.json$
 Disallow: /scripts/
 
 # Crawl-delay for polite crawling

@@ -5,7 +5,6 @@ import { SectionHeading } from '../common/SectionHeading';
 import { toastNotificationVariants } from '../animation/motionVariants';
 import { WISHES_DATA } from '../../data/wishes';
 import { useLanguage } from '../../hooks/useLanguage';
-import { MonetagAdSlot } from '../ads/MonetagAdSlot';
 import {
   Copy,
   Check,
@@ -54,12 +53,10 @@ type ViewMode = 'library' | 'generator' | 'favorites';
 
 interface WishesShowcaseProps {
   routeFestivalId?: string;
-  showInGridAds?: boolean;
 }
 
 export const WishesShowcase: React.FC<WishesShowcaseProps> = ({
   routeFestivalId,
-  showInGridAds = true,
 }) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -716,7 +713,7 @@ export const WishesShowcase: React.FC<WishesShowcaseProps> = ({
             ) : (
               /* Wishes Cards Grid (500-Item Repository) */
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {displayedWishes.map((wish, index) => {
+                {displayedWishes.map((wish) => {
                   const isCopied = copiedId === wish.id;
                   const isFav = isFavorite(wish.id);
                   const isDarkCard = wish.category === 'traditional';
@@ -902,16 +899,6 @@ export const WishesShowcase: React.FC<WishesShowcaseProps> = ({
                         </button>
                       </div>
                     </motion.div>
-                    {showInGridAds && index === 5 && (
-                      <div className="col-span-1 md:col-span-2 lg:col-span-3 py-2">
-                        <MonetagAdSlot variant="banner" />
-                      </div>
-                    )}
-                    {showInGridAds && index === 13 && displayedWishes.length > 15 && (
-                      <div className="col-span-1 md:col-span-2 lg:col-span-3 py-2">
-                        <MonetagAdSlot variant="banner" />
-                      </div>
-                    )}
                   </React.Fragment>
                 );
               })}

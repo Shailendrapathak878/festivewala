@@ -142,6 +142,29 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
               {t.nav.createGreeting}
             </PrimaryButton>
 
+            {/* Legal & Trust Quick Navigation */}
+            <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 pt-2 text-[11px] text-brand-champagne/70 font-sans">
+              <NavLink to="/about" onClick={onClose} className="hover:text-brand-gold transition-colors">
+                {isHindi ? 'हमारे बारे में' : 'About'}
+              </NavLink>
+              <span>•</span>
+              <NavLink to="/contact" onClick={onClose} className="hover:text-brand-gold transition-colors">
+                {isHindi ? 'संपर्क करें' : 'Contact'}
+              </NavLink>
+              <span>•</span>
+              <NavLink to="/privacy-policy" onClick={onClose} className="hover:text-brand-gold transition-colors">
+                {isHindi ? 'गोपनीयता' : 'Privacy'}
+              </NavLink>
+              <span>•</span>
+              <NavLink to="/terms-of-service" onClick={onClose} className="hover:text-brand-gold transition-colors">
+                {isHindi ? 'नियम' : 'Terms'}
+              </NavLink>
+              <span>•</span>
+              <NavLink to="/disclaimer" onClick={onClose} className="hover:text-brand-gold transition-colors">
+                {isHindi ? 'अस्वीकरण' : 'Disclaimer'}
+              </NavLink>
+            </div>
+
             <p className="text-center text-[10px] tracking-widest-luxury uppercase text-brand-champagne/50 pt-1">
               {t.brand.tagline}
             </p>

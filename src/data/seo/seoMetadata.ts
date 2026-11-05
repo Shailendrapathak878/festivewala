@@ -160,6 +160,30 @@ export const STATIC_ROUTE_SEO: Record<string, RouteSEO> = {
     ],
   },
 
+  inspiration: {
+    en: {
+      title: 'Festive Inspiration & Cultural Heritage — Rangoli, Decor, Gifts & Essays | FestiveWala',
+      description: 'Discover timeless Indian festive inspiration: handcrafted Rangoli patterns, eco-friendly home styling, meaningful gifts, and cultural essays.',
+      keywords: 'Indian festival inspiration, Rangoli ideas, Diwali home decor, traditional festival gifts, festival essays, cultural heritage India',
+      canonicalUrl: `${BASE_URL}/inspiration`,
+      ogType: 'website',
+      ogImage: `${BASE_URL}/assets/brand/og-festivewala.png`,
+    },
+    hi: {
+      title: 'सांस्कृतिक प्रेरणा व कला संदर्शिका — रंगोली, गृह सज्जा, उपहार व विचार | फेस्टिववाला',
+      description: 'भारतीय त्योहारों के लिए प्रेरणा का समृद्ध केंद्र: रंगोली डिजाइन, इको-फ्रेंडली गृह सज्जा, विचारशील उपहार और सांस्कृतिक निबंधों का सुंदर संग्रह।',
+      keywords: 'उत्सव प्रेरणा, रंगोली कला, गृह सज्जा विचार, उपहार गाइड, सांस्कृतिक दर्शन',
+      canonicalUrl: `${BASE_URL}/inspiration`,
+      ogType: 'website',
+      ogImage: `${BASE_URL}/assets/brand/og-festivewala.png`,
+    },
+    hinglishKeywords: [
+      'festival inspiration ideas',
+      'rangoli aur decor inspiration',
+      'cultural festival guide India',
+    ],
+  },
+
   wishes: {
     en: {
       title: '300+ Readymade Festival Wishes, Quotes & Shayari in Hindi and English | FestiveWala',

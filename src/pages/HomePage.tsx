@@ -8,7 +8,6 @@ import { WishesShowcase } from '../components/layout/WishesShowcase';
 import { DiscoverMoreSection } from '../components/layout/DiscoverMoreSection';
 import { EditorialSection } from '../components/layout/EditorialSection';
 import { FinalCtaSection } from '../components/layout/FinalCtaSection';
-import { MonetagAdSlot } from '../components/ads/MonetagAdSlot';
 import { AnimatedSection } from '../components/animation/AnimatedSection';
 import { SEOHead } from '../components/common/SEOHead';
 import { STATIC_ROUTE_SEO } from '../data/seo/seoMetadata';
@@ -62,11 +61,6 @@ export const HomePage: React.FC = () => {
         <FestivalDiscoverySection />
       </AnimatedSection>
 
-      {/* Monetag Partner Advertisement Placement (Strictly 1 controlled content section placement) */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <MonetagAdSlot variant="banner" />
-      </div>
-
       {/* 5. Greeting Card Showcase (Curated Studio Preview) */}
       <AnimatedSection id="greeting-showcase">
         <GreetingCardShowcase />
@@ -74,7 +68,7 @@ export const HomePage: React.FC = () => {
 
       {/* 6. Wishes & Poetry Showcase (With Working Copy & Share) */}
       <AnimatedSection id="wishes-showcase">
-        <WishesShowcase showInGridAds={false} />
+        <WishesShowcase />
       </AnimatedSection>
 
       {/* 7. Discover More Section (Rangoli, Decor, Gifts, Guides) */}

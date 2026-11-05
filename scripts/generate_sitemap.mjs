@@ -39,6 +39,7 @@ const SITEMAP_ENTRIES = [
   { loc: `${BASE_URL}/photo-greetings/diwali`, priority: '0.9', changefreq: 'weekly' },
 
   // Inspiration & Creative Galleries
+  { loc: `${BASE_URL}/inspiration`, priority: '0.8', changefreq: 'weekly' },
   { loc: `${BASE_URL}/rangoli`, priority: '0.8', changefreq: 'weekly' },
   { loc: `${BASE_URL}/decoration-ideas`, priority: '0.8', changefreq: 'weekly' },
   { loc: `${BASE_URL}/gift-ideas`, priority: '0.8', changefreq: 'weekly' },

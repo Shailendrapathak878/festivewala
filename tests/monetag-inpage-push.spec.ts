@@ -19,37 +19,33 @@ test.describe('Monetag Production Zone Isolation & Final Release Audit Suite', (
     expect(html).toContain('https://www.googletagmanager.com/gtag/js?id=G-D6RM3NJ0N3');
   });
 
-  test('2. Approved Monetag Service Worker Continuity: Zone 12199537 preserved in public/sw.js', () => {
+  test('2. Complete Service Worker Monetag Removal: Zero Monetag scripts in public/sw.js', () => {
     const swPath = path.resolve('public/sw.js');
     expect(fs.existsSync(swPath)).toBe(true);
     const sw = fs.readFileSync(swPath, 'utf-8');
 
-    // Approved Service Worker Zone ID preserved
-    expect(sw).toContain('"zoneId": 12199537');
-    expect(sw).toContain('"domain": "5gvci.com"');
-    expect(sw).toContain("importScripts('https://5gvci.com/act/files/service-worker.min.js?r=sw')");
-    expect(sw).toContain("url.hostname.includes('5gvci.com')");
-
-    // Ensure all experimental domains are absent from sw.js
+    // Ensure all Monetag zones and domains are completely absent
+    expect(sw).not.toContain('12199537');
+    expect(sw).not.toContain('5gvci.com');
     expect(sw).not.toContain('12200453');
     expect(sw).not.toContain('nap5k.com');
     expect(sw).not.toContain('jhnwr.com');
     expect(sw).not.toContain('aichouphaugn.com');
   });
 
-  test('3. CSP Security Audit: Only verified origins allowed, zero wildcards, zero experimental domains', () => {
+  test('3. CSP Security Audit: Only verified origins allowed, zero ad networks, zero experimental domains', () => {
     const headersPath = path.resolve('public/_headers');
     expect(fs.existsSync(headersPath)).toBe(true);
     const headers = fs.readFileSync(headersPath, 'utf-8');
 
-    // Confirm experimental domains are removed
+    // Confirm all ad domains are removed
+    expect(headers).not.toContain('5gvci.com');
     expect(headers).not.toContain('nap5k.com');
     expect(headers).not.toContain('jhnwr.com');
     expect(headers).not.toContain('rtmark.net');
     expect(headers).not.toContain('aichouphaugn.com');
 
-    // Confirm approved domains and analytics are preserved
-    expect(headers).toContain('https://5gvci.com');
+    // Confirm approved analytics are preserved
     expect(headers).toContain('https://www.googletagmanager.com');
     expect(headers).toContain('https://www.google-analytics.com');
     expect(headers).toContain('https://static.cloudflareinsights.com');
@@ -57,20 +53,24 @@ test.describe('Monetag Production Zone Isolation & Final Release Audit Suite', (
     // Zero wildcard domains and zero unsafe-eval
     expect(headers).not.toContain('*.nap5k.com');
     expect(headers).not.toContain('*.aichouphaugn.com');
+    expect(headers).not.toContain('*.5gvci.com');
     expect(headers).not.toContain('https://*.');
     expect(headers).not.toContain("'unsafe-eval'");
   });
 
-  test('4. AdSense Non-Proliferation: Zero AdSense scripts or publisher tags remain', () => {
+  test('4. AdSense Integration & Monetag Absence: Exact authorized AdSense ca-pub-1146132802539965 present and zero Monetag tags remain', () => {
     const html = fs.readFileSync(path.resolve('index.html'), 'utf-8');
     const headers = fs.readFileSync(path.resolve('public/_headers'), 'utf-8');
 
-    expect(html).not.toContain('pagead2.googlesyndication.com');
-    expect(html).not.toContain('adsbygoogle');
-    expect(html).not.toContain('ca-pub-');
+    // Authorized Google AdSense integration present
+    expect(html).toContain('pagead2.googlesyndication.com');
+    expect(html).toContain('ca-pub-1146132802539965');
+    expect(headers).toContain('pagead2.googlesyndication.com');
 
-    expect(headers).not.toContain('pagead2.googlesyndication.com');
-    expect(headers).not.toContain('adsbygoogle');
+    // Monetag strictly absent
+    expect(html).not.toContain('12200453');
+    expect(html).not.toContain('nap5k.com');
+    expect(headers).not.toContain('5gvci.com');
   });
 
   test('5. Real Browser Runtime: Clean load with zero CSP errors and GA4 active', async ({ page }) => {

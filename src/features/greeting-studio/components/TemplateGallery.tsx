@@ -3,7 +3,6 @@ import type { GreetingTemplate, TemplateCategory } from '../types/template';
 import { TemplateThumbnailPreview } from './TemplateThumbnailPreview';
 import { Sparkles, ArrowRight, Check, Palette, Search, X, Camera, Heart, Crown } from 'lucide-react';
 import { RELATIONSHIPS, prioritizeTemplatesByRelationship } from '../data/relationshipConfig';
-import { MonetagAdSlot } from '../../../components/ads/MonetagAdSlot';
 
 interface TemplateGalleryProps {
   greetingMode: 'simple' | 'photo';
@@ -616,7 +615,7 @@ export const TemplateGallery: React.FC<TemplateGalleryProps> = ({
 
       {/* 4. Templates Grid strictly showing only selected mode */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-        {displayedTemplates.map((tpl, index) => {
+        {displayedTemplates.map((tpl) => {
           const isSelected = selectedTemplateId === tpl.id;
           const isRecommended = recommendedIds.has(tpl.id);
 
@@ -706,18 +705,6 @@ export const TemplateGallery: React.FC<TemplateGalleryProps> = ({
                   </div>
                 </div>
               </div>
-
-              {/* Controlled In-Grid Advertisement between Greeting Card Rows */}
-              {index === 5 && (
-                <div className="col-span-1 sm:col-span-2 lg:col-span-3 py-2">
-                  <MonetagAdSlot variant="banner" />
-                </div>
-              )}
-              {index === 13 && displayedTemplates.length > 15 && (
-                <div className="col-span-1 sm:col-span-2 lg:col-span-3 py-2">
-                  <MonetagAdSlot variant="banner" />
-                </div>
-              )}
             </React.Fragment>
           );
         })}

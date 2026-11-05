@@ -22,7 +22,6 @@ import {
 } from 'lucide-react';
 import type { FestivalDetail } from '../../data/festivals/types';
 import { TrilingualFAQSection } from '../common/TrilingualFAQSection';
-import { MonetagAdSlot } from '../ads/MonetagAdSlot';
 
 interface DiwaliGuideArticleProps {
   festival: FestivalDetail;
@@ -493,8 +492,6 @@ export const DiwaliGuideArticle: React.FC<DiwaliGuideArticleProps> = ({
         </div>
       </section>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8"><MonetagAdSlot variant="in-content" /></div>
-
       {/* SECTION 2: WHY DO WE CELEBRATE DIWALI? */}
       <section
         id="why-celebrate"
@@ -850,8 +847,6 @@ export const DiwaliGuideArticle: React.FC<DiwaliGuideArticleProps> = ({
             : 'Regional Calendar Note: Due to lunar tithi timings and sunrise alignments, certain regional calendars may observe Naraka Chaturdashi and Lakshmi Puja on the same calendar date.'}
         </p>
       </section>
-
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8"><MonetagAdSlot variant="banner" /></div>
 
       {/* SECTION 5: HOW IS DIWALI CELEBRATED IN INDIA? */}
       <section
@@ -1371,8 +1366,6 @@ export const DiwaliGuideArticle: React.FC<DiwaliGuideArticleProps> = ({
           ))}
         </div>
       </section>
-
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8"><MonetagAdSlot variant="in-content" /></div>
 
       {/* SECTION 12: FREQUENTLY ASKED QUESTIONS */}
       <section

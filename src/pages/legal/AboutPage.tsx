@@ -173,6 +173,70 @@ export const AboutPage: React.FC = () => {
           </div>
         </div>
 
+        {/* Editorial Standards & Research Methodology */}
+        <div className="rounded-3xl bg-white border border-brand-gold/30 p-8 sm:p-12 space-y-6">
+          <div className="max-w-3xl space-y-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-gold/15 border border-brand-gold/30 text-brand-deep text-xs font-semibold uppercase tracking-wider">
+              <BookOpen size={14} className="text-brand-gold-dark" />
+              <span>{isHindi ? 'संपादकीय प्रक्रिया व प्रमाणिकता' : 'Editorial Methodology & Standards'}</span>
+            </div>
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-brand-deep">
+              {isHindi ? 'सांस्कृतिक शोध और सामग्री निर्माण की प्रक्रिया' : 'How We Research, Author & Verify Our Content'}
+            </h2>
+            <p className="text-xs sm:text-sm text-brand-dark/75 font-sans leading-relaxed">
+              {isHindi
+                ? 'फेस्टिववाला पर प्रत्येक पर्व मार्गदर्शिका, वैदिक श्लोक और शुभकामना संदेश एक कठोर संपादकीय और सांस्कृतिक शोध प्रक्रिया से गुजरता है:'
+                : 'At FestiveWala, every festival guide, scriptural shloka, and greeting message adheres to clear editorial verification standards:'}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2 text-xs sm:text-sm font-sans text-brand-dark/80">
+            <div className="p-5 rounded-2xl bg-[#FAF7F0] border border-brand-gold/20 space-y-2">
+              <h3 className="font-serif font-bold text-brand-deep text-base">
+                {isHindi ? '१. पौराणिक व पंचांग सत्यापन' : '1. Scriptural & Astronomical Verification'}
+              </h3>
+              <p className="leading-relaxed">
+                {isHindi
+                  ? 'त्योहारों के ऐतिहासिक व धार्मिक संदर्भ सीधे मूल ग्रंथों (वेदों, उपनिषदों, पुराणों) और प्रमाणित भारतीय पंचांग प्रणालियों से सत्यापित किए जाते हैं। हम अस्पष्ट मान्यताओं और वास्तविक परंपराओं में स्पष्ट अंतर रखते हैं।'
+                  : 'Cultural histories, vrat vidhis, and muhurat calculations are cross-referenced with classical scriptures (Puranas, Upanishads) and verified Indian astronomical calendar algorithms (IST UTC+05:30).'}
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-[#FAF7F0] border border-brand-gold/20 space-y-2">
+              <h3 className="font-serif font-bold text-brand-deep text-base">
+                {isHindi ? '२. मानवीय संपादन व एआई पारदर्शिता' : '2. Human Editorial Review & AI Transparency'}
+              </h3>
+              <p className="leading-relaxed">
+                {isHindi
+                  ? 'शुभकामनाओं के विचार-विमर्श में आधुनिक सहायक टूल्स का उपयोग होने पर भी प्रत्येक संदेश का मानवीय स्तर पर संपादन किया जाता है। यांत्रिक व नीरस भाषा को हटाकर स्वाभाविक, आत्मीय और भाषाई रूप से शुद्ध हिंदी/अंग्रेजी सुनिश्चित की जाती है।'
+                  : 'While digital tools may assist in brainstorming, all wishes, translations, and cultural articles undergo human editorial review. We deliberately eliminate generic AI clichés to ensure natural, emotionally resonant bilingual phrasing.'}
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-[#FAF7F0] border border-brand-gold/20 space-y-2">
+              <h3 className="font-serif font-bold text-brand-deep text-base">
+                {isHindi ? '३. मौलिक व कॉपीराइट-मुक्त कला' : '3. Original & Open Vector Craftsmanship'}
+              </h3>
+              <p className="leading-relaxed">
+                {isHindi
+                  ? 'हमारे ग्रीटिंग कार्ड्स और रंगोली पैटर्न्स किसी अन्य वेबसाइट से चुराए नहीं जाते। सभी डिजाइन्स ब्राउज़र कैनवास, शुद्ध एसवीजी ज्यामिति और ओपन-सोर्स फॉन्ट्स (SIL OFL) के माध्यम से रेंडर होते हैं।'
+                  : 'Our visual templates and Rangoli patterns rely on algorithmic canvas rendering, bespoke vector geometry, and open-source Google Fonts (SIL OFL). We never scrape or republish unlicensed third-party stock photography.'}
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-[#FAF7F0] border border-brand-gold/20 space-y-2">
+              <h3 className="font-serif font-bold text-brand-deep text-base">
+                {isHindi ? '४. पाठक प्रतिक्रिया व सुधार नीति' : '4. Fact-Checking Corrections & Feedback'}
+              </h3>
+              <p className="leading-relaxed">
+                {isHindi
+                  ? 'यदि किसी लेख, श्लोक या अनुवाद में कोई त्रुटि पाई जाती है, तो हमारी नीति २४ से ४८ घंटों के भीतर पारदर्शी रूप से सुधार करने की है। पाठक बेझिझक हमारे संपर्क पृष्ठ के जरिए प्रतिक्रिया दे सकते हैं।'
+                  : 'We maintain an active correction policy. If any regional tradition, date nuance, or scriptural translation contains inaccuracies, our team investigates and updates the content promptly. Feedback is always welcomed via our Contact page.'}
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* Editorial Standards Note */}
         <div className="p-6 rounded-2xl bg-brand-ivory border border-brand-gold/30 text-center max-w-2xl mx-auto space-y-2">
           <h4 className="font-serif text-base font-bold text-brand-deep">
