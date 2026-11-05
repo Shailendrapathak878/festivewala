@@ -127,6 +127,9 @@ export const PhotoFramingAdjuster: React.FC<PhotoFramingAdjusterProps> = ({
     initialPanY: number;
     initialNormPanX: number;
     initialNormPanY: number;
+    hasExceededThreshold?: boolean;
+    pointerId?: number;
+    pointerType?: string;
   } | null>(null);
   const currentDragPanRef = useRef<{ panX: number; panY: number; normPanX: number; normPanY: number }>({
     panX: 0,
@@ -332,14 +335,8 @@ export const PhotoFramingAdjuster: React.FC<PhotoFramingAdjusterProps> = ({
     drawFramingCanvas();
   }, [drawFramingCanvas]);
 
-  // Direct Pointer Drag Handlers (Mouse, Single Touch, Stylus)
+  // Direct Pointer Drag Handlers with Touch vs Scroll Separation
   const handlePointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
-    try {
-      e.currentTarget.setPointerCapture(e.pointerId);
-    } catch {
-      // ignore
-    }
-    setIsDragging(true);
     const frameBaseW = frameGeometry?.width || 440;
     const frameBaseH = frameGeometry?.height || 440;
     const initialNormPanX = photo.normalizedPanX !== undefined
@@ -356,6 +353,9 @@ export const PhotoFramingAdjuster: React.FC<PhotoFramingAdjusterProps> = ({
       initialPanY: photo.panY || 0,
       initialNormPanX,
       initialNormPanY,
+      hasExceededThreshold: false,
+      pointerId: e.pointerId,
+      pointerType: e.pointerType,
     };
     currentDragPanRef.current = {
       panX: photo.panX || 0,
@@ -369,6 +369,28 @@ export const PhotoFramingAdjuster: React.FC<PhotoFramingAdjusterProps> = ({
     if (!dragStartRef.current) return;
     const dx = e.clientX - dragStartRef.current.x;
     const dy = e.clientY - dragStartRef.current.y;
+    const dist = Math.hypot(dx, dy);
+
+    // Intentional drag activation: separate scroll gestures from intentional drags
+    if (!dragStartRef.current.hasExceededThreshold) {
+      if (dragStartRef.current.pointerType === 'touch') {
+        if (dist < 8) return; // Small touch deadzone
+        // Vertical swipe on mobile touch is interpreted as page scrolling
+        if (Math.abs(dy) > Math.abs(dx) * 1.4) {
+          return;
+        }
+      } else {
+        if (dist < 3) return; // Mouse deadzone
+      }
+
+      dragStartRef.current.hasExceededThreshold = true;
+      setIsDragging(true);
+      try {
+        e.currentTarget.setPointerCapture(e.pointerId);
+      } catch {
+        // ignore
+      }
+    }
 
     const apertureMargin = 16;
     const apW = Math.max(10, viewW - apertureMargin * 2);
@@ -410,7 +432,7 @@ export const PhotoFramingAdjuster: React.FC<PhotoFramingAdjusterProps> = ({
     } catch {
       // ignore
     }
-    if (dragStartRef.current) {
+    if (dragStartRef.current?.hasExceededThreshold) {
       onUpdate(
         {
           normalizedPanX: currentDragPanRef.current.normPanX,
@@ -421,6 +443,16 @@ export const PhotoFramingAdjuster: React.FC<PhotoFramingAdjusterProps> = ({
         },
         true
       );
+    }
+    setIsDragging(false);
+    dragStartRef.current = null;
+  };
+
+  const handlePointerCancel = (e: React.PointerEvent<HTMLCanvasElement>) => {
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch {
+      // ignore
     }
     setIsDragging(false);
     dragStartRef.current = null;
@@ -672,13 +704,13 @@ export const PhotoFramingAdjuster: React.FC<PhotoFramingAdjusterProps> = ({
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
-          onPointerCancel={handlePointerUp}
+          onPointerCancel={handlePointerCancel}
           onWheel={handleWheel}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
           onKeyDown={handleKeyDown}
-          style={{ width: `${viewW}px`, height: `${viewH}px`, touchAction: 'none' }}
+          style={{ width: `${viewW}px`, height: `${viewH}px`, touchAction: 'pan-y' }}
           className={`block rounded-lg cursor-grab active:cursor-grabbing select-none transition-shadow outline-none ${
             isDragging ? 'ring-2 ring-[#F2D98B] shadow-lg' : 'hover:ring-1 hover:ring-[#F2D98B]/40'
           }`}

@@ -9,6 +9,7 @@ import { EMOTIONAL_WISHES } from './wishes/emotional';
 import { SHORT_WISHES } from './wishes/short';
 import { CAPTIONS_WISHES } from './wishes/captions';
 import { BUSINESS_WISHES } from './wishes/business';
+import { DHANTERAS_WISHES_DATA } from './wishes/dhanterasWishes';
 
 export {
   TRADITIONAL_WISHES,
@@ -21,13 +22,13 @@ export {
   SHORT_WISHES,
   CAPTIONS_WISHES,
   BUSINESS_WISHES,
+  DHANTERAS_WISHES_DATA,
 };
 
 /**
- * FestiveWala Curated Wishes Repository
- * Exactly 500 unique wishes across 10 categories (Phase 5).
+ * Diwali Curated Wishes: Exactly 500 wishes
  */
-export const WISHES_DATA: WishMessage[] = [
+export const DIWALI_WISHES_DATA: WishMessage[] = [
   ...TRADITIONAL_WISHES,   // 50
   ...FAMILY_WISHES,        // 60
   ...FRIENDS_WISHES,       // 60
@@ -38,4 +39,13 @@ export const WISHES_DATA: WishMessage[] = [
   ...SHORT_WISHES,         // 60
   ...CAPTIONS_WISHES,      // 40
   ...BUSINESS_WISHES,      // 40
+];
+
+/**
+ * FestiveWala Global Curated Wishes Repository:
+ * 500 Diwali Wishes + 100 Dhanteras Wishes = 600 Total Curated Wishes.
+ */
+export const WISHES_DATA: WishMessage[] = [
+  ...DIWALI_WISHES_DATA,
+  ...DHANTERAS_WISHES_DATA,
 ];

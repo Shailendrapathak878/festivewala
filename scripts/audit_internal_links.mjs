@@ -17,6 +17,7 @@ const REGISTERED_ROUTES = new Set([
   '/',
   '/festivals',
   '/festivals/diwali',
+  '/festivals/dhanteras',
   '/festivals/holi',
   '/festivals/raksha-bandhan',
   '/festivals/christmas',
@@ -24,6 +25,7 @@ const REGISTERED_ROUTES = new Set([
   '/rangoli',
   '/decoration-ideas',
   '/gift-ideas',
+  '/gift-ideas/dhanteras',
   '/festival-guides',
   '/festival-guides/diwali-five-days-significance',
   '/festival-guides/eco-friendly-festival-guide',
@@ -31,7 +33,10 @@ const REGISTERED_ROUTES = new Set([
   '/festival-guides/festival-home-cleaning-declutter',
   '/greeting-cards',
   '/greeting-studio', // alias
+  '/greetings/dhanteras',
+  '/photo-greetings/dhanteras',
   '/wishes',
+  '/wishes/dhanteras',
   '/inspiration',
   '/about',
   '/contact',
@@ -96,6 +101,30 @@ for (const filePath of allSrcFiles) {
       });
     });
   }
+
+  // Match dynamic festival links to={`/festivals/${...}`} or /greetings/ /wishes/ in catalogs
+  const catalogRoutes = [
+    '/festivals/dhanteras',
+    '/festivals/diwali',
+    '/festivals/holi',
+    '/festivals/raksha-bandhan',
+    '/festivals/christmas',
+    '/festivals/new-year',
+    '/greetings/dhanteras',
+    '/photo-greetings/dhanteras',
+    '/wishes/dhanteras',
+    '/gift-ideas/dhanteras',
+  ];
+  for (const cRoute of catalogRoutes) {
+    if (content.includes(`'${cRoute}'`) || content.includes(`"${cRoute}"`) || content.includes(`\`${cRoute}\``)) {
+      inboundCounts[cRoute] = (inboundCounts[cRoute] || 0) + 1;
+      linkOccurrences.push({
+        file: path.relative(rootDir, filePath).replace(/\\/g, '/'),
+        target: cRoute,
+        isValid: true,
+      });
+    }
+  }
 }
 
 // Aliases that intentionally forward to canonical routes
@@ -118,7 +147,9 @@ const auditReport = {
   status: brokenLinks.length === 0 ? 'HEALTHY' : 'NEEDS_ATTENTION',
 };
 
-const outputPath = path.join(rootDir, 'artifacts', 'qa', 'phase-7.2', 'link-audit.json');
+const outputDir = path.join(rootDir, 'artifacts', 'qa', 'phase-7.2');
+fs.mkdirSync(outputDir, { recursive: true });
+const outputPath = path.join(outputDir, 'link-audit.json');
 fs.writeFileSync(outputPath, JSON.stringify(auditReport, null, 2), 'utf8');
 
 console.log(`[Link Audit] Scanned ${linkOccurrences.length} links across ${allSrcFiles.length} files.`);

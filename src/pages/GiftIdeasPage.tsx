@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { useSearchParams, useParams } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { useLanguage } from '../hooks/useLanguage';
 import { SectionHeading } from '../components/common/SectionHeading';
@@ -7,7 +8,7 @@ import {
   GIFT_CATEGORIES,
   BUDGET_TIERS,
   RECIPIENT_FILTERS,
-  GIFTS_DATA,
+  ALL_GIFTS_DATA,
   type GiftIdea,
 } from '../data/gifts/giftsData';
 import { useGiftFavorites } from '../features/gifts/hooks/useGiftFavorites';
@@ -27,6 +28,10 @@ export const GiftIdeasPage: React.FC = () => {
   const { isHindi } = useLanguage();
   const shouldReduceMotion = useReducedMotion();
   const { favoriteIds, toggleFavorite, isFavorite } = useGiftFavorites();
+  const { festivalId: routeFestivalId } = useParams<{ festivalId?: string }>();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const paramFest = routeFestivalId || searchParams.get('festival') || 'all';
+  const [selectedFestival, setSelectedFestival] = useState<string>(paramFest);
 
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [activeBudgetTier, setActiveBudgetTier] = useState<string>('all');
@@ -36,7 +41,12 @@ export const GiftIdeasPage: React.FC = () => {
   const [activeModalGift, setActiveModalGift] = useState<GiftIdea | null>(null);
 
   const filteredGifts = useMemo(() => {
-    return GIFTS_DATA.filter((gift) => {
+    return ALL_GIFTS_DATA.filter((gift: GiftIdea) => {
+      // Festival filter
+      if (selectedFestival !== 'all') {
+        const fest = gift.festivalId || 'diwali';
+        if (fest !== selectedFestival) return false;
+      }
       // Favorites filter
       if (showOnlyFavorites && !favoriteIds.includes(gift.id)) {
         return false;
@@ -67,7 +77,7 @@ export const GiftIdeasPage: React.FC = () => {
 
       return true;
     });
-  }, [activeCategory, activeBudgetTier, activeRecipient, searchQuery, showOnlyFavorites, favoriteIds]);
+  }, [selectedFestival, activeCategory, activeBudgetTier, activeRecipient, searchQuery, showOnlyFavorites, favoriteIds]);
 
   const seoConfig = isHindi ? STATIC_ROUTE_SEO.gifts.hi : STATIC_ROUTE_SEO.gifts.en;
 
@@ -91,6 +101,35 @@ export const GiftIdeasPage: React.FC = () => {
               : 'Meaningful, practical, and eco-conscious gift suggestions categorized by relationship, budget tier, and festive occasion.'
           }
         />
+
+        {/* Festival Selection Bar */}
+        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+          {[
+            { id: 'all', labelEn: 'All Festivals', labelHi: 'सभी पर्व' },
+            { id: 'dhanteras', labelEn: 'Dhanteras 2026', labelHi: 'धनतेरस २०२६' },
+            { id: 'diwali', labelEn: 'Diwali 2026', labelHi: 'दिवाली २०२६' },
+          ].map((fest) => {
+            const isSelected = selectedFestival === fest.id;
+            return (
+              <button
+                key={fest.id}
+                type="button"
+                onClick={() => {
+                  setSelectedFestival(fest.id);
+                  setSearchParams({ festival: fest.id });
+                }}
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border min-h-[40px] flex items-center gap-1.5 ${
+                  isSelected
+                    ? 'bg-brand-royal text-[#FAF7F0] border-brand-royal shadow-md'
+                    : 'bg-white text-brand-dark border-brand-gold/30 hover:border-brand-gold'
+                }`}
+              >
+                <Sparkles className={`w-3.5 h-3.5 ${isSelected ? 'text-brand-gold' : 'text-brand-royal'}`} />
+                <span>{isHindi ? fest.labelHi : fest.labelEn}</span>
+              </button>
+            );
+          })}
+        </div>
 
         {/* Search, Filter Bar & Favorites */}
         <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
@@ -229,7 +268,7 @@ export const GiftIdeasPage: React.FC = () => {
           </div>
         ) : (
           <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredGifts.map((gift) => {
+            {filteredGifts.map((gift: GiftIdea) => {
               const isFav = isFavorite(gift.id);
 
               return (

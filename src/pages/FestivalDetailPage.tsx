@@ -5,6 +5,9 @@ import { FESTIVAL_DETAILS } from '../data/festivals/festivalDetails';
 import { SEOHead } from '../components/common/SEOHead';
 import { TrilingualFAQSection } from '../components/common/TrilingualFAQSection';
 import { FestivalAtmosphere } from '../components/animation/FestivalAtmosphere';
+import { DiwaliGuideArticle } from '../components/festivals/DiwaliGuideArticle';
+import { DhanterasGuideArticle } from '../components/festivals/DhanterasGuideArticle';
+import { FestivalCountdown } from '../components/festivals/FestivalCountdown';
 import {
   Calendar,
   Sparkles,
@@ -34,16 +37,39 @@ export const FestivalDetailPage: React.FC = () => {
 
   const seoData = useMemo(() => {
     if (!festival) return null;
-    const pageTitle = isHindi
-      ? `${festival.nameHi} — मुहूर्त, परंपराएं, व्यंजन व शुभकामनाएं | फेस्टिववाला`
-      : `${festival.nameEn} — Date, Rituals, Recipes, Decor & Wishes | FestiveWala`;
+    const isDiwali = festival.id === 'diwali';
+    const isDhanteras = festival.id === 'dhanteras';
 
-    const pageDescription = isHindi
-      ? `${festival.nameHi}: ${festival.about.summaryHi} जानिए शुभ मुहूर्त, पूजन विधि, गृह सज्जा और विशेष पकवान।`
-      : `${festival.nameEn}: ${festival.about.summaryEn} Discover traditions, recipes, decoration ideas, and personalized greeting cards.`;
+    const pageTitle = isDiwali
+      ? (isHindi
+          ? 'दीपावली २०२६ — महत्व, पांच दिन, पूजन विधि, पकवान व संपूर्ण गाइड | फेस्टिववाला'
+          : 'Diwali 2026 — Significance, 5 Days, Rituals, Food & Celebration Guide | FestiveWala')
+      : isDhanteras
+      ? (isHindi
+          ? 'धनतेरस २०२६ — महत्व, धन्वंतरि जयंती, यम दीपदान, धातु खरीद व संपूर्ण गाइड | फेस्टिववाला'
+          : 'Dhanteras 2026 — Significance, Dhanvantari Jayanti, Rituals, Metal Buying & Complete Guide | FestiveWala')
+      : (isHindi
+          ? `${festival.nameHi} — मुहूर्त, परंपराएं, व्यंजन व शुभकामनाएं | फेस्टिववाला`
+          : `${festival.nameEn} — Date, Rituals, Recipes, Decor & Wishes | FestiveWala`);
+
+    const pageDescription = isDiwali
+      ? (isHindi
+          ? 'दीपावली (दिवाली) की संपूर्ण मार्गदर्शिका: जानिए दीपोत्सव का अर्थ, पांच पावन दिन (धनतेरस से भाई दूज), लक्ष्मी पूजन विधि, क्षेत्रीय परंपराएं, पारंपरिक पकवान व पर्यावरण-अनुकूल उत्सव विचार।'
+          : 'Complete Diwali festival guide: discover the meaning of Deepavali, 5-day timeline, Lakshmi Puja muhurat, regional traditions, festive recipes, and eco-friendly tips.')
+      : isDhanteras
+      ? (isHindi
+          ? 'धनतेरस (धनत्रयोदशी) की संपूर्ण मार्गदर्शिका: जानिए धनतेरस का महत्व, भगवान धन्वंतरि जयंती, यम दीपदान विधि, सोना-चांदी व धातु खरीद का शगुन, पकवान व उपहार संग्रह।'
+          : 'Complete Dhanteras (Dhanatrayodashi) festival guide: discover the meaning of Dhanteras, Bhagwan Dhanvantari Jayanti, Yamadeepdaan rituals, auspicious metal buying traditions, recipes, and gifts.')
+      : (isHindi
+          ? `${festival.nameHi}: ${festival.about.summaryHi} जानिए शुभ मुहूर्त, पूजन विधि, गृह सज्जा और विशेष पकवान।`
+          : `${festival.nameEn}: ${festival.about.summaryEn} Discover traditions, recipes, decoration ideas, and personalized greeting cards.`);
 
     const aliasesString = festival.regionalAliases ? festival.regionalAliases.join(', ') : '';
-    const pageKeywords = `${festival.nameEn}, ${festival.nameHi}, ${aliasesString}, festival celebration, rituals, recipes, wishes, greetings, decor ideas`;
+    const pageKeywords = isDiwali
+      ? 'What is Diwali, Why is Diwali celebrated, Diwali festival in India, History and significance of Diwali, Five days of Diwali, Diwali traditions and celebrations, Diwali festival significance, How to celebrate Diwali, Deepavali, Lakshmi Puja, Dhanteras, Bhai Dooj'
+      : isDhanteras
+      ? 'What is Dhanteras, Why is Dhanteras celebrated, Dhanteras history and significance, Dhanteras puja and traditions, Dhanteras festival in India, Dhanteras wishes, Dhanteras gift ideas, Dhanteras greetings, Dhanvantari Jayanti, Yamadeepdaan, Dhanatrayodashi'
+      : `${festival.nameEn}, ${festival.nameHi}, ${aliasesString}, festival celebration, rituals, recipes, wishes, greetings, decor ideas`;
 
     const jsonLd = [
       {
@@ -83,6 +109,64 @@ export const FestivalDetailPage: React.FC = () => {
           },
         ],
       },
+      ...(isDhanteras
+        ? [
+            {
+              '@context': 'https://schema.org',
+              '@type': 'Article',
+              headline: isHindi
+                ? 'धनतेरस महापर्व संपूर्ण संदर्शिका — धन्वंतरि जयंती, यम दीपदान व परंपराएं'
+                : 'Dhanteras Festival Guide — Significance, Dhanvantari, Yamadeepdaan & Rituals',
+              description: pageDescription,
+              author: {
+                '@type': 'Organization',
+                name: 'FestiveWala Editorial Board',
+                url: 'https://festivewala.in',
+              },
+              publisher: {
+                '@type': 'Organization',
+                name: 'FestiveWala',
+                url: 'https://festivewala.in',
+                logo: {
+                  '@type': 'ImageObject',
+                  url: 'https://festivewala.in/assets/brand/festivewala-logo.svg',
+                },
+              },
+              datePublished: '2026-10-01T08:00:00+05:30',
+              dateModified: '2026-11-05T08:00:00+05:30',
+              mainEntityOfPage: 'https://festivewala.in/festivals/dhanteras',
+            },
+          ]
+        : []),
+      ...(isDiwali
+        ? [
+            {
+              '@context': 'https://schema.org',
+              '@type': 'Article',
+              headline: isHindi
+                ? 'दीपावली महापर्व मार्गदर्शिका — इतिहास, ५ दिन, पूजन विधि व परंपराएं'
+                : 'Diwali Festival Guide — 5 Days, History, Rituals, Food & Significance',
+              description: pageDescription,
+              author: {
+                '@type': 'Organization',
+                name: 'FestiveWala Editorial Board',
+                url: 'https://festivewala.in',
+              },
+              publisher: {
+                '@type': 'Organization',
+                name: 'FestiveWala',
+                url: 'https://festivewala.in',
+                logo: {
+                  '@type': 'ImageObject',
+                  url: 'https://festivewala.in/assets/brand/festivewala-logo.svg',
+                },
+              },
+              datePublished: '2026-10-01T08:00:00+05:30',
+              dateModified: '2026-11-05T08:00:00+05:30',
+              mainEntityOfPage: 'https://festivewala.in/festivals/diwali',
+            },
+          ]
+        : []),
       ...(festival.faqs && festival.faqs.length > 0
         ? [
             {
@@ -201,6 +285,9 @@ export const FestivalDetailPage: React.FC = () => {
                 {isHindi ? festival.taglineHi : festival.taglineEn}
               </p>
 
+              <div className="pt-2">
+                <FestivalCountdown festivalId={festival.id} showExploreLink={false} className="max-w-md mx-auto lg:mx-0 text-left" />
+              </div>
               {/* Quick Jump Anchor CTAs */}
               <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-2.5 sm:gap-3">
                 <a
@@ -231,6 +318,23 @@ export const FestivalDetailPage: React.FC = () => {
             <div className="lg:col-span-5 flex items-center justify-center">
               <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-3xl bg-gradient-to-tr from-white/10 to-white/5 border-2 border-[#F2D98B]/40 p-4 shadow-2xl flex items-center justify-center backdrop-blur-sm">
                 <div className="absolute inset-0 rounded-3xl bg-[#F2D98B]/10 blur-xl pointer-events-none" />
+                {festival.heroMotif === 'dhanteras-kalash' && (
+                  <svg viewBox="0 0 200 200" className="w-56 h-56 text-[#F2D98B]">
+                    <circle cx="100" cy="100" r="90" fill="none" stroke="#D4AF37" strokeWidth="1" strokeDasharray="3 3" />
+                    <circle cx="100" cy="100" r="75" fill="none" stroke="#F2D98B" strokeWidth="0.75" />
+                    <path d="M70 120 C70 160 85 170 100 170 C115 170 130 160 130 120 C130 114 125 110 120 110 L80 110 C75 110 70 114 70 120 Z" fill="#D4AF37" stroke="#F2D98B" strokeWidth="2" />
+                    <ellipse cx="100" cy="110" rx="22" ry="5" fill="#B8860B" />
+                    <path d="M85 110 C80 90 70 80 65 75 C75 80 90 92 92 108 Z" fill="#4CAF50" stroke="#2E7D32" strokeWidth="1" />
+                    <path d="M115 110 C120 90 130 80 135 75 C125 80 110 92 108 108 Z" fill="#4CAF50" stroke="#2E7D32" strokeWidth="1" />
+                    <path d="M100 108 C96 85 96 70 100 62 C104 70 104 85 100 108 Z" fill="#388E3C" stroke="#1B5E20" strokeWidth="1" />
+                    <circle cx="100" cy="95" r="16" fill="#8D6E63" stroke="#5D4037" strokeWidth="1.5" />
+                    <circle cx="100" cy="138" r="6" fill="#F2D98B" />
+                    <ellipse cx="62" cy="155" rx="10" ry="6" fill="#FFD700" stroke="#B8860B" strokeWidth="1" transform="rotate(-15 62 155)" />
+                    <ellipse cx="76" cy="165" rx="9" ry="5" fill="#FFD700" stroke="#B8860B" strokeWidth="1" transform="rotate(10 76 165)" />
+                    <ellipse cx="138" cy="155" rx="10" ry="6" fill="#FFD700" stroke="#B8860B" strokeWidth="1" transform="rotate(15 138 155)" />
+                    <ellipse cx="124" cy="165" rx="9" ry="5" fill="#FFD700" stroke="#B8860B" strokeWidth="1" transform="rotate(-10 124 165)" />
+                  </svg>
+                )}
                 {festival.heroMotif === 'diwali-diya' && (
                   <svg viewBox="0 0 200 200" className="w-56 h-56 text-[#F2D98B]">
                     <circle cx="100" cy="100" r="90" fill="none" stroke="#D4AF37" strokeWidth="1" strokeDasharray="3 3" />
@@ -292,7 +396,22 @@ export const FestivalDetailPage: React.FC = () => {
         </div>
       </section>
 
-      {/* 2. ABOUT THE FESTIVAL */}
+      {/* IF DIWALI: Render comprehensive 12-section enriched Diwali Guide Article */}
+      {festival.id === 'diwali' ? (
+        <DiwaliGuideArticle
+          festival={festival}
+          isHindi={isHindi}
+          isHinglish={isHinglish}
+        />
+      ) : festival.id === 'dhanteras' ? (
+        <DhanterasGuideArticle
+          festival={festival}
+          isHindi={isHindi}
+          isHinglish={isHinglish}
+        />
+      ) : (
+        <>
+          {/* 2. ABOUT THE FESTIVAL */}
       <section className="py-12 sm:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-3xl p-6 sm:p-10 border border-brand-gold/30 shadow-lg space-y-8">
           <div>
@@ -687,6 +806,8 @@ export const FestivalDetailPage: React.FC = () => {
           </Link>
         </div>
       </section>
+        </>
+      )}
     </div>
   );
 };

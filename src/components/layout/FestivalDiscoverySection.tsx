@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { SectionHeading } from '../common/SectionHeading';
 import { PrimaryButton } from '../common/PrimaryButton';
 import { FESTIVALS_DATA } from '../../data/festivals';
+import { getUpcomingFestivals } from '../../services/festivalPriorityEngine';
 import { useLanguage } from '../../hooks/useLanguage';
 import { Sparkles, Calendar, ArrowRight, Flame, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -13,11 +14,24 @@ export const FestivalDiscoverySection: React.FC = () => {
 
   const [activeFilter, setActiveFilter] = useState<'all' | 'upcoming'>('all');
 
-  const featuredFestival = FESTIVALS_DATA.find((f) => f.featured) || FESTIVALS_DATA[0];
-  const supportingFestivals = FESTIVALS_DATA.filter((f) => f.id !== featuredFestival.id);
+  const upcomingList = useMemo(() => getUpcomingFestivals(FESTIVALS_DATA, new Date(), 10), []);
+  const featuredUpcoming = upcomingList[0];
+  const featuredFestival = featuredUpcoming ? featuredUpcoming.festival : FESTIVALS_DATA[0];
+
+  const supportingFestivals = useMemo(() => {
+    const others = FESTIVALS_DATA.filter((f) => f.id !== featuredFestival.id);
+    if (activeFilter === 'upcoming') {
+      return [...others].sort((a, b) => {
+        const idxA = upcomingList.findIndex((u) => u.festival.id === a.id);
+        const idxB = upcomingList.findIndex((u) => u.festival.id === b.id);
+        return (idxA !== -1 ? idxA : 999) - (idxB !== -1 ? idxB : 999);
+      });
+    }
+    return others;
+  }, [featuredFestival.id, activeFilter, upcomingList]);
 
   const getFestivalUrl = (id: string) => {
-    const dedicatedFestivals = ['diwali', 'holi', 'raksha-bandhan', 'christmas', 'new-year'];
+    const dedicatedFestivals = ['dhanteras', 'diwali', 'holi', 'raksha-bandhan', 'christmas', 'new-year'];
     return dedicatedFestivals.includes(id) ? `/festivals/${id}` : `/festivals#${id}`;
   };
 
@@ -85,7 +99,11 @@ export const FestivalDiscoverySection: React.FC = () => {
 
                   <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold bg-amber-500/20 text-[#F2D98B] border border-amber-500/30">
                     <Clock size={11} className="text-[#F2D98B]" />
-                    <span>Nov 8, 2026 • 6 Days Left</span>
+                    <span>
+                      {featuredUpcoming?.daysRemaining === 0
+                        ? loc('Today / Ongoing', 'आज / जारी है', 'Today')
+                        : `${new Date(featuredUpcoming?.startDateIso || featuredFestival.dateIso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} • ${featuredUpcoming?.daysRemaining ?? 0} ${loc('Days Left', 'दिन शेष', 'Days Left')}`}
+                    </span>
                   </div>
                 </div>
 

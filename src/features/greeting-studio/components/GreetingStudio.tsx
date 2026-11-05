@@ -2,7 +2,9 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import type { GreetingTemplate, OutputFormat } from '../types/template';
 import type { CardCustomization, EditorTab } from '../types/editor';
-import { ALL_GREETING_TEMPLATES, DIWALI_TEMPLATES, PHOTO_TEMPLATES } from '../data/templates';
+import { ALL_GREETING_TEMPLATES } from '../data/templates';
+import { getGreetingsByFestival, getPhotoTemplatesByFestival } from '../../../data/festivals/festivalRepository';
+import { getUpcomingFestivals } from '../../../services/festivalPriorityEngine';
 import { computeLayout } from '../services/layoutEngine';
 import { useEditorHistory } from '../hooks/useEditorHistory';
 import { exportCardToBlob, downloadCard, shareCard } from '../services/exportService';
@@ -29,12 +31,56 @@ import {
   LayoutGrid,
 } from 'lucide-react';
 
-export const GreetingStudio: React.FC = () => {
+interface GreetingStudioProps {
+  defaultFestivalId?: string;
+  defaultGreetingMode?: 'simple' | 'photo';
+}
+
+export const GreetingStudio: React.FC<GreetingStudioProps> = ({
+  defaultFestivalId,
+  defaultGreetingMode,
+}) => {
   const { isHindi, isHinglish, language } = useLanguage();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // Selected Festival
-  const [selectedFestivalId, setSelectedFestivalId] = useState<string>('diwali');
+  // Upcoming Festivals Priority Engine
+  const upcomingFestivals = useMemo(() => getUpcomingFestivals(), []);
+  const p1FestivalId = upcomingFestivals[0]?.festival.id || 'dhanteras';
+  const p2FestivalId = upcomingFestivals[1]?.festival.id || 'diwali';
+
+  // Selected Festival (defaults to 'auto' so nearest upcoming festival displays first)
+  const festivalParam = defaultFestivalId || searchParams.get('festival') || 'auto';
+  const [selectedFestivalId, setSelectedFestivalId] = useState<string>(festivalParam);
+
+  useEffect(() => {
+    const urlFestival = defaultFestivalId || searchParams.get('festival') || 'auto';
+    if (urlFestival !== selectedFestivalId) {
+      setSelectedFestivalId(urlFestival);
+    }
+  }, [searchParams, defaultFestivalId, selectedFestivalId]);
+
+  useEffect(() => {
+    if (defaultGreetingMode && defaultGreetingMode !== greetingMode) {
+      setGreetingMode(defaultGreetingMode);
+    }
+  }, [defaultGreetingMode]);
+
+  const activeFestivalKey = selectedFestivalId === 'auto' ? p1FestivalId : selectedFestivalId;
+
+  const currentSimpleTemplates = useMemo(
+    () => getGreetingsByFestival(activeFestivalKey),
+    [activeFestivalKey]
+  );
+  const currentPhotoTemplates = useMemo(
+    () => getPhotoTemplatesByFestival(activeFestivalKey),
+    [activeFestivalKey]
+  );
+
+  // Priority 1 and Priority 2 template sets for structured Auto mode
+  const p1SimpleTemplates = useMemo(() => getGreetingsByFestival(p1FestivalId), [p1FestivalId]);
+  const p1PhotoTemplates = useMemo(() => getPhotoTemplatesByFestival(p1FestivalId), [p1FestivalId]);
+  const p2SimpleTemplates = useMemo(() => getGreetingsByFestival(p2FestivalId), [p2FestivalId]);
+  const p2PhotoTemplates = useMemo(() => getPhotoTemplatesByFestival(p2FestivalId), [p2FestivalId]);
 
   // Selected Relationship
   const [selectedRelationship, setSelectedRelationship] = useState<string>('none');
@@ -43,11 +89,15 @@ export const GreetingStudio: React.FC = () => {
   const modeParam = searchParams.get('mode');
   const templateParam = searchParams.get('template');
   const initialMode: 'simple' | 'photo' =
-    modeParam === 'photo' || (templateParam && templateParam.startsWith('photo-')) ? 'photo' : 'simple';
+    defaultGreetingMode || (modeParam === 'photo' || (templateParam && templateParam.startsWith('photo-')) ? 'photo' : 'simple');
   const [greetingMode, setGreetingMode] = useState<'simple' | 'photo'>(initialMode);
 
   // Active Template
-  const initialTemplateId = templateParam || (initialMode === 'photo' ? 'photo-royal-portrait' : 'sovereign-lotus');
+  const initialTemplateId = templateParam || (
+    activeFestivalKey === 'dhanteras'
+      ? (initialMode === 'photo' ? 'photo-dhanteras-royal-portrait' : 'dhanteras-royal-gold-purple')
+      : (initialMode === 'photo' ? 'photo-royal-portrait' : 'sovereign-lotus')
+  );
   const initialTemplate =
     ALL_GREETING_TEMPLATES.find((t) => t.id === initialTemplateId) || ALL_GREETING_TEMPLATES[0];
 
@@ -183,6 +233,42 @@ export const GreetingStudio: React.FC = () => {
     }
   }, [isPhotoTemplate, activeTab]);
 
+  const handleFestivalChange = useCallback(
+    (newFestId: string) => {
+      setSelectedFestivalId(newFestId);
+      const effectiveFestId = newFestId === 'auto' ? p1FestivalId : newFestId;
+      const simples = getGreetingsByFestival(effectiveFestId);
+      const photos = getPhotoTemplatesByFestival(effectiveFestId);
+      const nextTpl =
+        greetingMode === 'photo'
+          ? (photos[0] || simples[0])
+          : (simples[0] || photos[0]);
+      if (nextTpl) {
+        setActiveTemplate(nextTpl);
+        reset(createDefaultCustomization(nextTpl, selectedRelationship));
+        if (newFestId === 'auto') {
+          const newParams = new URLSearchParams(searchParams);
+          newParams.delete('festival');
+          newParams.set('mode', greetingMode);
+          newParams.set('template', nextTpl.id);
+          setSearchParams(newParams);
+        } else {
+          setSearchParams({ festival: newFestId, mode: greetingMode, template: nextTpl.id });
+        }
+      } else {
+        if (newFestId === 'auto') {
+          const newParams = new URLSearchParams(searchParams);
+          newParams.delete('festival');
+          newParams.set('mode', greetingMode);
+          setSearchParams(newParams);
+        } else {
+          setSearchParams({ festival: newFestId, mode: greetingMode });
+        }
+      }
+    },
+    [p1FestivalId, greetingMode, selectedRelationship, reset, createDefaultCustomization, searchParams, setSearchParams]
+  );
+
   const handleSelectTemplate = (template: GreetingTemplate, relId?: string) => {
     const effectiveRel = relId || selectedRelationship;
     if (relId) setSelectedRelationship(relId);
@@ -202,16 +288,15 @@ export const GreetingStudio: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleCustomizationChange = (
-    updates: Partial<CardCustomization>,
-    immediate = false
-  ) => {
-    if (updates.relationship) {
-      setSelectedRelationship(updates.relationship);
-    }
-    const next = { ...customization, ...updates };
-    pushState(next, immediate);
-  };
+  const handleCustomizationChange = useCallback(
+    (updates: Partial<CardCustomization>, immediate = false) => {
+      if (updates.relationship) {
+        setSelectedRelationship(updates.relationship);
+      }
+      pushState(updates, immediate);
+    },
+    [pushState]
+  );
 
   const handleResetDefaults = () => {
     if (window.confirm(isHindi ? 'क्या आप सभी बदलाव रीसेट करना चाहते हैं?' : 'Reset all changes to template defaults?')) {
@@ -331,54 +416,142 @@ export const GreetingStudio: React.FC = () => {
           </label>
           <FestivalSelector
             selectedFestivalId={selectedFestivalId}
-            onSelectFestival={setSelectedFestivalId}
+            onSelectFestival={handleFestivalChange}
             isHindi={isHindi}
           />
         </div>
 
         {/* VIEW 1: TEMPLATE GALLERY */}
         {viewMode === 'gallery' ? (
-          <div>
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-bold text-[#FAF7F0]">
-                {greetingMode === 'simple'
-                  ? (isHindi ? 'दिवाली २०२६ सिंपल ग्रीटिंग संग्रह (१०० डिज़ाइन)' : 'Diwali 2026 Simple Greetings Collection (100 Designs)')
-                  : (isHindi ? 'दिवाली २०२६ फोटो ग्रीटिंग संग्रह (१४ लेआउट्स)' : 'Diwali 2026 Photo Greetings Collection (14 Layouts)')}
-              </h2>
-              <span className="text-xs text-[#F2D98B] font-mono">
-                {greetingMode === 'simple' ? '100 / 100 Ready' : '14 / 14 Ready'}
-              </span>
-            </div>
+          selectedFestivalId === 'auto' ? (
+            <div className="space-y-12">
+              {/* SECTION 1: PRIORITY 1 UPCOMING FESTIVAL (DHANTERAS) */}
+              <div data-testid="greeting-priority-1-section" className="rounded-3xl p-4 sm:p-6 bg-[#160B26]/80 border border-[#F2D98B]/30 shadow-xl">
+                <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-[#F2D98B]/20 pb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="px-2.5 py-0.5 rounded-full bg-[#F2D98B]/20 text-[#F2D98B] border border-[#F2D98B]/40 text-[10px] font-bold uppercase tracking-wider">
+                      {isHindi ? 'प्रथम आगामी पर्व' : 'Priority 1 • Nearest Festival'}
+                    </span>
+                    <h2 className="text-lg sm:text-xl font-bold text-[#FAF7F0] flex items-center gap-2">
+                      <span>🪙</span>
+                      <span>
+                        {greetingMode === 'simple'
+                          ? (isHindi ? 'धनतेरस २०२६ सिंपल ग्रीटिंग संग्रह (२५ डिज़ाइन)' : 'Dhanteras 2026 Simple Greetings (25 Designs)')
+                          : (isHindi ? 'धनतेरस २०२६ फोटो ग्रीटिंग संग्रह (१० लेआउट्स)' : 'Dhanteras 2026 Photo Greetings (10 Layouts)')}
+                      </span>
+                    </h2>
+                  </div>
+                  <span className="text-xs text-[#F2D98B] font-mono">
+                    {greetingMode === 'simple' ? '25 / 25 Ready' : '10 / 10 Ready'}
+                  </span>
+                </div>
 
-            <TemplateGallery
-              greetingMode={greetingMode}
-              onGreetingModeChange={(newMode) => {
-                setGreetingMode(newMode);
-                if (newMode === 'simple' && (activeTemplate.category === 'photo-studio' || activeTemplate.id.startsWith('photo-'))) {
-                  const defSimple = DIWALI_TEMPLATES[0];
-                  setActiveTemplate(defSimple);
-                  reset(createDefaultCustomization(defSimple, selectedRelationship));
-                  setSearchParams({ mode: 'simple' });
-                } else if (newMode === 'photo' && activeTemplate.category !== 'photo-studio' && !activeTemplate.id.startsWith('photo-')) {
-                  const defPhoto = PHOTO_TEMPLATES[0];
-                  setActiveTemplate(defPhoto);
-                  reset(createDefaultCustomization(defPhoto, selectedRelationship));
-                  setSearchParams({ mode: 'photo' });
-                } else {
-                  setSearchParams({ mode: newMode });
-                }
-              }}
-              simpleTemplates={DIWALI_TEMPLATES}
-              photoTemplates={PHOTO_TEMPLATES}
-              selectedTemplateId={activeTemplate.id}
-              onSelectTemplate={handleSelectTemplate}
-              isHindi={isHindi}
-              isHinglish={isHinglish}
-              language={language}
-              selectedRelationship={selectedRelationship}
-              onRelationshipChange={setSelectedRelationship}
-            />
-          </div>
+                <TemplateGallery
+                  greetingMode={greetingMode}
+                  onGreetingModeChange={(newMode) => {
+                    setGreetingMode(newMode);
+                    setSearchParams({ mode: newMode });
+                  }}
+                  simpleTemplates={p1SimpleTemplates}
+                  photoTemplates={p1PhotoTemplates}
+                  selectedTemplateId={activeTemplate.id}
+                  onSelectTemplate={handleSelectTemplate}
+                  isHindi={isHindi}
+                  isHinglish={isHinglish}
+                  language={language}
+                  selectedRelationship={selectedRelationship}
+                  onRelationshipChange={setSelectedRelationship}
+                />
+              </div>
+
+              {/* SECTION 2: PRIORITY 2 UPCOMING FESTIVAL (DIWALI) */}
+              <div data-testid="greeting-priority-2-section" className="rounded-3xl p-4 sm:p-6 bg-[#18092E]/80 border border-brand-gold/30 shadow-xl">
+                <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-brand-gold/20 pb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[10px] font-bold uppercase tracking-wider">
+                      {isHindi ? 'द्वितीय आगामी पर्व' : 'Priority 2 • Following Celebration'}
+                    </span>
+                    <h2 className="text-lg sm:text-xl font-bold text-[#FAF7F0] flex items-center gap-2">
+                      <span>🪔</span>
+                      <span>
+                        {greetingMode === 'simple'
+                          ? (isHindi ? 'दीपावली २०२६ सिंपल ग्रीटिंग संग्रह (१०० डिज़ाइन)' : 'Diwali 2026 Simple Greetings (100 Designs)')
+                          : (isHindi ? 'दीपावली २०२६ फोटो ग्रीटिंग संग्रह (१४ लेआउट्स)' : 'Diwali 2026 Photo Greetings (14 Layouts)')}
+                      </span>
+                    </h2>
+                  </div>
+                  <span className="text-xs text-[#F2D98B] font-mono">
+                    {greetingMode === 'simple' ? '100 / 100 Ready' : '14 / 14 Ready'}
+                  </span>
+                </div>
+
+                <TemplateGallery
+                  greetingMode={greetingMode}
+                  onGreetingModeChange={(newMode) => {
+                    setGreetingMode(newMode);
+                    setSearchParams({ mode: newMode });
+                  }}
+                  simpleTemplates={p2SimpleTemplates}
+                  photoTemplates={p2PhotoTemplates}
+                  selectedTemplateId={activeTemplate.id}
+                  onSelectTemplate={handleSelectTemplate}
+                  isHindi={isHindi}
+                  isHinglish={isHinglish}
+                  language={language}
+                  selectedRelationship={selectedRelationship}
+                  onRelationshipChange={setSelectedRelationship}
+                />
+              </div>
+            </div>
+          ) : (
+            <div>
+              <div className="mb-4 flex items-center justify-between">
+                <h2 className="text-lg font-bold text-[#FAF7F0]">
+                  {selectedFestivalId === 'dhanteras'
+                    ? (greetingMode === 'simple'
+                      ? (isHindi ? 'धनतेरस २०२६ सिंपल ग्रीटिंग संग्रह (२५ डिज़ाइन)' : 'Dhanteras 2026 Simple Greetings Collection (25 Designs)')
+                      : (isHindi ? 'धनतेरस २०२६ फोटो ग्रीटिंग संग्रह (१० लेआउट्स)' : 'Dhanteras 2026 Photo Greetings Collection (10 Layouts)'))
+                    : (greetingMode === 'simple'
+                      ? (isHindi ? 'दिवाली २०२६ सिंपल ग्रीटिंग संग्रह (१०० डिज़ाइन)' : 'Diwali 2026 Simple Greetings Collection (100 Designs)')
+                      : (isHindi ? 'दिवाली २०२६ फोटो ग्रीटिंग संग्रह (१४ लेआउट्स)' : 'Diwali 2026 Photo Greetings Collection (14 Layouts)'))}
+                </h2>
+                <span className="text-xs text-[#F2D98B] font-mono">
+                  {selectedFestivalId === 'dhanteras'
+                    ? (greetingMode === 'simple' ? '25 / 25 Ready' : '10 / 10 Ready')
+                    : (greetingMode === 'simple' ? '100 / 100 Ready' : '14 / 14 Ready')}
+                </span>
+              </div>
+
+              <TemplateGallery
+                greetingMode={greetingMode}
+                onGreetingModeChange={(newMode) => {
+                  setGreetingMode(newMode);
+                  if (newMode === 'simple' && (activeTemplate.category === 'photo-studio' || activeTemplate.id.startsWith('photo-'))) {
+                    const defSimple = currentSimpleTemplates[0] || ALL_GREETING_TEMPLATES[0];
+                    setActiveTemplate(defSimple);
+                    reset(createDefaultCustomization(defSimple, selectedRelationship));
+                    setSearchParams({ mode: 'simple' });
+                  } else if (newMode === 'photo' && activeTemplate.category !== 'photo-studio' && !activeTemplate.id.startsWith('photo-')) {
+                    const defPhoto = currentPhotoTemplates[0] || ALL_GREETING_TEMPLATES[0];
+                    setActiveTemplate(defPhoto);
+                    reset(createDefaultCustomization(defPhoto, selectedRelationship));
+                    setSearchParams({ mode: 'photo' });
+                  } else {
+                    setSearchParams({ mode: newMode });
+                  }
+                }}
+                simpleTemplates={currentSimpleTemplates}
+                photoTemplates={currentPhotoTemplates}
+                selectedTemplateId={activeTemplate.id}
+                onSelectTemplate={handleSelectTemplate}
+                isHindi={isHindi}
+                isHinglish={isHinglish}
+                language={language}
+                selectedRelationship={selectedRelationship}
+                onRelationshipChange={setSelectedRelationship}
+              />
+            </div>
+          )
         ) : (
           /* VIEW 2: FULL PERSONALIZATION STUDIO EDITOR */
           <div className="space-y-6">
@@ -446,8 +619,8 @@ export const GreetingStudio: React.FC = () => {
                 {isHindi
                   ? 'स्वरूप बदलते ही डिज़ाइन स्वतः समायोजित होता है'
                   : isHinglish
-                  ? 'Format change karte hi design auto-adjust ho jayega'
-                  : 'Design auto-adapts without stretching'}
+                    ? 'Format change karte hi design auto-adjust ho jayega'
+                    : 'Design auto-adapts without stretching'}
               </span>
             </div>
 
@@ -462,11 +635,10 @@ export const GreetingStudio: React.FC = () => {
                       key={tab.id}
                       type="button"
                       onClick={() => setActiveTab(tab.id)}
-                      className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-2 rounded-lg text-xs font-semibold transition-all min-h-[44px] ${
-                        activeTab === tab.id
+                      className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-2 rounded-lg text-xs font-semibold transition-all min-h-[44px] ${activeTab === tab.id
                           ? 'bg-[#F2D98B] text-[#24113D] shadow-md font-bold'
                           : 'text-[#FAF7F0]/80 hover:text-[#FAF7F0]'
-                      }`}
+                        }`}
                     >
                       {tab.icon}
                       <span>{isHindi ? tab.labelHi : tab.labelEn}</span>
@@ -529,8 +701,8 @@ export const GreetingStudio: React.FC = () => {
                     {isHindi
                       ? 'लाइव पूर्वावलोकन • डाउनलोड के समय १०८०p+ मूल रिज़ॉल्यूशन पर रेंडर होता है'
                       : isHinglish
-                      ? 'Live preview • Download karne par 1080p+ high resolution mein render hoga'
-                      : 'Live preview • Exports at native 1080p+ ultra high-resolution'}
+                        ? 'Live preview • Download karne par 1080p+ high resolution mein render hoga'
+                        : 'Live preview • Exports at native 1080p+ ultra high-resolution'}
                   </span>
                 </div>
               </div>
@@ -550,13 +722,13 @@ export const GreetingStudio: React.FC = () => {
                     ? isHindi
                       ? 'डाउनलोड हो रहा है...'
                       : isHinglish
-                      ? 'Download ho raha hai...'
-                      : 'Generating PNG...'
+                        ? 'Download ho raha hai...'
+                        : 'Generating PNG...'
                     : isHindi
-                    ? 'डाउनलोड करें'
-                    : isHinglish
-                    ? 'Download Karein'
-                    : 'Download'}
+                      ? 'डाउनलोड करें'
+                      : isHinglish
+                        ? 'Download Karein'
+                        : 'Download'}
                 </span>
               </button>
 
@@ -571,8 +743,8 @@ export const GreetingStudio: React.FC = () => {
                   {isHindi
                     ? 'ग्रीटिंग शेयर करें'
                     : isHinglish
-                    ? 'Greeting Share Karein'
-                    : 'Share Greeting'}
+                      ? 'Greeting Share Karein'
+                      : 'Share Greeting'}
                 </span>
               </button>
             </div>

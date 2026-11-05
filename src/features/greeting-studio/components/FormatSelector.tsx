@@ -9,7 +9,7 @@ interface FormatSelectorProps {
   isHindi: boolean;
 }
 
-export const FormatSelector: React.FC<FormatSelectorProps> = ({
+const FormatSelectorComponent: React.FC<FormatSelectorProps> = ({
   currentFormat,
   onFormatChange,
   isHindi,
@@ -47,3 +47,4 @@ export const FormatSelector: React.FC<FormatSelectorProps> = ({
   );
 };
 
+export const FormatSelector = React.memo(FormatSelectorComponent);

@@ -46,7 +46,9 @@ export interface WishMessage {
     | 'traditional'
     | 'captions'
     | 'business'
-    | 'sacred';
+    | 'sacred'
+    | 'health-happiness'
+    | 'wealth-prosperity';
   categoryLabelEn: string;
   categoryLabelHi: string;
   categoryLabelHinglish?: string;

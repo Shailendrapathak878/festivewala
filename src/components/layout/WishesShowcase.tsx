@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { SectionHeading } from '../common/SectionHeading';
 import { toastNotificationVariants } from '../animation/motionVariants';
@@ -10,6 +10,8 @@ import {
   Check,
   Share2,
   BookOpen,
+  Coins,
+  Leaf,
   Sparkles,
   Heart,
   Users,
@@ -31,6 +33,7 @@ import type { WishMessage } from '../../data/types';
 import { SmartWishesGenerator } from '../../features/wishes/components/SmartWishesGenerator';
 import { WishesFavorites } from '../../features/wishes/components/WishesFavorites';
 import { useSavedWishes } from '../../features/wishes/hooks/useSavedWishes';
+import { getUpcomingFestivals } from '../../services/festivalPriorityEngine';
 import {
   getWhatsAppShareUrl,
   copyTextToClipboard,
@@ -48,8 +51,14 @@ export function ensureCleanUnicode(str?: string): string {
 
 type ViewMode = 'library' | 'generator' | 'favorites';
 
-export const WishesShowcase: React.FC = () => {
+interface WishesShowcaseProps {
+  routeFestivalId?: string;
+}
+
+export const WishesShowcase: React.FC<WishesShowcaseProps> = ({ routeFestivalId }) => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const initialFestival = routeFestivalId || searchParams.get('festival') || 'all';
   const { isHindi, isHinglish, language } = useLanguage();
   const shouldReduceMotion = useReducedMotion();
   const { savedIds, isFavorite, toggleFavorite } = useSavedWishes();
@@ -62,7 +71,14 @@ export const WishesShowcase: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedTone, setSelectedTone] = useState<string>('all');
   const [selectedRecipient, setSelectedRecipient] = useState<string>('all');
-  const [selectedFestival, setSelectedFestival] = useState<string>('all');
+  const [selectedFestival, setSelectedFestival] = useState<string>(initialFestival);
+
+  useEffect(() => {
+    const fest = routeFestivalId || searchParams.get('festival');
+    if (fest && fest !== selectedFestival) {
+      setSelectedFestival(fest);
+    }
+  }, [routeFestivalId, searchParams, selectedFestival]);
   const [sortBy, setSortBy] = useState<'relevance' | 'shortest' | 'longest' | 'newest'>('relevance');
   const [visibleCount, setVisibleCount] = useState<number>(18);
 
@@ -84,19 +100,59 @@ export const WishesShowcase: React.FC = () => {
     return wish.headlineEn || '';
   };
 
-  const categories = useMemo(() => [
-    { id: 'all', labelEn: 'All 500 Wishes', labelHi: 'सभी ५०० संदेश', labelHinglish: 'All 500 Wishes', icon: <BookOpen className="w-3.5 h-3.5" />, count: WISHES_DATA.length },
-    { id: 'family', labelEn: 'Family & Elders', labelHi: 'परिवार व अग्रज', labelHinglish: 'Family & Elders', icon: <Users className="w-3.5 h-3.5" />, count: WISHES_DATA.filter((w) => w.category === 'family').length },
-    { id: 'friends', labelEn: 'Friends', labelHi: 'मित्र व साथी', labelHinglish: 'Friends & Dosti', icon: <Sparkles className="w-3.5 h-3.5" />, count: WISHES_DATA.filter((w) => w.category === 'friends').length },
-    { id: 'short', labelEn: 'Short & Sweet', labelHi: 'संक्षिप्त व मधुर', labelHinglish: 'Short & Sweet', icon: <MessageCircle className="w-3.5 h-3.5" />, count: WISHES_DATA.filter((w) => w.category === 'short').length },
-    { id: 'traditional', labelEn: 'Traditional', labelHi: 'पारंपरिक वंदना', labelHinglish: 'Traditional Blessings', icon: <Flame className="w-3.5 h-3.5" />, count: WISHES_DATA.filter((w) => w.category === 'traditional').length },
-    { id: 'love', labelEn: 'Love & Romance', labelHi: 'प्रेम व आत्मीयता', labelHinglish: 'Love & Romance', icon: <Heart className="w-3.5 h-3.5" />, count: WISHES_DATA.filter((w) => w.category === 'love').length },
-    { id: 'emotional', labelEn: 'Heartfelt', labelHi: 'भावुक व आत्मीय', labelHinglish: 'Heartfelt & Emotional', icon: <Feather className="w-3.5 h-3.5" />, count: WISHES_DATA.filter((w) => w.category === 'emotional').length },
-    { id: 'professional', labelEn: 'Executive', labelHi: 'कॉरपोरेट', labelHinglish: 'Executive & Corporate', icon: <Briefcase className="w-3.5 h-3.5" />, count: WISHES_DATA.filter((w) => w.category === 'professional').length },
-    { id: 'funny', labelEn: 'Funny & Fun', labelHi: 'हास्य व मस्ती', labelHinglish: 'Fun & Masti', icon: <Smile className="w-3.5 h-3.5" />, count: WISHES_DATA.filter((w) => w.category === 'funny').length },
-    { id: 'captions', labelEn: 'Social Captions', labelHi: 'सोशल कैप्शन', labelHinglish: 'Social Captions', icon: <Hash className="w-3.5 h-3.5" />, count: WISHES_DATA.filter((w) => w.category === 'captions').length },
-    { id: 'business', labelEn: 'Business & Clients', labelHi: 'व्यापार व ग्राहक', labelHinglish: 'Business & Clients', icon: <Building2 className="w-3.5 h-3.5" />, count: WISHES_DATA.filter((w) => w.category === 'business').length },
-  ], []);
+  const activeDataset = useMemo(() => {
+    if (selectedFestival !== 'all') {
+      return WISHES_DATA.filter((w) => {
+        const festIds = w.festivalIds || [w.festivalId];
+        return festIds.includes(selectedFestival);
+      });
+    }
+
+    // Default view: Strict festival prioritization (nearest upcoming first, following next)
+    const upcoming = getUpcomingFestivals();
+    const p1 = upcoming[0]?.festival.id || 'dhanteras';
+    const p2 = upcoming[1]?.festival.id || 'diwali';
+
+    return [...WISHES_DATA].sort((a, b) => {
+      const aIds = a.festivalIds || [a.festivalId];
+      const bIds = b.festivalIds || [b.festivalId];
+
+      const aIsP1 = aIds.includes(p1);
+      const bIsP1 = bIds.includes(p1);
+      if (aIsP1 && !bIsP1) return -1;
+      if (!aIsP1 && bIsP1) return 1;
+
+      const aIsP2 = aIds.includes(p2);
+      const bIsP2 = bIds.includes(p2);
+      if (aIsP2 && !bIsP2) return -1;
+      if (!aIsP2 && bIsP2) return 1;
+
+      return 0;
+    });
+  }, [selectedFestival]);
+
+  const categories = useMemo(() => {
+    const isDhanteras = selectedFestival === 'dhanteras';
+    const totalLabelEn = isDhanteras ? 'All 100 Dhanteras Wishes' : `All ${activeDataset.length} Wishes`;
+    const totalLabelHi = isDhanteras ? 'सभी १०० धनतेरस संदेश' : `सभी ${activeDataset.length} संदेश`;
+    const totalLabelHinglish = isDhanteras ? 'All 100 Dhanteras Wishes' : `All ${activeDataset.length} Wishes`;
+
+    return [
+      { id: 'all', labelEn: totalLabelEn, labelHi: totalLabelHi, labelHinglish: totalLabelHinglish, icon: <BookOpen className="w-3.5 h-3.5" />, count: activeDataset.length },
+      { id: 'family', labelEn: 'Family & Elders', labelHi: 'परिवार व अग्रज', labelHinglish: 'Family & Elders', icon: <Users className="w-3.5 h-3.5" />, count: activeDataset.filter((w) => w.category === 'family').length },
+      { id: 'friends', labelEn: 'Friends', labelHi: 'मित्र व साथी', labelHinglish: 'Friends & Dosti', icon: <Sparkles className="w-3.5 h-3.5" />, count: activeDataset.filter((w) => w.category === 'friends').length },
+      { id: 'health-happiness', labelEn: 'Health & Arogya', labelHi: 'आरोग्य व सुख', labelHinglish: 'Health & Happiness', icon: <Leaf className="w-3.5 h-3.5" />, count: activeDataset.filter((w) => w.category === 'health-happiness').length },
+      { id: 'wealth-prosperity', labelEn: 'Wealth & Prosperity', labelHi: 'धन व वैभव', labelHinglish: 'Wealth & Prosperity', icon: <Coins className="w-3.5 h-3.5" />, count: activeDataset.filter((w) => w.category === 'wealth-prosperity').length },
+      { id: 'short', labelEn: 'Short & Sweet', labelHi: 'संक्षिप्त व मधुर', labelHinglish: 'Short & Sweet', icon: <MessageCircle className="w-3.5 h-3.5" />, count: activeDataset.filter((w) => w.category === 'short').length },
+      { id: 'traditional', labelEn: 'Traditional', labelHi: 'पारंपरिक वंदना', labelHinglish: 'Traditional Blessings', icon: <Flame className="w-3.5 h-3.5" />, count: activeDataset.filter((w) => w.category === 'traditional').length },
+      { id: 'love', labelEn: 'Love & Romance', labelHi: 'प्रेम व आत्मीयता', labelHinglish: 'Love & Romance', icon: <Heart className="w-3.5 h-3.5" />, count: activeDataset.filter((w) => w.category === 'love').length },
+      { id: 'emotional', labelEn: 'Heartfelt', labelHi: 'भावुक व आत्मीय', labelHinglish: 'Heartfelt & Emotional', icon: <Feather className="w-3.5 h-3.5" />, count: activeDataset.filter((w) => w.category === 'emotional').length },
+      { id: 'professional', labelEn: 'Executive', labelHi: 'कॉरपोरेट', labelHinglish: 'Executive & Corporate', icon: <Briefcase className="w-3.5 h-3.5" />, count: activeDataset.filter((w) => w.category === 'professional').length },
+      { id: 'funny', labelEn: 'Funny & Fun', labelHi: 'हास्य व मस्ती', labelHinglish: 'Fun & Masti', icon: <Smile className="w-3.5 h-3.5" />, count: activeDataset.filter((w) => w.category === 'funny').length },
+      { id: 'captions', labelEn: 'Social Captions', labelHi: 'सोशल कैप्शन', labelHinglish: 'Social Captions', icon: <Hash className="w-3.5 h-3.5" />, count: activeDataset.filter((w) => w.category === 'captions').length },
+      { id: 'business', labelEn: 'Business & Clients', labelHi: 'व्यापार व ग्राहक', labelHinglish: 'Business & Clients', icon: <Building2 className="w-3.5 h-3.5" />, count: activeDataset.filter((w) => w.category === 'business').length },
+    ].filter(cat => cat.id === 'all' || cat.count > 0);
+  }, [activeDataset, selectedFestival]);
 
   const tonesList = [
     { id: 'all', labelEn: 'All Tones', labelHi: 'सभी भाव' },
@@ -127,9 +183,9 @@ export const WishesShowcase: React.FC = () => {
   ];
 
   const festivalsList = [
-    { id: 'all', labelEn: 'All Festivals', labelHi: 'सभी उत्सव' },
-    { id: 'diwali', labelEn: 'Diwali', labelHi: 'दीपावली' },
-    { id: 'dhanteras', labelEn: 'Dhanteras', labelHi: 'धनतेरस' },
+    { id: 'all', labelEn: '🌟 Upcoming Priority (Auto)', labelHi: '🌟 आगामी पर्व (प्राथमिकता)' },
+    { id: 'dhanteras', labelEn: '🪙 Dhanteras (100 Wishes)', labelHi: '🪙 धनतेरस (१०० संदेश)' },
+    { id: 'diwali', labelEn: '🪔 Diwali (500 Wishes)', labelHi: '🪔 दीपावली (५०० संदेश)' },
     { id: 'bhai-dooj', labelEn: 'Bhai Dooj', labelHi: 'भाई दूज' },
     { id: 'govardhan-puja', labelEn: 'Govardhan Puja', labelHi: 'गोवर्धन पूजा' },
     { id: 'chath-puja', labelEn: 'Chhath Puja', labelHi: 'छठ पूजा' },
@@ -138,7 +194,7 @@ export const WishesShowcase: React.FC = () => {
 
   // Filtering & Sorting Pipeline
   const filteredWishes = useMemo(() => {
-    let list = WISHES_DATA.filter((w) => {
+    let list = activeDataset.filter((w) => {
       // Category filter
       if (activeCategory !== 'all' && w.category !== activeCategory) return false;
 
@@ -154,7 +210,7 @@ export const WishesShowcase: React.FC = () => {
       // Festival filter
       if (selectedFestival !== 'all') {
         const festIds = w.festivalIds || [w.festivalId];
-        if (!festIds.includes(selectedFestival) && !festIds.includes('general-festive')) return false;
+        if (!festIds.includes(selectedFestival)) return false;
       }
 
       // Keyword search (EN & HI)
@@ -537,6 +593,61 @@ export const WishesShowcase: React.FC = () => {
               </motion.div>
             )}
 
+            {/* Quick Festival Selection Bar */}
+            <div data-testid="wishes-festival-quick-bar" className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-brand-royal shrink-0 mr-1">
+                {isHindi ? 'पर्व चयन:' : 'Select Festival:'}
+              </span>
+              <button
+                type="button"
+                data-testid="wishes-fest-btn-all"
+                onClick={() => {
+                  setSelectedFestival('all');
+                  setActiveCategory('all');
+                  setVisibleCount(18);
+                }}
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border min-h-[38px] cursor-pointer ${
+                  selectedFestival === 'all'
+                    ? 'bg-[#24113D] text-[#F2D98B] border-[#24113D] shadow-sm font-bold'
+                    : 'bg-white text-brand-dark/80 border-brand-gold/30 hover:border-brand-gold'
+                }`}
+              >
+                {isHindi ? '🌟 आगामी पर्व (प्राथमिकता)' : '🌟 Upcoming Priority (Auto)'}
+              </button>
+              <button
+                type="button"
+                data-testid="wishes-fest-btn-dhanteras"
+                onClick={() => {
+                  setSelectedFestival('dhanteras');
+                  setActiveCategory('all');
+                  setVisibleCount(18);
+                }}
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border min-h-[38px] cursor-pointer ${
+                  selectedFestival === 'dhanteras'
+                    ? 'bg-[#24113D] text-[#F2D98B] border-[#24113D] shadow-sm font-bold'
+                    : 'bg-white text-brand-dark/80 border-brand-gold/30 hover:border-brand-gold'
+                }`}
+              >
+                {isHindi ? '🪙 धनतेरस (१००)' : '🪙 Dhanteras (100)'}
+              </button>
+              <button
+                type="button"
+                data-testid="wishes-fest-btn-diwali"
+                onClick={() => {
+                  setSelectedFestival('diwali');
+                  setActiveCategory('all');
+                  setVisibleCount(18);
+                }}
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border min-h-[38px] cursor-pointer ${
+                  selectedFestival === 'diwali'
+                    ? 'bg-[#24113D] text-[#F2D98B] border-[#24113D] shadow-sm font-bold'
+                    : 'bg-white text-brand-dark/80 border-brand-gold/30 hover:border-brand-gold'
+                }`}
+              >
+                {isHindi ? '🪔 दीपावली (५००)' : '🪔 Diwali (500)'}
+              </button>
+            </div>
+
             {/* Category Navigation Pills */}
             <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2">
               {categories.map((cat) => {
@@ -623,6 +734,7 @@ export const WishesShowcase: React.FC = () => {
                   return (
                     <motion.div
                       key={wish.id}
+                      data-testid="wish-card"
                       whileHover={shouldReduceMotion ? undefined : { y: -4 }}
                       transition={{ duration: 0.2 }}
                       className={cardClasses}

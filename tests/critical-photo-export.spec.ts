@@ -2,13 +2,15 @@ import { test, expect } from '@playwright/test';
 import fs from 'fs';
 import path from 'path';
 
-const ARTIFACT_DIR = 'C:/Users/abhis/.gemini/antigravity/brain/63fca421-aaed-4c0a-b95f-26ad7a8666c1';
+const ARTIFACT_DIR = process.env.ARTIFACT_DIR || path.join(process.cwd(), 'artifacts', 'qa', 'critical-photo-export');
+if (!fs.existsSync(ARTIFACT_DIR)) fs.mkdirSync(ARTIFACT_DIR, { recursive: true });
 
 test.describe('Critical Photo Framing & Native PNG Export Regression', () => {
   test.beforeEach(async ({ page }) => {
     await page.addInitScript(() => {
       localStorage.setItem('festivewala_language', 'en');
       localStorage.setItem('festivewala_lang', 'en');
+      localStorage.setItem('festivewala_language_selected', 'true');
     });
   });
 

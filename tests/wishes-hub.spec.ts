@@ -5,6 +5,7 @@ test.describe('Wishes and Smart Wishes Generator Suite', () => {
     await page.addInitScript(() => {
       localStorage.setItem('festivewala_language', 'en');
       localStorage.setItem('festivewala_lang', 'en');
+      localStorage.setItem('festivewala_language_selected', 'true');
     });
   });
 
@@ -18,7 +19,7 @@ test.describe('Wishes and Smart Wishes Generator Suite', () => {
     expect(count).toBeGreaterThan(0);
 
     // Verify wishes cards are rendered
-    const wishCards = page.locator('article, div[class*="rounded"]', { hasText: /Deepavali|Diwali|दीप|शुभ/i });
+    const wishCards = page.locator('article, div[class*="rounded"]', { hasText: /Deepavali|Diwali|दीप|शुभ|Dhanteras|धनतेरस|Dhanvantari|Lakshmi/i });
     const cardCount = await wishCards.count();
     expect(cardCount).toBeGreaterThan(0);
   });

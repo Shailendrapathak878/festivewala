@@ -1,6 +1,6 @@
 import React from 'react';
 import { FESTIVALS_LIST } from '../data/templates';
-import { Sparkles, Calendar } from 'lucide-react';
+import { Sparkles, Calendar, Layers } from 'lucide-react';
 
 interface FestivalSelectorProps {
   selectedFestivalId: string;
@@ -13,9 +13,20 @@ export const FestivalSelector: React.FC<FestivalSelectorProps> = ({
   onSelectFestival,
   isHindi,
 }) => {
+  const allFestivalsWithAuto = [
+    {
+      id: 'auto',
+      name: 'Upcoming First (Auto)',
+      nameHi: '🌟 आगामी पर्व (प्राथमिकता)',
+      status: 'available',
+      templateCount: 149,
+    },
+    ...FESTIVALS_LIST,
+  ];
+
   return (
     <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-2 max-w-full">
-      {FESTIVALS_LIST.map((fest) => {
+      {allFestivalsWithAuto.map((fest) => {
         const isSelected = selectedFestivalId === fest.id;
         const isAvailable = fest.status === 'available';
 
@@ -25,7 +36,7 @@ export const FestivalSelector: React.FC<FestivalSelectorProps> = ({
             type="button"
             disabled={!isAvailable}
             onClick={() => isAvailable && onSelectFestival(fest.id)}
-            className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-200 border min-h-[44px] ${
+            className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-200 border min-h-[44px] cursor-pointer ${
               isSelected
                 ? 'bg-[#F2D98B] text-[#24113D] border-[#F2D98B] shadow-md shadow-[#F2D98B]/20 font-bold'
                 : isAvailable
@@ -33,7 +44,9 @@ export const FestivalSelector: React.FC<FestivalSelectorProps> = ({
                 : 'bg-[#160B26]/60 text-[#FAF7F0]/40 border-white/5 cursor-not-allowed opacity-60'
             }`}
           >
-            {isAvailable ? (
+            {fest.id === 'auto' ? (
+              <Layers className="w-3.5 h-3.5 text-[#24113D] drop-shadow-sm" />
+            ) : isAvailable ? (
               <Sparkles className="w-3.5 h-3.5 text-[#F2D98B]" />
             ) : (
               <Calendar className="w-3.5 h-3.5 text-white/30" />
@@ -45,7 +58,11 @@ export const FestivalSelector: React.FC<FestivalSelectorProps> = ({
               </span>
             )}
             {isAvailable && (
-              <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-[#24113D] text-[#F2D98B] font-bold">
+              <span
+                className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
+                  isSelected ? 'bg-[#24113D] text-[#F2D98B]' : 'bg-[#160826] text-[#F2D98B]'
+                }`}
+              >
                 {fest.templateCount}
               </span>
             )}
@@ -55,4 +72,5 @@ export const FestivalSelector: React.FC<FestivalSelectorProps> = ({
     </div>
   );
 };
+
 

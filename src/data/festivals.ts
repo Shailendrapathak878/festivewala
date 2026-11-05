@@ -2,6 +2,23 @@ import type { FestivalItem } from './types';
 
 export const FESTIVALS_DATA: FestivalItem[] = [
   {
+    id: 'dhanteras',
+    nameEn: 'Dhanteras',
+    nameHi: 'धनतेरस',
+    tithiEn: 'Kartik Krishna Trayodashi (6 November 2026)',
+    tithiHi: 'कार्तिक कृष्ण त्रयोदशी (६ नवम्बर २०२६)',
+    dateIso: '2026-11-06T00:00:00+05:30',
+    descEn: 'The auspicious opening of Deepavali: celebrating radiant health, cosmic prosperity, and sacred new beginnings.',
+    descHi: 'आरोग्य, समृद्धि और नव शुभारंभ का महापर्व — भगवान धन्वंतरि, मां लक्ष्मी और कुबेर देव का पावन उत्सव।',
+    accentColor: '#D4AF37',
+    bgGradient: 'from-[#1E0B36] via-[#2A1045] to-[#120524]',
+    featured: true,
+    significanceEn: 'Bhagwan Dhanvantari Jayanti, Lakshmi-Kuber Puja, Yamadeepdaan & Auspicious Metal Buying',
+    significanceHi: 'भगवान धन्वंतरि जयंती, लक्ष्मी-कुबेर पूजन, यम दीपदान व धातु क्रय',
+    tagEn: 'Health & Wealth',
+    tagHi: 'आरोग्य व समृद्धि',
+  },
+  {
     id: 'diwali',
     nameEn: 'Diwali',
     nameHi: 'दीपावली',

@@ -1,5 +1,8 @@
+import { DHANTERAS_GIFT_IDEAS } from './dhanterasGifts';
 export interface GiftIdea {
   id: string;
+  festivalId?: string;
+  nameHinglish?: string;
   nameEn: string;
   nameHi: string;
   category:
@@ -276,3 +279,9 @@ export const GIFTS_DATA: GiftIdea[] = [
   },
 ];
 
+
+export { DHANTERAS_GIFT_IDEAS };
+export const ALL_GIFTS_DATA: GiftIdea[] = [
+  ...GIFTS_DATA.map(g => ({ ...g, festivalId: g.festivalId || 'diwali' })),
+  ...DHANTERAS_GIFT_IDEAS,
+];

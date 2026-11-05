@@ -16,7 +16,7 @@ const ACCENT_COLORS = [
   { hex: '#EC4899', name: 'Festive Magenta' },
 ];
 
-export const DesignControls: React.FC<DesignControlsProps> = ({
+const DesignControlsComponent: React.FC<DesignControlsProps> = ({
   customization,
   onChange,
   isHindi,
@@ -167,3 +167,4 @@ export const DesignControls: React.FC<DesignControlsProps> = ({
   );
 };
 
+export const DesignControls = React.memo(DesignControlsComponent);

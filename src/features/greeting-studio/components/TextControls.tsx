@@ -20,7 +20,7 @@ const COLOR_SWATCHES = [
   { hex: '#24113D', name: 'Deep Purple' },
 ];
 
-export const TextControls: React.FC<TextControlsProps> = ({
+const TextControlsComponent: React.FC<TextControlsProps> = ({
   customization,
   onChange,
   isHindi,
@@ -452,3 +452,5 @@ export const TextControls: React.FC<TextControlsProps> = ({
     </div>
   );
 };
+
+export const TextControls = React.memo(TextControlsComponent);

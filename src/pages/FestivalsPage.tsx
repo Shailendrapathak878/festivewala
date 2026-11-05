@@ -29,13 +29,13 @@ export const FestivalsPage: React.FC = () => {
   const seoConfig = isHindi ? STATIC_ROUTE_SEO.festivals.hi : STATIC_ROUTE_SEO.festivals.en;
 
   // Spotlight core festivals that have dedicated full experience pages
-  const spotlightIds = ['diwali', 'holi', 'raksha-bandhan', 'christmas', 'new-year'];
+  const spotlightIds = ['dhanteras', 'diwali', 'holi', 'raksha-bandhan', 'christmas', 'new-year'];
 
   const filteredFestivals = useMemo(() => {
     return FESTIVALS_DATA.filter((f) => {
       // Season filter
       if (seasonFilter === 'autumn-winter') {
-        const awIds = ['diwali', 'chhath-puja', 'christmas', 'new-year', 'makar-sankranti'];
+        const awIds = ['dhanteras', 'diwali', 'chhath-puja', 'christmas', 'new-year', 'makar-sankranti'];
         if (!awIds.includes(f.id)) return false;
       } else if (seasonFilter === 'spring-summer') {
         const ssIds = ['holi', 'raksha-bandhan', 'maha-shivratri', 'navratri'];

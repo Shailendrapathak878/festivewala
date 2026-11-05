@@ -19,6 +19,7 @@ test.describe('Exact Viewport Verification Suite', () => {
     await page.addInitScript(() => {
       localStorage.setItem('festivewala_language', 'en');
       localStorage.setItem('festivewala_lang', 'en');
+      localStorage.setItem('festivewala_language_selected', 'true');
     });
   });
 

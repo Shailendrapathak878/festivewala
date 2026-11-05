@@ -23,11 +23,20 @@ const SITEMAP_ENTRIES = [
   { loc: `${BASE_URL}/greeting-cards`, priority: '0.9', changefreq: 'weekly' },
   
   // Dedicated Festival Hubs
+  { loc: `${BASE_URL}/festivals/dhanteras`, priority: '0.9', changefreq: 'weekly' },
   { loc: `${BASE_URL}/festivals/diwali`, priority: '0.9', changefreq: 'weekly' },
   { loc: `${BASE_URL}/festivals/holi`, priority: '0.9', changefreq: 'weekly' },
   { loc: `${BASE_URL}/festivals/raksha-bandhan`, priority: '0.9', changefreq: 'weekly' },
   { loc: `${BASE_URL}/festivals/christmas`, priority: '0.9', changefreq: 'weekly' },
   { loc: `${BASE_URL}/festivals/new-year`, priority: '0.9', changefreq: 'weekly' },
+
+  // Festival-Specific Hubs
+  { loc: `${BASE_URL}/greetings/dhanteras`, priority: '0.9', changefreq: 'weekly' },
+  { loc: `${BASE_URL}/greetings/diwali`, priority: '0.9', changefreq: 'weekly' },
+  { loc: `${BASE_URL}/wishes/dhanteras`, priority: '0.9', changefreq: 'weekly' },
+  { loc: `${BASE_URL}/wishes/diwali`, priority: '0.9', changefreq: 'weekly' },
+  { loc: `${BASE_URL}/photo-greetings/dhanteras`, priority: '0.9', changefreq: 'weekly' },
+  { loc: `${BASE_URL}/photo-greetings/diwali`, priority: '0.9', changefreq: 'weekly' },
 
   // Inspiration & Creative Galleries
   { loc: `${BASE_URL}/rangoli`, priority: '0.8', changefreq: 'weekly' },

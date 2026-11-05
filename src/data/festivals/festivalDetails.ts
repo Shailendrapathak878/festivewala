@@ -1,6 +1,8 @@
 import type { FestivalDetail } from './types';
+import { DHANTERAS_DETAIL } from './dhanterasDetails';
 
 export const FESTIVAL_DETAILS: Record<string, FestivalDetail> = {
+  dhanteras: DHANTERAS_DETAIL,
   diwali: {
     id: 'diwali',
     nameEn: 'Diwali — Festival of Lights',
@@ -125,7 +127,7 @@ export const FESTIVAL_DETAILS: Record<string, FestivalDetail> = {
         tagHi: 'बालकनी व मुंडेर',
       },
     ],
-    recipes: [
+        recipes: [
       {
         id: 'kaju-katli',
         nameEn: 'Royal Silver Kaju Katli',
@@ -152,27 +154,123 @@ export const FESTIVAL_DETAILS: Record<string, FestivalDetail> = {
         ],
       },
       {
-        id: 'shahi-kheer',
-        nameEn: 'Kesari Dry-Fruit Kheer',
-        nameHi: 'केसरिया मेवा खीर',
-        typeEn: 'Sacred Lakshmi Bhog',
-        typeHi: 'महालक्ष्मी पावन नैवेद्य',
-        timeEn: '45 Mins Simmer',
-        timeHi: '४५ मिनट धीमी आंच पर',
+        id: 'besan-laddoo',
+        nameEn: 'Desi Ghee Danedar Besan Laddoo',
+        nameHi: 'देसी घी के दानेदार बेसन लड्डू',
+        typeEn: 'Auspicious Festive Sweet',
+        typeHi: 'मांगलिक पारंपरिक मिष्ठान',
+        timeEn: '40 Mins Slow Roast',
+        timeHi: '४० मिनट धीमी आंच पर भुनाई',
         descEn:
-          'Slow-simmered full cream milk with fragrant Govindobhog or Basmati rice, infused with Kashmiri saffron and toasted slivered almonds.',
+          'Aromatic, golden-roasted coarse gram flour folded with pure desi cow ghee, fragrant green cardamom, and powdered boora sugar.',
         descHi:
-          'पूर्ण मलाईदार दूध में धीमी आंच पर पकाई गई चावल की खीर, जिसमें कश्मीरी केसर, इलायची और भुने हुए काजू-बादाम का संगम है।',
+          'धीमी आंच पर सुगंधित होने तक भुना हुआ दानेदार बेसन, शुद्ध देसी गाय का घी, इलायची और बूरा चीनी से बने पारंपरिक लड्डू जो भगवान गणेश को अत्यंत प्रिय हैं।',
         ingredients: [
-          { en: '1 Liter Full Cream Fresh Milk', hi: '१ लीटर मलाईदार ताजा दूध' },
-          { en: '1/4 cup Basmati Rice (washed & soaked 20 mins)', hi: 'एक चौथाई कप बासमती चावल' },
-          { en: '10-12 strands Kashmiri Kesar', hi: '१०-१२ रेशे कश्मीरी केसर' },
-          { en: '1/3 cup Sugar & crushed Pistachios/Almonds', hi: 'स्वादानुसार चीनी, कटे बादाम और पिस्ता' },
+          { en: '2 cups Coarse Besan (Gram Flour)', hi: '२ कप मोटा दानेदार बेसन' },
+          { en: '1 cup Pure Desi Ghee', hi: '१ कप शुद्ध देसी घी' },
+          { en: '1.5 cups Boora / Tagar (Confectioner Sugar)', hi: 'डेढ़ कप बूरा या तगार चीनी' },
+          { en: '1/2 tsp Cardamom powder & slivered almonds', hi: 'आधा छोटा चम्मच इलायची पाउडर व बादाम कतरन' },
         ],
         steps: [
-          { en: 'Bring milk to a rolling boil and simmer on low heat until gently reduced.', hi: 'दूध को उबालें और धीमी आंच पर गाढ़ा होने तक पकाएं।' },
-          { en: 'Add soaked rice and crushed cardamom; cook until grains are pillow-soft.', hi: 'भीगे चावल डालें और धीमी आंच पर चावल के गलने तक पकाएं।' },
-          { en: 'Stir in saffron infused warm milk and sugar; garnish with toasted nuts.', hi: 'केसर युक्त गुनगुना दूध और चीनी मिलाएं और ऊपर से कटे मेवे सजाएं।' },
+          { en: 'Melt ghee in a heavy-bottomed kadai and roast besan over low flame until golden brown and nutty.', hi: 'कड़ाही में घी पिघलाएं और बेसन को धीमी आंच पर लगातार चलाते हुए सुनहरा व सुगंधित होने तक भूनें।' },
+          { en: 'Sprinkle 1 tsp water to create signature granules (danedaar texture) and cool completely.', hi: 'एक चम्मच पानी के छींटे मारकर दाना उठाएं और मिश्रण को पूरी तरह ठंडा होने दें।' },
+          { en: 'Mix in boora sugar, cardamom powder, and nuts; bind firmly into round laddoos.', hi: 'ठंडे मिश्रण में बूरा, इलायची और मेवे मिलाकर गोल-गोल लड्डू बना लें।' },
+        ],
+      },
+      {
+        id: 'gujiya',
+        nameEn: 'Crispy Mawa & Dry Fruit Gujiya',
+        nameHi: 'मावा व मेवे भरी खस्ता गुजिया',
+        typeEn: 'Traditional Stuffed Pastry',
+        typeHi: 'पारंपरिक खस्ता भरवां मिष्ठान',
+        timeEn: '45 Mins Prep • 20 Mins Fry',
+        timeHi: '४५ मिनट भरावन • २० मिनट तलना',
+        descEn:
+          'Crispy, golden pastry parcels filled with rich roasted mawa (khoya), desiccated coconut, chironji, and crushed dry fruits.',
+        descHi:
+          'मैदे की खस्ता सुनहरी परत के भीतर भुना हुआ मावा (खोया), सूखा नारियल, चिरौंजी, इलायची और काजू-बादाम का लाजवाब भरावन।',
+        ingredients: [
+          { en: '2 cups All-Purpose Flour (Maida) + 3 tbsp Ghee moyan', hi: '२ कप मैदा + ३ बड़े चम्मच देसी घी का मोयन' },
+          { en: '1 cup Fresh Mawa (Khoya), lightly roasted', hi: '१ कप ताजा मावा, धीमी आंच पर भुना हुआ' },
+          { en: '1/2 cup Powdered Sugar + 2 tbsp Chironji & nuts', hi: 'आधा कप पिसी चीनी, २ चम्मच चिरौंजी व मेवे' },
+          { en: '1/2 cup Dry Grated Coconut & green cardamom', hi: 'आधा कप कद्दूकस सूखा नारियल व कुटी इलायची' },
+        ],
+        steps: [
+          { en: 'Knead a semi-stiff dough with flour, ghee, and lukewarm water; rest 20 minutes.', hi: 'मैदा में घी का मोयन देकर गुनगुने पानी से मध्यम कड़ा आटा गूंथें और २० मिनट ढककर रखें।' },
+          { en: 'Cool roasted mawa and mix with sugar, coconut, chironji, and cardamom.', hi: 'भुने हुए मावे के ठंडा होने पर उसमें चीनी, नारियल, सूखे मेवे और इलायची मिलाएं।' },
+          { en: 'Roll small discs, fill with mawa mixture, seal edges neatly, and deep fry on low heat to golden perfection.', hi: 'छोटी पूरियां बेलकर भरावन भरें, किनारों को दबाकर सील करें और धीमी आंच पर सुनहरा होने तक तलें।' },
+        ],
+      },
+      {
+        id: 'crispy-jalebi',
+        nameEn: 'Saffron Kesar Jalebi with Pistachio',
+        nameHi: 'शाही केसरिया कुरकुरी जलेबी',
+        typeEn: 'Festive Crispy Sweet',
+        typeHi: 'रसीला पारंपरिक मिष्ठान',
+        timeEn: '30 Mins Cook',
+        timeHi: '३० मिनट तैयारी व पाक विधि',
+        descEn:
+          'Crisp, spiral golden coils deep-fried in desi ghee and steeped in fragrant saffron and cardamom cane syrup.',
+        descHi:
+          'शुद्ध घी में कुरकुरी तली हुई सुनहरी जलेबियां, जिन्हें कश्मीरी केसर, गुलाब जल और हरी इलायची की चाशनी में डुबोकर परोसा जाता है।',
+        ingredients: [
+          { en: '1 cup All-purpose flour + 1 tbsp cornflour', hi: '१ कप मैदा + १ बड़ा चम्मच कॉर्नफ्लोर' },
+          { en: '1.5 cups Sugar + 1 cup Water for syrup', hi: 'डेढ़ कप चीनी + १ कप पानी चाशनी हेतु' },
+          { en: 'Pinch of Kashmiri Saffron & Cardamom powder', hi: 'एक चुटकी कश्मीरी केसर व कुटी इलायची' },
+          { en: 'Pure Cow Ghee or oil for frying', hi: 'तलने के लिए शुद्ध देसी घी अथवा तेल' },
+        ],
+        steps: [
+          { en: 'Prepare a smooth, flowing batter and prepare a one-string saffron infused sugar syrup.', hi: 'मैदे का चिकना घोल बनाएं और केसर युक्त एक तार की गुनगुनी चाशनी तैयार करें।' },
+          { en: 'Pipe spirals into medium-hot ghee, frying until crisp and light golden on both sides.', hi: 'कपड़े या बोतल की सहायता से घी में गोल-गोल घुमावदार जलेबियां बनाएं और कुरकुरी होने तक तलें।' },
+          { en: 'Immediately immerse hot jalebis into warm saffron syrup for 1-2 minutes; serve fresh.', hi: 'गरमा-गरम जलेबियों को चाशनी में १-२ मिनट डुबोकर निकालें और पिस्ता से सजाकर परोसें।' },
+        ],
+      },
+      {
+        id: 'crunchy-chakli',
+        nameEn: 'Crispy Spiced Spiral Chakli / Murukku',
+        nameHi: 'कुरकुरी नमकीन चकली व मुरुक्कू',
+        typeEn: 'Savory Festive Crunch',
+        typeHi: 'पारंपरिक नमकीन व फराल',
+        timeEn: '35 Mins Cook',
+        timeHi: '३५ मिनट विधि',
+        descEn:
+          'The quintessential Diwali savory snack — seasoned rice and roasted gram flour spirals infused with sesame, carom, and cumin seeds.',
+        descHi:
+          'दीपावली के फराल का प्रमुख नमकीन — चावल और भुने चने के आटे से बनी कुरकुरी चकली जिसमें तिल, अजवाइन और हींग की भीनी खुशबू होती है।',
+        ingredients: [
+          { en: '2 cups Rice Flour + 1/2 cup Roasted Besan', hi: '२ कप चावल का आटा + आधा कप भुना बेसन' },
+          { en: '1 tbsp White Sesame Seeds + 1 tsp Ajwain', hi: '१ बड़ा चम्मच सफेद तिल + १ छोटा चम्मच अजवाइन' },
+          { en: '1 tsp Kashmiri Red Chilli & pinch of Hing', hi: '१ छोटा चम्मच लाल मिर्च व चुटकी भर हींग' },
+          { en: '2 tbsp Hot Ghee for crispiness (Moyan)', hi: '२ बड़े चम्मच गर्म घी (मोयन हेतु)' },
+        ],
+        steps: [
+          { en: 'Mix flours, spices, sesame, and hot melted ghee; knead a soft pliable dough with warm water.', hi: 'आटे में मसाले, तिल और गर्म घी मिलाकर गुनगुने पानी से नरम आटा गूंथें।' },
+          { en: 'Press through a star-nozzle chakli maker into neat spiral coils onto parchment.', hi: 'चकली मेकर में आटा भरकर बटर पेपर पर सुंदर गोल-गोल चकली बनाएं।' },
+          { en: 'Deep fry over medium-low heat until completely crisp and bubbles subside.', hi: 'मध्यम आंच पर कुरकुरी होने तक तलें और ठंडा होने पर एयरटाइट डिब्बे में रखें।' },
+        ],
+      },
+      {
+        id: 'namak-pare',
+        nameEn: 'Flaky Ajwain Namak Pare & Mathri',
+        nameHi: 'खस्ता अजवाइन नमक पारे व मठरी',
+        typeEn: 'Crispy Savory Nibbles',
+        typeHi: 'पारंपरिक चाय व उत्सव नाश्ता',
+        timeEn: '25 Mins Prep • 20 Mins Fry',
+        timeHi: '२५ मिनट तैयारी • २० मिनट तलना',
+        descEn:
+          'Diamond-cut crispy savory ribbons gently seasoned with crushed carom seeds (ajwain), black pepper, and pink rock salt.',
+        descHi:
+          'अजवाइन, काली मिर्च और सेंधा नमक से सुवासित डायमंड आकार के खस्ता नमक पारे, जो मीठी मिठाइयों के बीच स्वाद का उत्तम संतुलन बनाते हैं।',
+        ingredients: [
+          { en: '2 cups Maida (or Whole Wheat flour)', hi: '२ कप मैदा (या शुद्ध गेहूं का आटा)' },
+          { en: '1 tsp Crushed Carom Seeds (Ajwain)', hi: '१ छोटा चम्मच कुटी हुई अजवाइन' },
+          { en: '1 tsp Rock Salt + 1/4 cup Desi Ghee', hi: '१ छोटा चम्मच सेंधा नमक + १/४ कप देसी घी' },
+          { en: 'Lukewarm water to knead stiff dough', hi: 'कड़ा आटा गूंथने के लिए गुनगुना पानी' },
+        ],
+        steps: [
+          { en: 'Rub ghee into the flour until it resembles breadcrumbs; knead a stiff dough.', hi: 'आटे में घी और अजवाइन मिलाकर अच्छी तरह मोयन दें और कड़ा आटा गूंथें।' },
+          { en: 'Roll out medium-thin sheets and cut diagonally into diamond ribbons.', hi: 'रोटी की तरह बेलकर चाकू से तिरछे डायमंड आकार में काट लें।' },
+          { en: 'Fry on gentle low flame until pale golden and utterly crunchy.', hi: 'धीमी आंच पर हल्का बादामी और बेहद खस्ता होने तक तलें।' },
         ],
       },
     ],
@@ -208,56 +306,136 @@ export const FESTIVAL_DETAILS: Record<string, FestivalDetail> = {
         budgetRange: '₹1,000–₹2,500',
       },
     ],
-    faqs: [
+        faqs: [
       {
         id: 'diwali-faq-01',
-        questionEn: 'When is Diwali 2026 and what is the best time for Lakshmi Puja?',
-        questionHi: 'दिवाली २०२६ कब है और लक्ष्मी पूजन का सबसे शुभ मुहूर्त क्या है?',
-        questionHinglish: 'Diwali 2026 kab hai aur Lakshmi Puja ka shubh muhurat kya hai?',
-        answerEn: 'Diwali 2026 falls on Kartik Amavasya (Sunday, November 8, 2026). The most auspicious Pradosh Kaal for Lakshmi Puja is typically between 5:45 PM and 8:15 PM, ideal for inviting prosperity and positive energy into homes and workplaces.',
-        answerHi: 'दीपावली २०२६ कार्तिक अमावस्या (रविवार, ८ नवंबर २०२६) को मनाई जाएगी। लक्ष्मी पूजन के लिए सबसे शुभ प्रदोष काल शाम ५:४५ से रात ८:१५ बजे तक रहेगा। इस दौरान स्थिर लग्न में दीपदान और श्रीसूक्त पाठ करना विशेष फलदायी माना जाता है।',
-        answerHinglish: 'Diwali 2026 Kartik Amavasya (Sunday, 8 November 2026) ko manayi jayegi. Lakshmi Puja ke liye sabse shubh Pradosh Kaal shaam 5:45 se 8:15 PM ke beech rahega. Is samay sthir lagn me puja karne se ghar me shanti aur samriddhi aati hai.',
-        category: 'timing',
+        questionEn: 'What is Diwali (Deepavali) and what is its literal meaning?',
+        questionHi: 'दीपावली (दिवाली) क्या है और इसका शाब्दिक अर्थ क्या होता है?',
+        questionHinglish: 'Diwali (Deepavali) kya hai aur iska shabdeek arth kya hai?',
+        answerEn:
+          'Deepavali originates from the ancient Sanskrit words "Dipa" (दीप, meaning lamp or light) and "Avali" (आवलि, meaning row, series, or continuous line). Literally translating to "a continuous row of illuminated lamps", Diwali is India’s sovereign celebration of light. It commemorates the eternal spiritual victory of light over darkness, knowledge over ignorance, and righteous goodwill over malice across five sacred days in the autumn month of Kartik.',
+        answerHi:
+          'दीपावली शब्द संस्कृत के दो शब्दों "दीप" (दीया अथवा प्रकाश) और "आवलि" (पंक्ति अथवा कतार) के मेल से बना है, जिसका शाब्दिक अर्थ है "दीपकों की पंक्ति"। यह भारत का सबसे बड़ा और पावन प्रकाश पर्व है। यह अंधकार पर प्रकाश, अज्ञान पर ज्ञान और असत्य पर सत्य की शाश्वत विजय का प्रतीक है। कार्तिक माह में यह उत्सव पांच दिनों तक उल्लास और श्रद्धा के साथ मनाया जाता है।',
+        answerHinglish:
+          'Deepavali do Sanskrit shabdon se bana hai — "Dipa" (yani diya ya roshni) aur "Avali" (yani line ya katar), jiska matlab hai "deeyon ki pankti". Yeh Bharat ka sabse bada tyohar hai jo andhere par ujale, agyan par gyan aur burai par achhai ki jeet ka prateek hai.',
+        category: 'general',
       },
       {
         id: 'diwali-faq-02',
-        questionEn: 'How should I clean and decorate my home for Diwali on a budget?',
-        questionHi: 'दिवाली पर कम बजट में घर की सफाई और आकर्षक सजावट कैसे करें?',
-        questionHinglish: 'Diwali par kam budget me ghar ki safai aur sundar decoration kaise karein?',
-        answerEn: 'Start by decluttering one room at a time using natural cleaners like vinegar and lemon. For budget decoration, use reusable clay diyas, fresh yellow and orange marigold flowers, handcrafted paper torans, and warm fairy lights arranged in glass jars.',
-        answerHi: 'सफाई के लिए कमरे-दर-कमरे योजना बनाएं और पुराने अनुपयोगी सामान को हटाकर दान करें। किफायती सजावट के लिए मिट्टी के दीये, ताजे गेंदे के फूल, आम के पत्तों का तोरण, और घर में उपलब्ध कांच के बर्तनों में फ्लोटिंग कैंडल्स का प्रयोग करें।',
-        answerHinglish: 'Safai ke liye har kamre ko ek-ek karke organize karein aur purani cheezein donate karein. Kam kharche me ghar sajane ke liye earthen diyas, taaze gende ke phool, handmade paper torans aur warm fairy lights ka use karein jo ghar ko sundar festive look dete hain.',
-        category: 'decoration',
+        questionEn: 'Why is Diwali celebrated? What are its primary origins?',
+        questionHi: 'दिवाली क्यों मनाई जाती है? इसके प्रमुख पौराणिक और सांस्कृतिक कारण क्या हैं?',
+        questionHinglish: 'Diwali kyon manayi jaati hai aur iske peeche kaunsi kathaen hain?',
+        answerEn:
+          'Diwali embraces diverse sacred origins across Indian traditions: 1) For Hindus, it marks Bhagwan Shri Rama’s triumphant return to Ayodhya with Devi Sita and Lakshmana after 14 years of forest exile and the vanquishing of Ravana, as well as the auspicious incarnation of Devi Lakshmi from the cosmic ocean (Samudra Manthan); 2) In Krishna traditions, it honors the defeat of the demon Narakasura by Lord Krishna and Satyabhama; 3) In Jainism, it marks the day Bhagwan Mahavira attained Nirvana (spiritual liberation) at Pavapuri in 527 BCE; 4) In Sikhism, it is celebrated as Bandi Chhor Divas to commemorate Guru Hargobind Sahib Ji’s release from Gwalior Fort alongside 52 innocent kings in 1619.',
+        answerHi:
+          'दीपावली विभिन्न भारतीय परंपराओं में अनेक पावन घटनाओं की स्मृति में मनाई जाती है: १) सनातन परंपरा में भगवान श्री राम के १४ वर्षों के वनवास और रावण-वध के उपरांत अयोध्या लौटने की खुशी में तथा समुद्र मंथन से माता लक्ष्मी के प्राकट्य पर; २) द्वापर युग में भगवान श्रीकृष्ण व सत्यभामा द्वारा अत्याचारी नरकासुर के वध और १६,००० बंदियों की मुक्ति के उपलक्ष्य में; ३) जैन धर्म में २४वें तीर्थंकर भगवान महावीर स्वामी के कार्तिक अमावस्या पर पावापुरी में निर्वाण (मोक्ष) प्राप्ति की स्मृति में; ४) सिख धर्म में छठे गुरु श्री हरगोबिंद साहिब जी के ग्वालियर किले से ५२ निर्दोष राजाओं सहित रिहा होकर अमृतसर आगमन (बंदी छोड़ दिवस) के रूप में।',
+        answerHinglish:
+          'Diwali ke peeche kai pavitra itihasik aur dharmik kathaen hain: Shri Ram ka 14 saal baad Ayodhya aagman, Mata Lakshmi ka prakatya, Shri Krishna dwara Narakasur ka vadh, Jain dharm me Bhagwan Mahavira ka Nirvana, aur Sikh panth me Guru Hargobind Sahib Ji ka Bandi Chhor Divas.',
+        category: 'rituals',
       },
       {
         id: 'diwali-faq-03',
-        questionEn: 'What are thoughtful Diwali gift ideas for family, friends, and colleagues?',
-        questionHi: 'दिवाली पर परिवार, मित्रों और सहयोगियों के लिए सबसे अच्छे उपहार क्या हैं?',
-        questionHinglish: 'Diwali par family aur doston ko kya gift dena chahiye?',
-        answerEn: 'Thoughtful Diwali gifts include artisanal brass diyas, curated boxes of dry fruits and organic honey, air-purifying indoor plants (like Jade or Peace Lily), handcrafted terracotta candles, and personalized festive photo greeting cards.',
-        answerHi: 'दिवाली पर पीतल के नक्काशीदार दीये, प्रीमियम मेवे और जैविक शहद का कॉम्बो, वायु-शोधक पौधे (जैसे जेड या मनी प्लांट), सुगंधित मोमबत्तियां और व्यक्तिगत संदेश युक्त सुंदर ग्रीटिंग कार्ड्स सबसे आत्मीय और लोकप्रिय उपहार माने जाते हैं।',
-        answerHinglish: 'Diwali gifts me traditional brass diyas, organic dry fruits box, air-purifying plants, scented candles aur FestiveWala ke personalized photo greeting cards sabse memorable aur thoughtful options hain.',
-        category: 'gifting',
+        questionEn: 'Why is Diwali called the Festival of Lights?',
+        questionHi: 'दिवाली को "प्रकाश का महापर्व" क्यों कहा जाता है?',
+        questionHinglish: 'Diwali ko "Festival of Lights" kyon kaha jaata hai?',
+        answerEn:
+          'Diwali falls on Kartik Amavasya, the darkest new moon night of the Hindu autumn lunar calendar. By illuminating millions of golden clay lamps (diyas), lanterns, and candles, homes and communities transform pitch-black darkness into radiant splendour. Beyond physical light, the flame symbolizes the divine spark of the soul (Atman), the illuminating power of wisdom (Jnana), and the universal prayer "Tamaso ma jyotirgamaya" (Lead us from darkness into light).',
+        answerHi:
+          'दीपावली कार्तिक मास की सबसे घनी अंधेरी रात (अमावस्या) को मनाई जाती है। करोड़ों मिट्टी के दीयों और दीप-मालाओं से इस घोर तिमिर को दिव्य प्रकाश में बदल दिया जाता है। भारतीय दर्शन में प्रकाश सत्य, ज्ञान और आत्म-चेतना का प्रतीक है। उपनिषदों का शाश्वत मंत्र "तमसो मा ज्योतिर्गमय" (हमें अंधकार से प्रकाश की ओर ले चलो) इसी पर्व का मूल संदेश है।',
+        answerHinglish:
+          'Diwali Kartik Amavasya ki sabse andheri raat ko aati hai. Karodon clay diyas jala kar is andhere ko roshni me badla jaata hai. Light hamare andar ke gyan, sachhai aur Atma ki divine power ko symbolize karti hai.',
+        category: 'general',
       },
       {
         id: 'diwali-faq-04',
-        questionEn: 'Which rangoli designs and colors bring prosperity on Diwali?',
-        questionHi: 'दिवाली पर कौन से रंगोली डिजाइन और रंग घर में शुभता लाते हैं?',
-        questionHinglish: 'Diwali par kaunsi rangoli design aur colors sabse shubh maane jaate hain?',
-        answerEn: 'Lotus petals, concentric peacock mandalas, and 8-pointed geometric stars with central diyas are considered most auspicious. Auspicious traditional colors include vibrant vermilion red, turmeric yellow, white rice flour, and peacock blue.',
-        answerHi: 'कमल पुष्प, मोर पंख और दीपों से सजी गोलाकार मांडणा रंगोली को वास्तु के अनुसार सबसे मंगलकारी माना जाता है। लाल, पीला, श्वेत (चावल का आटा) और हरा रंग सुख-सौभाग्य और सकारात्मक ऊर्जा का संचार करते हैं।',
-        answerHinglish: 'Diwali par kamal ke phool, peacock feather patterns aur central diya wali circular rangoli sabse shubh maani jaati hai. Laal, peela, chawal ka aata (white) aur golden shades prosperity attract karte hain.',
-        category: 'rituals',
+        questionEn: 'How many days is Diwali celebrated and what are the five days?',
+        questionHi: 'दिवाली कितने दिनों तक मनाई जाती है और ये पांच पावन दिन कौन-से हैं?',
+        questionHinglish: 'Diwali kitne dino tak celebrate hoti hai aur 5 din kaunse hain?',
+        answerEn:
+          'Diwali is celebrated over five consecutive sacred days: 1) Dhanteras (Dhanatrayodashi) — invoking health through Bhagwan Dhanvantari and purchasing auspicious metals; 2) Naraka Chaturdashi (Choti Diwali / Roop Chaudas) — early dawn herbal bath (Abhyanga Snan) and dispelling inner negativity; 3) Lakshmi Puja (Badi Diwali) — the core celebration welcoming Goddess Lakshmi and Lord Ganesha; 4) Govardhan Puja (Annakut / Gujarati New Year Bestu Varas) — offering gratitude to nature and mountain Govardhan; 5) Bhai Dooj (Yama Dwitiya / Bhau Beej) — celebrating the sacred and unconditional bond of love between brothers and sisters.',
+        answerHi:
+          'दीपावली पांच पावन दिनों का महापर्व है: १) धनतेरस — भगवान धन्वंतरि पूजन, आरोग्य कामना व शुभ धातु क्रय; २) नरक चतुर्दशी (छोटी दिवाली/रूप चौदस) — अभ्यंग स्नान, चौदह दीपदान व अंतर्मन की शुद्धि; ३) लक्ष्मी पूजन (बड़ी दिवाली) — महालक्ष्मी व श्री गणेश का षोडशोपचार पूजन व दीपदान; ४) गोवर्धन पूजा (अन्नकूट/गुजराती नववर्ष) — प्रकृति व गो-माता का पूजन तथा ५६ भोग; ५) भाई दूज (यम द्वितीया) — भाई-बहन के अटूट स्नेह, तिलक व दीर्घायु की मंगलकामना।',
+        answerHinglish:
+          'Diwali 5 din manayi jaati hai: Day 1 Dhanteras (health & prosperity), Day 2 Naraka Chaturdashi / Choti Diwali (cleansing & 14 diyas), Day 3 Main Diwali (Lakshmi-Ganesh Puja), Day 4 Govardhan Puja / Annakut (nature gratitude), aur Day 5 Bhai Dooj (brother-sister bond).',
+        category: 'timing',
       },
       {
         id: 'diwali-faq-05',
-        questionEn: 'What are the 5 sacred days of Diwali and their significance?',
-        questionHi: 'दिवाली के पांच पावन दिन कौन से हैं और उनका क्या महत्व है?',
-        questionHinglish: 'Diwali ke 5 din kaunse hote hain aur unka kya mahatva hai?',
-        answerEn: 'The 5 days are: 1. Dhanteras (wealth & health invocation), 2. Naraka Chaturdashi / Chhoti Diwali (cleansing & protection), 3. Lakshmi Puja / Badi Diwali (light & abundance), 4. Govardhan Puja (gratitude to nature), and 5. Bhai Dooj (sibling bond).',
-        answerHi: '१. धनतेरस (आरोग्य व समृद्धि का आरंभ), २. नरक चतुर्दशी/छोटी दिवाली (शुद्धि व दीपदान), ३. लक्ष्मी पूजन/बड़ी दिवाली (महालक्ष्मी आगमन), ४. गोवर्धन पूजा (प्रकृति व अन्नकूट पूजन), और ५. भाई दूज (भाई-बहन का पावन स्नेह)।',
-        answerHinglish: '1. Dhanteras (health aur metal purchase), 2. Chhoti Diwali (evil par light ki jeet), 3. Badi Diwali (Lakshmi-Ganesh Pujan), 4. Govardhan Puja (nature thanksgiving), aur 5. Bhai Dooj (bhai-behen ka pavitra tyohar).',
+        questionEn: 'What is the significance of Lakshmi Puja and why are Lakshmi and Ganesha worshipped together?',
+        questionHi: 'लक्ष्मी पूजन का क्या महत्व है और माता लक्ष्मी के साथ भगवान गणेश का पूजन क्यों किया जाता है?',
+        questionHinglish: 'Lakshmi Puja ka kya mahatva hai aur Lakshmi ji ke sath Ganesh ji ki puja kyon hoti hai?',
+        answerEn:
+          'Goddess Lakshmi represents wealth, prosperity, and cosmic abundance, while Lord Ganesha personifies supreme wisdom, intellect (Buddhi), and the removal of obstacles (Vighnaharta). In Indian philosophy, material wealth without moral wisdom breeds egoism, greed, and destruction. Therefore, worshippers venerate both deities together on Diwali so that wealth is accompanied by ethical discernment, rightful stewardship, and spiritual peace.',
+        answerHi:
+          'माता महालक्ष्मी सुख, ऐश्वर्य और धन-संपदा की अधिष्ठात्री देवी हैं, जबकि भगवान श्री गणेश बुद्धि, विवेक और विघ्न विनाश के स्वामी हैं। भारतीय संस्कृति में यह मान्यता है कि विवेकहीन धन अहंकार और पतन का कारण बनता है। अतः सद्बुद्धि के बिना समृद्धि का सदुपयोग संभव नहीं है। इसीलिए दीपावली की संध्या पर दोनों का संयुक्त पूजन किया जाता है ताकि अर्जित धन धर्म और कल्याण के मार्ग पर लगे।',
+        answerHinglish:
+          'Mata Lakshmi wealth aur prosperity ki devi hain aur Lord Ganesha wisdom aur buddhi ke devta. Bina buddhi ke dhan ahankar lata hai, isliye Diwali par dono ki sath me puja hoti hai taaki prosperity ke sath ethical wisdom bhi mile.',
         category: 'rituals',
+      },
+      {
+        id: 'diwali-faq-06',
+        questionEn: 'Why do people specifically light earthen clay diyas on Diwali?',
+        questionHi: 'दिवाली पर मिट्टी के दीये जलाने का क्या धार्मिक और वैज्ञानिक महत्व है?',
+        questionHinglish: 'Diwali par earthen clay diyas jalane ka kya reason aur mahatva hai?',
+        answerEn:
+          'Earthen diyas (mitti ke diye) represent the harmonious union of the five primordial elements (Pancha Bhoota): Earth (clay), Water (used in kneading clay), Fire (the sacred flame), Air (oxygen sustaining the wick), and Ether (the light filling space). Burning pure mustard or sesame oil in clay lamps emits natural purifying vapours that help cleanse seasonal insects after the monsoons. Furthermore, purchasing handmade diyas directly supports indigenous traditional potters (Kumhars) and sustains village artisan economies.',
+        answerHi:
+          'मिट्टी के दीये पंचमहाभूतों (पृथ्वी, जल, अग्नि, वायु और आकाश) के पावन समन्वय का प्रतीक हैं। मिट्टी पृथ्वी तत्व है, उसे जल से गूंथा जाता है, अग्नि प्रकाश देती है, वायु लौ को पोषित करती है और प्रकाश आकाश में व्याप्त होता है। सरसों के तेल के दीये जलाने से वर्षा ऋतु के बाद के कीटाणु नष्ट होते हैं और वातावरण शुद्ध होता है। साथ ही, मिट्टी के दीये खरीदने से ग्रामीण कुम्हारों और दस्तकारों की आजीविका को सीधा संबल मिलता है।',
+        answerHinglish:
+          'Mitti ke diye Pancha Bhoota (5 elements) ka prateek hain. Mustard oil se jalne wale diye natural purification karte hain aur local kumhar (potters) ko support karte hain.',
+        category: 'rituals',
+      },
+      {
+        id: 'diwali-faq-07',
+        questionEn: 'What is the difference between the terms "Diwali" and "Deepavali"?',
+        questionHi: '"दिवाली" और "दीपावली" शब्दों में क्या अंतर है?',
+        questionHinglish: '"Diwali" aur "Deepavali" me kya farak hota hai?',
+        answerEn:
+          'There is no theological difference between the two; they are linguistic variations of the identical celebration. "Deepavali" is the original, classical Sanskrit compound (Dīpa + Āvali, meaning a continuous garland or row of lamps), still universally used in South Indian states (Tamil Nadu, Karnataka, Andhra Pradesh, Kerala) and formal literature. "Diwali" is the phonetic evolution in modern Indo-Aryan languages (Prakrit to Apabhramsha to modern Hindi), widely spoken across North India, the diaspora, and international media.',
+        answerHi:
+          '"दीपावली" और "दिवाली" में कोई तात्विक या धार्मिक भेद नहीं है; यह केवल भाषा और उच्चारण का अंतर है। "दीपावली" मूल संस्कृत तत्सम शब्द है जो दक्षिण भारत (तमिलनाडु, कर्नाटक, आंध्र, केरल) और प्राचीन धर्मग्रंथों में प्रयुक्त होता है। समय के साथ प्राकृत और अपभ्रंश भाषा से होते हुए हिंदी में इसका तद्भव रूप "दिवाली" प्रचलित हुआ जो उत्तर भारत व वैश्विक स्तर पर लोकप्रिय है। दोनों एक ही पावन पर्व को संबोधित करते हैं।',
+        answerHinglish:
+          'Donon me koi religious difference nahi hai. "Deepavali" classical Sanskrit word hai jo South India me use hota hai, aur "Diwali" iska evolved Hindi form hai jo North India aur globally common hai.',
+        category: 'general',
+      },
+      {
+        id: 'diwali-faq-08',
+        questionEn: 'How can we celebrate an eco-friendly and compassionate Diwali?',
+        questionHi: 'पर्यावरण-अनुकूल (ईको-फ्रेंडली) और संवेदनशील दिवाली कैसे मनाएं?',
+        questionHinglish: 'Eco-friendly aur compassionate Diwali kaise manayi ja sakti hai?',
+        answerEn:
+          'You can celebrate an eco-friendly and compassionate Diwali by: 1) Using locally made terracotta diyas with organic oils rather than electric plastic lamps or toxic paraffin candles; 2) Designing rangolis with dry rice flour, turmeric, vermilion, and real fresh flower petals instead of synthetic chemical dyes; 3) Avoiding toxic noise-heavy firecrackers to protect vulnerable seniors, infants, birds, and domestic pets; 4) Wrapping gifts in reusable cotton or handmade paper; and 5) Sharing fresh homemade sweets and warm festive clothing with underprivileged families and sanitation workers in your locality.',
+        answerHi:
+          'पर्यावरण-अनुकूल और करुणामयी दिवाली मनाने के सरल उपाय: १) स्थानीय कुम्हारों से मिट्टी के दीये खरीदकर सरसों या तिल के तेल से जलाएं; २) रासायनिक रंगों के स्थान पर चावल का आटा, हल्दी, रोली और ताजे फूलों की पंखुड़ियों से प्राकृतिक रंगोली सजाएं; ३) तेज आवाज और धुएं वाले पटाखों से बचें ताकि वृद्धों, नवजात शिशुओं, श्वानों व पक्षियों को कष्ट न हो; ४) उपहारों के लिए प्लास्टिक के बजाय कपड़े के थैलों का उपयोग करें; ५) वंचित परिवारों, सफाई कर्मचारियों और सहायकों के साथ मिठाई, नए वस्त्र और खुशियां साझा करें।',
+        answerHinglish:
+          'Eco-friendly Diwali ke liye local clay diyas use karein, rice flour aur fresh flowers se organic rangoli banayein, noisy crackers se bachein taaki pets aur elders ko pareshani na ho, aur needy logon ke sath khushiyan aur sweets share karein.',
+        category: 'decoration',
+      },
+      {
+        id: 'diwali-faq-09',
+        questionEn: 'When is Diwali celebrated according to the Hindu calendar and why do Gregorian dates change?',
+        questionHi: 'हिंदू पंचांग के अनुसार दिवाली कब आती है और अंग्रेजी कैलेंडर में इसकी तारीख क्यों बदलती है?',
+        questionHinglish: 'Hindu calendar ke hisab se Diwali kab aati hai aur English dates kyon change hoti hain?',
+        answerEn:
+          'In the traditional Hindu lunisolar calendar, Diwali is fixed precisely on Kartik Amavasya — the new moon day that concludes the dark fortnight (Krishna Paksha) of the month of Kartik (Aśvina Amavasya in the Amanta calendar system). Because the lunar year has roughly 354 days compared to the 365.25 days of the solar Gregorian calendar, the Gregorian date shifts by 10 to 12 days annually, typically falling between mid-October and mid-November.',
+        answerHi:
+          'हिंदू पंचांग के अनुसार दीपावली प्रत्येक वर्ष कार्तिक मास के कृष्ण पक्ष की अमावस्या तिथि को मनाई जाती है। चूंकि हिंदू पंचांग चंद्र-सौर (चंद्रमा की कलाओं और सौर चक्र) पर आधारित होता है और चंद्र वर्ष में लगभग ३५४ दिन होते हैं (सौर वर्ष से ११ दिन कम), इसीलिए अंग्रेजी (ग्रेगोरियन) कैलेंडर में दीपावली की तारीख प्रतिवर्ष बदलती है और आमतौर पर मध्य अक्टूबर से मध्य नवंबर के बीच पड़ती है।',
+        answerHinglish:
+          'Hindu lunisolar calendar ke according Diwali hamesha Kartik Amavasya ko aati hai. Lunar year 354 days ka hone ki wajah se English calendar me iski date har saal 10-12 din shift hoti hai (mid-October se mid-November ke beech).',
+        category: 'timing',
+      },
+      {
+        id: 'diwali-faq-10',
+        questionEn: 'What is the spiritual meaning behind deep cleaning and decorating the house before Diwali?',
+        questionHi: 'दिवाली से पूर्व घर की गहरी सफाई और सजावट का आध्यात्मिक व व्यावहारिक महत्व क्या है?',
+        questionHinglish: 'Diwali se pehle ghar ki deep cleaning aur decoration ka kya mahatva hai?',
+        answerEn:
+          'Deep cleaning prior to Diwali is both an external hygiene practice and an internal spiritual metaphor. Spiritually, Goddess Lakshmi resides in sanctified spaces that embody purity (Saucha), harmony, and order; clearing physical junk dispels stagnant negative energy (Tamas). Practically, it marks the post-monsoon sanitation ritual where dampness, insects, and clutter accumulated during rains are eradicated. Adorning the home with marigold torans, mango leaves, and fragrant dhoop invites cosmic positivity, elevating family morale for the new year.',
+        answerHi:
+          'दीपावली से पूर्व घर की गहन सफाई केवल बाहरी स्वच्छता नहीं, बल्कि अंतःकरण की शुद्धि (शौच) का आध्यात्मिक अनुष्ठान है। शास्त्रों के अनुसार माता लक्ष्मी उसी स्थान पर वास करती हैं जहां स्वच्छता, शांति और सुव्यवस्था हो। वर्षा ऋतु की समाप्ति के उपरांत सीलन, कीड़े-मकोड़े और नकारात्मक ऊर्जा को दूर करने के लिए यह आवश्यक है। मुख्य द्वार पर आम के पत्तों का तोरण और गेंदे के फूल बांधना सकारात्मक ऊर्जा और नवजीवन का स्वागत करता है।',
+        answerHinglish:
+          'Diwali se pehle safai karne se ghar se negative energy aur monsoon ke keede-makode khatam hote hain. Shastron ke anusaar Mata Lakshmi clean aur shant gharon me aati hain, aur toran-rangoli positivity attract karte hain.',
+        category: 'decoration',
       },
     ],
     greetingsCategoryKey: 'traditional',

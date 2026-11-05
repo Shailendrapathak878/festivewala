@@ -36,6 +36,10 @@ export const AppRoutes: React.FC = () => {
           <Route path="gift-ideas" element={<GiftIdeasPage />} />
           <Route path="festival-guides" element={<FestivalGuidesPage />} />
           <Route path="festival-guides/:guideId" element={<FestivalGuidesPage />} />
+                    <Route path="greetings/:festivalId" element={<GreetingCardsPreviewPage />} />
+          <Route path="photo-greetings/:festivalId" element={<GreetingCardsPreviewPage defaultMode="photo" />} />
+          <Route path="wishes/:festivalId" element={<WishesPreviewPage />} />
+          <Route path="gift-ideas/:festivalId" element={<GiftIdeasPage />} />
           <Route path="greeting-cards" element={<GreetingCardsPreviewPage />} />
           <Route path="greeting-studio" element={<GreetingCardsPreviewPage />} />
           <Route path="wishes" element={<WishesPreviewPage />} />

@@ -19,6 +19,11 @@ export default defineConfig({
     channel: 'chrome',
     headless: true,
   },
+  webServer: {
+    command: 'npm run preview -- --port 4173',
+    port: 4173,
+    reuseExistingServer: true,
+  },
   projects: [
     {
       name: 'chromium',
@@ -28,4 +33,3 @@ export default defineConfig({
     },
   ],
 });
-

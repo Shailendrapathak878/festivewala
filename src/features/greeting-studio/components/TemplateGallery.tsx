@@ -517,6 +517,7 @@ export const TemplateGallery: React.FC<TemplateGalleryProps> = ({
               return (
                 <div
                   key={tpl.id}
+                  data-testid="template-card"
                   onClick={() => onSelectTemplate(tpl, activeRel)}
                   className={`group relative rounded-3xl overflow-hidden cursor-pointer transition-all duration-300 border flex flex-col justify-between ${
                     isSelected
@@ -621,6 +622,7 @@ export const TemplateGallery: React.FC<TemplateGalleryProps> = ({
           return (
             <div
               key={tpl.id}
+              data-testid="template-card"
               onClick={() => onSelectTemplate(tpl, activeRel)}
               className={`group relative rounded-3xl overflow-hidden cursor-pointer transition-all duration-300 border flex flex-col justify-between ${
                 isSelected
