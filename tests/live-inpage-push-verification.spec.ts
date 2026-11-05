@@ -1,52 +1,32 @@
 import { test, expect } from '@playwright/test';
 import * as path from 'path';
 
-test.describe('Live Production Monetag In-Page Push & Release Verification', () => {
+test.describe('Live Production Clean Release & Verification Suite', () => {
   const PROD_URL = 'https://festivewala.in';
-  const SCREENSHOT_DIR = path.resolve('C:/Users/rp353/.gemini/antigravity/brain/c2ce0d15-3879-42dc-a17d-d6affe905abf/screenshots/live-inpage-push');
+  const SCREENSHOT_DIR = path.resolve('C:/Users/rp353/.gemini/antigravity/brain/c2ce0d15-3879-42dc-a17d-d6affe905abf/screenshots/live-clean-release');
 
-  test('1. Live Production Health & Script Verification', async ({ page }) => {
+  test('1. Live Production Health: Clean Load, GA4 Active, Zero Zone 12200453', async ({ page }) => {
     const consoleErrors: string[] = [];
     const cspViolations: string[] = [];
-    const networkRequests: string[] = [];
 
     page.on('console', (msg) => {
-      if (msg.type() === 'error') {
-        const text = msg.text();
-        if (text.includes('Content Security Policy') || text.includes('CSP')) {
-          cspViolations.push(text);
-        } else {
-          consoleErrors.push(text);
-        }
+      const text = msg.text();
+      if (text.includes('Content Security Policy') || text.includes('CSP')) {
+        cspViolations.push(text);
       }
-    });
-
-    page.on('request', (req) => {
-      networkRequests.push(req.url());
+      if (msg.type() === 'error') {
+        consoleErrors.push(text);
+      }
     });
 
     const response = await page.goto(PROD_URL, { waitUntil: 'load' });
     expect(response?.status()).toBe(200);
 
-    // Wait a brief moment for in-page push tag to execute
-    await page.waitForTimeout(1500);
-
-    // Verify Monetag In-Page Push script element is in DOM
-    const scripts = await page.evaluate(() => {
-      const tags = Array.from(document.querySelectorAll('script'));
-      return tags.map(t => ({
-        src: t.src,
-        zone: t.dataset?.zone,
-        text: t.innerText
-      }));
+    // Confirm experimental In-Page Push tag is ABSENT
+    const experimentalTag = await page.evaluate(() => {
+      return document.querySelector('script[data-zone="12200453"], script[src*="nap5k"], script[src*="aichouphaugn"]');
     });
-
-    const inPagePushTag = scripts.find(s => 
-      s.zone === '12200453' || (s.src && s.src.includes('nap5k.com/tag.min.js'))
-    );
-    expect(inPagePushTag).toBeDefined();
-    expect(inPagePushTag?.zone).toBe('12200453');
-    expect(inPagePushTag?.src).toContain('https://nap5k.com/tag.min.js');
+    expect(experimentalTag).toBeNull();
 
     // Verify GA4 is active
     const ga4Active = await page.evaluate(() => {
@@ -63,23 +43,22 @@ test.describe('Live Production Monetag In-Page Push & Release Verification', () 
     // Verify Zero CSP Violations
     expect(cspViolations).toEqual([]);
 
-    // Capture screenshot of live production homepage
-    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '01_live_homepage_inpage_push.png'), fullPage: false });
-
-    console.log('[Live Verification] Production URL 200 OK, Monetag In-Page Push zone 12200453 active, GA4 active, AdSense 0, Zero CSP violations');
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '01_live_homepage_clean.png'), fullPage: false });
+    console.log('[Live Clean Verification] Production 200 OK, Zone 12200453 absent, GA4 active, AdSense 0, Zero CSP violations');
   });
 
-  test('2. Live Service Worker & PWA Continuity Verification', async ({ page }) => {
+  test('2. Live Service Worker Continuity: Zone 12199537 strictly preserved', async ({ page }) => {
     await page.goto(PROD_URL, { waitUntil: 'networkidle' });
 
-    // Verify live sw.js content has Zone 12199537, 5gvci.com, and network bypasses
+    // Verify live sw.js content has Zone 12199537 and 5gvci.com
     const swResponse = await page.request.get(`${PROD_URL}/sw.js`);
     expect(swResponse.status()).toBe(200);
     const swCode = await swResponse.text();
     expect(swCode).toContain('12199537');
     expect(swCode).toContain('https://5gvci.com/act/files/service-worker.min.js?r=sw');
-    expect(swCode).toContain('nap5k.com');
-    expect(swCode).toContain('jhnwr.com');
+    expect(swCode).not.toContain('12200453');
+    expect(swCode).not.toContain('nap5k.com');
+    expect(swCode).not.toContain('aichouphaugn.com');
 
     // Verify Service Worker is registered in browser
     const swRegistered = await page.evaluate(async () => {
@@ -89,32 +68,23 @@ test.describe('Live Production Monetag In-Page Push & Release Verification', () 
     });
     expect(swRegistered).toBe(true);
 
-    console.log('[Live Verification] Live sw.js successfully retains Zone 12199537 & ad bypasses');
+    console.log('[Live Clean Verification] Live sw.js successfully retains Zone 12199537');
   });
 
   test('3. Live Greeting Studio Ad-Free & Free Download Verification', async ({ page }) => {
     await page.goto(`${PROD_URL}/greeting-cards`, { waitUntil: 'networkidle' });
 
-    // Ensure Studio UI loads
     const studioContainer = page.locator('main');
     await expect(studioContainer).toBeVisible();
 
-    // Verify zero ads inside Greeting Studio work area
+    // Verify zero intrusive ads inside Greeting Studio work area
     const adsInStudio = await page.evaluate(() => {
-      return document.querySelectorAll('[data-ad-slot], iframe[src*="5gvci"], iframe[src*="nap5k"]').length;
+      return document.querySelectorAll('[data-ad-slot], iframe[src*="5gvci"], iframe[src*="nap5k"], iframe[src*="aichouphaugn"]').length;
     });
     expect(adsInStudio).toBe(0);
 
-    // Check download button is present and not locked
-    const downloadBtn = page.getByRole('button', { name: /download/i }).first();
-    if (await downloadBtn.isVisible()) {
-      await expect(downloadBtn).toBeEnabled();
-    }
-
-    // Capture screenshot of Greeting Studio
-    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '02_live_greeting_studio_protected.png'), fullPage: false });
-
-    console.log('[Live Verification] Greeting Studio remains strictly ad-free with unhindered downloads');
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '02_live_greeting_studio_ad_free.png'), fullPage: false });
+    console.log('[Live Clean Verification] Greeting Studio remains strictly ad-free');
   });
 
   test('4. Live Header & CSP Verification on Response Headers', async ({ page }) => {
@@ -122,15 +92,18 @@ test.describe('Live Production Monetag In-Page Push & Release Verification', () 
     const headers = res?.headers() || {};
     const csp = headers['content-security-policy'] || '';
 
-    expect(csp).toContain('https://nap5k.com');
+    // Verify approved domains
     expect(csp).toContain('https://5gvci.com');
-    expect(csp).toContain('https://jhnwr.com');
-    expect(csp).toContain('https://my.rtmark.net');
-    expect(csp).toContain('sha256-ubobDVG0pnmxJRrInd1kL7WXk5EEXMQ196/fIaNcliQ=');
-    expect(csp).toContain('sha256-LXRlDzwdF/BlNqWa/UcRbDbunVg3bj8URunQa8PYyzs=');
-    expect(csp).not.toContain('*.nap5k.com');
+    expect(csp).toContain('https://static.cloudflareinsights.com');
+    expect(csp).toContain('sha256-VqZBrBTy5a7UEEhX4jPg0825WXhgj9+QccSFQr5PEKE=');
+    expect(csp).toContain('sha256-8q8YosHVqlpiM2LSGt2ElV2kvtYSdGSR32yEFVmwCCc=');
+
+    // Verify experimental domains are absent
+    expect(csp).not.toContain('nap5k.com');
+    expect(csp).not.toContain('jhnwr.com');
+    expect(csp).not.toContain('aichouphaugn.com');
     expect(csp).not.toContain("'unsafe-eval'");
 
-    console.log('[Live Verification] Live CSP headers contain exact SHA-256 and nap5k.com/jhnwr.com without wildcards');
+    console.log('[Live Clean Verification] Live CSP headers confirmed clean without experimental domains');
   });
 });

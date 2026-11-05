@@ -68,7 +68,7 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(request.url);
 
   // Bypass non-GET requests, data/blob schemes, and Monetag edge network
-  if (request.method !== 'GET' || url.protocol === 'data:' || url.protocol === 'blob:' || url.hostname.includes('5gvci.com') || url.hostname.includes('nap5k.com') || url.hostname.includes('jhnwr.com') || url.hostname.includes('rtmark.net')) {
+  if (request.method !== 'GET' || url.protocol === 'data:' || url.protocol === 'blob:' || url.hostname.includes('5gvci.com')) {
     return;
   }
 
