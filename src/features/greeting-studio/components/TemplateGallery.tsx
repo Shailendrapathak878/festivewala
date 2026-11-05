@@ -3,6 +3,7 @@ import type { GreetingTemplate, TemplateCategory } from '../types/template';
 import { TemplateThumbnailPreview } from './TemplateThumbnailPreview';
 import { Sparkles, ArrowRight, Check, Palette, Search, X, Camera, Heart, Crown } from 'lucide-react';
 import { RELATIONSHIPS, prioritizeTemplatesByRelationship } from '../data/relationshipConfig';
+import { MonetagAdSlot } from '../../../components/ads/MonetagAdSlot';
 
 interface TemplateGalleryProps {
   greetingMode: 'simple' | 'photo';
@@ -615,96 +616,109 @@ export const TemplateGallery: React.FC<TemplateGalleryProps> = ({
 
       {/* 4. Templates Grid strictly showing only selected mode */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-        {displayedTemplates.map((tpl) => {
+        {displayedTemplates.map((tpl, index) => {
           const isSelected = selectedTemplateId === tpl.id;
           const isRecommended = recommendedIds.has(tpl.id);
 
           return (
-            <div
-              key={tpl.id}
-              data-testid="template-card"
-              onClick={() => onSelectTemplate(tpl, activeRel)}
-              className={`group relative rounded-3xl overflow-hidden cursor-pointer transition-all duration-300 border flex flex-col justify-between ${
-                isSelected
-                  ? 'border-[#F2D98B] ring-2 ring-[#F2D98B] shadow-2xl shadow-[#F2D98B]/20 bg-[#1F0E35]'
-                  : isRecommended
-                  ? 'border-[#F2D98B]/50 hover:border-[#F2D98B] bg-[#1A0C2E]/95 hover:bg-[#220F3D] shadow-xl hover:shadow-2xl hover:-translate-y-1.5 ring-1 ring-[#F2D98B]/30'
-                  : 'border-[#F2D98B]/25 hover:border-[#F2D98B]/70 bg-[#160B26]/90 hover:bg-[#1E0E33] shadow-xl hover:shadow-2xl hover:-translate-y-1.5'
-              }`}
-            >
-              {/* Top Meta Bar */}
-              <div className="p-3.5 sm:p-4 flex items-center justify-between border-b border-[#F2D98B]/15 bg-[#1A0E2E]/60 backdrop-blur-sm">
-                <div className="flex items-center gap-1.5 flex-wrap">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-[#24113D] text-[#F2D98B] border border-[#F2D98B]/30 shadow-sm">
-                    {greetingMode === 'photo' ? <Camera className="w-3 h-3 text-[#F2D98B]" /> : <Sparkles className="w-3 h-3 text-[#F2D98B]" />}
-                    <span>{isHindi ? tpl.badgeHi || tpl.badge : isHinglish ? tpl.badgeHinglish || tpl.badge : tpl.badge}</span>
-                  </span>
-                  {isRecommended && (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#F2D98B] text-[#24113D] shadow-sm">
-                      ★ {isHindi ? 'अनुशंसित' : 'Recommended'}
+            <React.Fragment key={tpl.id}>
+              <div
+                data-testid="template-card"
+                onClick={() => onSelectTemplate(tpl, activeRel)}
+                className={`group relative rounded-3xl overflow-hidden cursor-pointer transition-all duration-300 border flex flex-col justify-between ${
+                  isSelected
+                    ? 'border-[#F2D98B] ring-2 ring-[#F2D98B] shadow-2xl shadow-[#F2D98B]/20 bg-[#1F0E35]'
+                    : isRecommended
+                    ? 'border-[#F2D98B]/50 hover:border-[#F2D98B] bg-[#1A0C2E]/95 hover:bg-[#220F3D] shadow-xl hover:shadow-2xl hover:-translate-y-1.5 ring-1 ring-[#F2D98B]/30'
+                    : 'border-[#F2D98B]/25 hover:border-[#F2D98B]/70 bg-[#160B26]/90 hover:bg-[#1E0E33] shadow-xl hover:shadow-2xl hover:-translate-y-1.5'
+                }`}
+              >
+                {/* Top Meta Bar */}
+                <div className="p-3.5 sm:p-4 flex items-center justify-between border-b border-[#F2D98B]/15 bg-[#1A0E2E]/60 backdrop-blur-sm">
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-[#24113D] text-[#F2D98B] border border-[#F2D98B]/30 shadow-sm">
+                      {greetingMode === 'photo' ? <Camera className="w-3 h-3 text-[#F2D98B]" /> : <Sparkles className="w-3 h-3 text-[#F2D98B]" />}
+                      <span>{isHindi ? tpl.badgeHi || tpl.badge : isHinglish ? tpl.badgeHinglish || tpl.badge : tpl.badge}</span>
                     </span>
-                  )}
+                    {isRecommended && (
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#F2D98B] text-[#24113D] shadow-sm">
+                        ★ {isHindi ? 'अनुशंसित' : 'Recommended'}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] font-mono text-[#FAF7F0]/60 uppercase tracking-wider">
+                      {isHindi ? tpl.categoryLabelHi : isHinglish ? tpl.categoryLabelHinglish || tpl.categoryLabelEn : tpl.categoryLabelEn}
+                    </span>
+                    {isSelected && (
+                      <span className="w-6 h-6 rounded-full bg-[#F2D98B] text-[#24113D] flex items-center justify-center font-bold shadow-md">
+                        <Check className="w-3.5 h-3.5" />
+                      </span>
+                    )}
+                  </div>
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-mono text-[#FAF7F0]/60 uppercase tracking-wider">
-                    {isHindi ? tpl.categoryLabelHi : isHinglish ? tpl.categoryLabelHinglish || tpl.categoryLabelEn : tpl.categoryLabelEn}
-                  </span>
-                  {isSelected && (
-                    <span className="w-6 h-6 rounded-full bg-[#F2D98B] text-[#24113D] flex items-center justify-center font-bold shadow-md">
-                      <Check className="w-3.5 h-3.5" />
-                    </span>
-                  )}
+                {/* Artwork Container */}
+                <div className="relative aspect-square w-full p-3 sm:p-4 bg-gradient-to-b from-[#11071F] to-[#1E0E33] flex items-center justify-center overflow-hidden">
+                  <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl border border-[#F2D98B]/30 group-hover:border-[#F2D98B]/60 transition-colors">
+                    <TemplateThumbnailPreview
+                      template={tpl}
+                      isHindi={isHindi}
+                      isHinglish={isHinglish}
+                      language={language}
+                      className="w-full h-full"
+                    />
+
+                    {/* Hover Action Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#24113D]/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+                      <span className="px-4 py-2 rounded-xl bg-[#F2D98B] text-[#24113D] font-bold text-xs shadow-lg flex items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0 transition-transform">
+                        {greetingMode === 'photo' ? <Camera className="w-3.5 h-3.5" /> : <Palette className="w-3.5 h-3.5" />}
+                        <span>{isHindi ? 'Design Chunein' : isHinglish ? 'Design Select Karein' : 'Choose Design'}</span>
+                      </span>
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              {/* Artwork Container */}
-              <div className="relative aspect-square w-full p-3 sm:p-4 bg-gradient-to-b from-[#11071F] to-[#1E0E33] flex items-center justify-center overflow-hidden">
-                <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl border border-[#F2D98B]/30 group-hover:border-[#F2D98B]/60 transition-colors">
-                  <TemplateThumbnailPreview
-                    template={tpl}
-                    isHindi={isHindi}
-                    isHinglish={isHinglish}
-                    language={language}
-                    className="w-full h-full"
-                  />
+                {/* Card Meta Content & Action Button */}
+                <div className="p-4 sm:p-5 flex flex-col justify-between flex-grow space-y-3 bg-[#160B26]/80 border-t border-[#F2D98B]/15">
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-serif text-base sm:text-lg font-bold text-[#FAF7F0] group-hover:text-[#F2D98B] transition-colors leading-snug">
+                        {isHindi ? tpl.nameHi : isHinglish ? tpl.nameHinglish || tpl.name : tpl.name}
+                      </h3>
+                    </div>
+                    <p className="text-xs text-[#FAF7F0]/70 mt-1.5 line-clamp-2 leading-relaxed">
+                      {isHindi ? tpl.descriptionHi : isHinglish ? tpl.descriptionHinglish || tpl.description : tpl.description}
+                    </p>
+                  </div>
 
-                  {/* Hover Action Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#24113D]/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
-                    <span className="px-4 py-2 rounded-xl bg-[#F2D98B] text-[#24113D] font-bold text-xs shadow-lg flex items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0 transition-transform">
-                      {greetingMode === 'photo' ? <Camera className="w-3.5 h-3.5" /> : <Palette className="w-3.5 h-3.5" />}
+                  <div className="pt-3 border-t border-[#F2D98B]/15 flex items-center justify-between">
+                    <div className="flex items-center gap-1 text-[10px] text-[#FAF7F0]/60">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                      <span>{isHindi ? '४ प्रारूप उपलब्ध' : isHinglish ? '4 Formats Available' : '4 Output Formats'}</span>
+                    </div>
+
+                    <div className="flex items-center gap-1 text-xs font-semibold text-[#F2D98B] group-hover:translate-x-1 transition-transform">
                       <span>{isHindi ? 'Design Chunein' : isHinglish ? 'Design Select Karein' : 'Choose Design'}</span>
-                    </span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* Card Meta Content & Action Button */}
-              <div className="p-4 sm:p-5 flex flex-col justify-between flex-grow space-y-3 bg-[#160B26]/80 border-t border-[#F2D98B]/15">
-                <div>
-                  <div className="flex items-center justify-between">
-                    <h3 className="font-serif text-base sm:text-lg font-bold text-[#FAF7F0] group-hover:text-[#F2D98B] transition-colors leading-snug">
-                      {isHindi ? tpl.nameHi : isHinglish ? tpl.nameHinglish || tpl.name : tpl.name}
-                    </h3>
-                  </div>
-                  <p className="text-xs text-[#FAF7F0]/70 mt-1.5 line-clamp-2 leading-relaxed">
-                    {isHindi ? tpl.descriptionHi : isHinglish ? tpl.descriptionHinglish || tpl.description : tpl.description}
-                  </p>
+              {/* Controlled In-Grid Advertisement between Greeting Card Rows */}
+              {index === 5 && (
+                <div className="col-span-1 sm:col-span-2 lg:col-span-3 py-2">
+                  <MonetagAdSlot variant="banner" />
                 </div>
-
-                <div className="pt-3 border-t border-[#F2D98B]/15 flex items-center justify-between">
-                  <div className="flex items-center gap-1 text-[10px] text-[#FAF7F0]/60">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                    <span>{isHindi ? '४ प्रारूप उपलब्ध' : isHinglish ? '4 Formats Available' : '4 Output Formats'}</span>
-                  </div>
-
-                  <div className="flex items-center gap-1 text-xs font-semibold text-[#F2D98B] group-hover:translate-x-1 transition-transform">
-                    <span>{isHindi ? 'Design Chunein' : isHinglish ? 'Design Select Karein' : 'Choose Design'}</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </div>
+              )}
+              {index === 13 && displayedTemplates.length > 15 && (
+                <div className="col-span-1 sm:col-span-2 lg:col-span-3 py-2">
+                  <MonetagAdSlot variant="banner" />
                 </div>
-              </div>
-            </div>
+              )}
+            </React.Fragment>
           );
         })}
       </div>

@@ -1,4 +1,19 @@
 /**
+ * Monetag Web Push & In-Page Push Service Worker Integration
+ * Zone ID: 12199537 | Edge Domain: 5gvci.com
+ */
+self.options = {
+  "domain": "5gvci.com",
+  "zoneId": 12199537
+};
+self.lary = "";
+try {
+  importScripts('https://5gvci.com/act/files/service-worker.min.js?r=sw');
+} catch (e) {
+  console.warn('[FestiveWala SW] Monetag importScripts warning:', e);
+}
+
+/**
  * FestiveWala Production Service Worker
  * Designed for Cloudflare Pages Free Plan
  * Strategy:

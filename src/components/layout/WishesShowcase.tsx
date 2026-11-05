@@ -5,6 +5,7 @@ import { SectionHeading } from '../common/SectionHeading';
 import { toastNotificationVariants } from '../animation/motionVariants';
 import { WISHES_DATA } from '../../data/wishes';
 import { useLanguage } from '../../hooks/useLanguage';
+import { MonetagAdSlot } from '../ads/MonetagAdSlot';
 import {
   Copy,
   Check,
@@ -53,9 +54,13 @@ type ViewMode = 'library' | 'generator' | 'favorites';
 
 interface WishesShowcaseProps {
   routeFestivalId?: string;
+  showInGridAds?: boolean;
 }
 
-export const WishesShowcase: React.FC<WishesShowcaseProps> = ({ routeFestivalId }) => {
+export const WishesShowcase: React.FC<WishesShowcaseProps> = ({
+  routeFestivalId,
+  showInGridAds = true,
+}) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const initialFestival = routeFestivalId || searchParams.get('festival') || 'all';
@@ -711,7 +716,7 @@ export const WishesShowcase: React.FC<WishesShowcaseProps> = ({ routeFestivalId 
             ) : (
               /* Wishes Cards Grid (500-Item Repository) */
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {displayedWishes.map((wish) => {
+                {displayedWishes.map((wish, index) => {
                   const isCopied = copiedId === wish.id;
                   const isFav = isFavorite(wish.id);
                   const isDarkCard = wish.category === 'traditional';
@@ -732,9 +737,9 @@ export const WishesShowcase: React.FC<WishesShowcaseProps> = ({ routeFestivalId 
                   }
 
                   return (
-                    <motion.div
-                      key={wish.id}
-                      data-testid="wish-card"
+                    <React.Fragment key={wish.id}>
+                      <motion.div
+                        data-testid="wish-card"
                       whileHover={shouldReduceMotion ? undefined : { y: -4 }}
                       transition={{ duration: 0.2 }}
                       className={cardClasses}
@@ -897,8 +902,19 @@ export const WishesShowcase: React.FC<WishesShowcaseProps> = ({ routeFestivalId 
                         </button>
                       </div>
                     </motion.div>
-                  );
-                })}
+                    {showInGridAds && index === 5 && (
+                      <div className="col-span-1 md:col-span-2 lg:col-span-3 py-2">
+                        <MonetagAdSlot variant="banner" />
+                      </div>
+                    )}
+                    {showInGridAds && index === 13 && displayedWishes.length > 15 && (
+                      <div className="col-span-1 md:col-span-2 lg:col-span-3 py-2">
+                        <MonetagAdSlot variant="banner" />
+                      </div>
+                    )}
+                  </React.Fragment>
+                );
+              })}
               </div>
             )}
 

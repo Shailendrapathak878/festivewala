@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import type { FestivalDetail } from '../../data/festivals/types';
 import { TrilingualFAQSection } from '../common/TrilingualFAQSection';
+import { MonetagAdSlot } from '../ads/MonetagAdSlot';
 
 interface DhanterasGuideArticleProps {
   festival: FestivalDetail;
@@ -158,6 +159,8 @@ export const DhanterasGuideArticle: React.FC<DhanterasGuideArticleProps> = ({
               : 'From this auspicious twilight forward, the streets, homes, and temple corridors across India burst into radiant illumination. Millions of families clean their homes, polish brassware, illuminate their thresholds with the sacred Yama Deepam, and purchase new vessels or precious metals to prepare for the descent of Goddess Mahalakshmi during the upcoming Diwali night.'}
           </p>
         </section>
+
+        <MonetagAdSlot variant="in-content" />
 
         {/* SECTION 2 */}
         <section id="sec-meaning-origin" className="scroll-mt-24 space-y-4">
@@ -361,6 +364,8 @@ export const DhanterasGuideArticle: React.FC<DhanterasGuideArticleProps> = ({
             </div>
           </div>
         </section>
+
+        <MonetagAdSlot variant="banner" />
 
         {/* SECTION 10 */}
         <section id="sec-family-celebration" className="scroll-mt-24 space-y-4">
@@ -666,6 +671,8 @@ export const DhanterasGuideArticle: React.FC<DhanterasGuideArticleProps> = ({
             ))}
           </div>
         </section>
+
+        <MonetagAdSlot variant="in-content" />
 
         {/* SECTION 19: FAQ SECTION */}
         <section id="sec-dhanteras-faqs" className="scroll-mt-24 pt-6">
