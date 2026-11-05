@@ -141,7 +141,7 @@ test.describe('FestiveWala Live Production Verification (https://festivewala.in)
     expect(bodyText).not.toContain('फेज़ ५');
     expect(bodyText).not.toContain('will arrive in Phase 5');
 
-    const rangoliLink = page.locator('a[href="/rangoli"]');
+    const rangoliLink = page.locator('a[href="/rangoli"]').first();
     await expect(rangoliLink).toBeVisible({ timeout: 10000 });
   });
 
