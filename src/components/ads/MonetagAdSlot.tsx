@@ -79,3 +79,4 @@ export const MonetagAdSlot: React.FC<MonetagAdSlotProps> = ({
     </aside>
   );
 };
+

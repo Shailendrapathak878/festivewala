@@ -51,8 +51,10 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((keys) => {
       return Promise.all(
         keys.map((key) => {
-          if (key !== STATIC_CACHE && key !== RUNTIME_CACHE) {
-            console.log('[FestiveWala SW] Purging obsolete cache:', key);
+          // Strictly purge only obsolete FestiveWala-owned caches with 'fw-' prefix.
+          // Never delete unrelated caches created by Monetag, browser extensions, or third parties.
+          if (key.startsWith('fw-') && key !== STATIC_CACHE && key !== RUNTIME_CACHE) {
+            console.log('[FestiveWala SW] Purging obsolete FestiveWala cache:', key);
             return caches.delete(key);
           }
         })
@@ -65,8 +67,8 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // Bypass non-GET requests and data/blob schemes
-  if (request.method !== 'GET' || url.protocol === 'data:' || url.protocol === 'blob:') {
+  // Bypass non-GET requests, data/blob schemes, and Monetag edge network
+  if (request.method !== 'GET' || url.protocol === 'data:' || url.protocol === 'blob:' || url.hostname.includes('5gvci.com')) {
     return;
   }
 
