@@ -103,7 +103,7 @@ export const PrivacyPolicyPage: React.FC = () => {
           <section className="space-y-3">
             <h3 className="font-serif text-lg font-bold text-brand-deep flex items-center gap-2">
               <Eye size={18} className="text-brand-gold" />
-              <span>{isHindi ? '३. विज्ञापन नीति (Google AdSense)' : '3. Advertising Policies'}</span>
+              <span>{isHindi ? '३. विज्ञापन नीति' : '3. Advertising Policies'}</span>
             </h3>
             <p>
               {isHindi
