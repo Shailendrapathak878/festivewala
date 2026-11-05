@@ -108,7 +108,7 @@ test.describe('Dhanteras Festival Data Integrity & Strict Isolation', () => {
     const dhanterasCal = getFestivalCalendarConfig('dhanteras');
     expect(dhanterasCal).toBeDefined();
     expect(dhanterasCal?.festivalId).toBe('dhanteras');
-    expect(dhanterasCal?.startDateIso).toBe('2026-11-06T18:00:00+05:30');
+    expect(dhanterasCal?.startDateIso).toBe('2026-11-06T00:00:00+05:30');
     expect(dhanterasCal?.tithiEn).toContain('Trayodashi');
 
     const content = getFestivalContent('dhanteras');

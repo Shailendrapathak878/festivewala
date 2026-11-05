@@ -1,6 +1,7 @@
 import { FESTIVALS_DATA } from '../data/festivals';
 import { FESTIVAL_CALENDAR, type FestivalCalendarEntry } from '../data/festivals/festivalCalendar';
 import type { FestivalItem } from '../data/types';
+import { getISTYear } from '../utils/festivalDateUtils';
 
 export interface FestivalFeatureAvailability {
   hasGreetings: boolean;
@@ -256,7 +257,7 @@ export function getUpcomingFestivals(
         displayNameEn: fest.nameEn,
         displayNameHi: fest.nameHi,
         startDateIso: fest.dateIso,
-        endDateIso: new Date(new Date(fest.dateIso).getTime() + ONE_DAY_MS).toISOString(),
+        endDateIso: new Date(new Date(fest.dateIso).getTime() + ONE_DAY_MS - 1).toISOString(),
         timezone: 'Asia/Kolkata',
         tithiEn: fest.tithiEn,
         tithiHi: fest.tithiHi,
@@ -268,21 +269,24 @@ export function getUpcomingFestivals(
         eventEndedMessageEn: `${fest.nameEn} celebrations have concluded.`,
         eventEndedMessageHi: `${fest.nameHi} का पर्व संपन्न हुआ।`,
         panchangSource: 'Vedic Panchang Calendar',
-        year: new Date(fest.dateIso).getFullYear(),
+        year: getISTYear(new Date(fest.dateIso)),
       };
 
     let startTime = new Date(calendar.startDateIso).getTime();
     let endTime = calendar.endDateIso
       ? new Date(calendar.endDateIso).getTime()
-      : startTime + ONE_DAY_MS;
+      : startTime + ONE_DAY_MS - 1;
 
-    // Support year transition for passed annual festivals
-    if (nowMs > endTime && calendar.year < currentDate.getFullYear()) {
-      const yearDiff = currentDate.getFullYear() - calendar.year;
-      const nextStart = new Date(calendar.startDateIso);
-      nextStart.setFullYear(nextStart.getFullYear() + yearDiff);
-      startTime = nextStart.getTime();
-      endTime = startTime + ONE_DAY_MS;
+    // Support year transition for passed annual festivals using Asia/Kolkata (IST) year
+    const currentIstYear = getISTYear(currentDate);
+    if (nowMs > endTime && calendar.year < currentIstYear) {
+      const yearDiff = currentIstYear - calendar.year;
+      const nextStartIso = calendar.startDateIso.replace(/^\d{4}/, String(calendar.year + yearDiff));
+      startTime = new Date(nextStartIso).getTime();
+      const nextEndIso = calendar.endDateIso
+        ? calendar.endDateIso.replace(/^\d{4}/, String(calendar.year + yearDiff))
+        : new Date(startTime + ONE_DAY_MS - 1).toISOString();
+      endTime = new Date(nextEndIso).getTime();
     }
 
     const diff = startTime - nowMs;

@@ -571,9 +571,11 @@ export const HeroFestivalCarousel: React.FC = () => {
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-brand-royal text-[#F2D98B] border border-brand-gold/40 shadow-sm">
                   <Clock size={12} className="text-brand-gold" />
                   <span>
-                    {isHindi
-                      ? `आगामी पर्व #${activeItem.priority}`
-                      : `Upcoming Festival #${activeItem.priority}`}
+                    {isCelebrating
+                      ? (isHindi ? 'पर्व आज जारी है' : 'Celebrating Today')
+                      : (isHindi
+                          ? `आगामी पर्व #${activeItem.priority}`
+                          : `Upcoming Festival #${activeItem.priority}`)}
                   </span>
                 </span>
 

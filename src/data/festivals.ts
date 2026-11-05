@@ -24,7 +24,7 @@ export const FESTIVALS_DATA: FestivalItem[] = [
     nameHi: 'दीपावली',
     tithiEn: 'Kartik Amavasya 2026',
     tithiHi: 'कार्तिक अमावस्या २०२६',
-    dateIso: '2026-11-08T18:30:00+05:30',
+    dateIso: '2026-11-08T00:00:00+05:30',
     descEn: 'The sovereign festival of lights, celebrating the triumph of luminous wisdom and celestial prosperity.',
     descHi: 'प्रकाश, वैभव और सद्भावना का महापर्व — अंधकार पर ज्ञान और धर्म की शाश्वत विजय का उत्सव।',
     accentColor: '#D4AF37',
@@ -41,7 +41,7 @@ export const FESTIVALS_DATA: FestivalItem[] = [
     nameHi: 'छठ पूजा',
     tithiEn: 'Kartik Shukla Shashthi 2026',
     tithiHi: 'कार्तिक शुक्ल षष्ठी २०२६',
-    dateIso: '2026-11-15T06:00:00+05:30',
+    dateIso: '2026-11-15T00:00:00+05:30',
     descEn: 'Ancient Vedic festival dedicated to Surya Bhagwan and Chhathi Maiya, honoring purity and cosmic energy.',
     descHi: 'भगवान सूर्य और षष्ठी मैया को समर्पित आस्था, संयम और प्रकृति के प्रति कृतज्ञता का पावन महापर्व।',
     accentColor: '#E65100',
@@ -92,7 +92,7 @@ export const FESTIVALS_DATA: FestivalItem[] = [
     nameHi: 'मकर संक्रांति',
     tithiEn: 'Magh Krishna Pratipada 2027',
     tithiHi: 'माघ कृष्ण प्रतिपदा २०२७',
-    dateIso: '2027-01-14T08:00:00+05:30',
+    dateIso: '2027-01-14T00:00:00+05:30',
     descEn: 'Celebrating Uttarayan solar transition, harvest bounty, colourful kites, and sesame sweets.',
     descHi: 'सूर्य का मकर राशि में प्रवेश, उत्तरायण पर्व, पतंगोत्सव और तिल-गुड़ की मिठास से भरा पावन उत्सव।',
     accentColor: '#FFB300',
@@ -126,7 +126,7 @@ export const FESTIVALS_DATA: FestivalItem[] = [
     nameHi: 'होली',
     tithiEn: 'Phalguna Purnima 2027',
     tithiHi: 'फाल्गुन पूर्णिमा २०२७',
-    dateIso: '2027-03-22T08:00:00+05:30',
+    dateIso: '2027-03-22T00:00:00+05:30',
     descEn: 'The exuberant festival of spring colors, renewal, joyful camaraderie, and playful gulal.',
     descHi: 'रंग, उमंग और वसंत का उल्लास — गुलाल की खुशबू और मनमुटाव भुलाकर गले मिलने का रसोत्सव।',
     accentColor: '#E91E63',
@@ -143,7 +143,7 @@ export const FESTIVALS_DATA: FestivalItem[] = [
     nameHi: 'रक्षाबंधन',
     tithiEn: 'Shravana Purnima 2027',
     tithiHi: 'श्रावण पूर्णिमा २०२७',
-    dateIso: '2027-08-28T09:00:00+05:30',
+    dateIso: '2027-08-28T00:00:00+05:30',
     descEn: 'The sacred thread of love, lifelong protection, and affectionate devotion between siblings.',
     descHi: 'भाई-बहन के अटूट स्नेह, रक्षा के संकल्प और पावन विश्वास का अनुपम भारतीय पर्व।',
     accentColor: '#D81B60',
@@ -160,7 +160,7 @@ export const FESTIVALS_DATA: FestivalItem[] = [
     nameHi: 'नवरात्रि व दुर्गा पूजा',
     tithiEn: 'Ashwin Shukla Pratipada 2027',
     tithiHi: 'आश्विन शुक्ल प्रतिपदा २०२७',
-    dateIso: '2027-10-10T06:00:00+05:30',
+    dateIso: '2027-10-10T00:00:00+05:30',
     descEn: 'Nine sacred nights of the Divine Mother, cosmic Shakti, vibrant Garba, and divine grace.',
     descHi: 'आद्यशक्ति मां दुर्गा के नौ दिव्य स्वरूपों की आराधना, डांडिया-गरबा और नारी शक्ति का महापर्व।',
     accentColor: '#FF6F00',
@@ -174,7 +174,8 @@ export const FESTIVALS_DATA: FestivalItem[] = [
 ];
 
 /**
- * Returns the nearest upcoming festival based on the provided reference date.
+ * Returns the nearest upcoming or currently active festival based on the provided reference date.
+ * A festival remains active throughout its celebration day (until 23:59:59 IST).
  * If all dates have passed, it safely falls back to the first festival.
  */
 export function getNextUpcomingFestival(referenceDate = new Date()): {
@@ -182,15 +183,23 @@ export function getNextUpcomingFestival(referenceDate = new Date()): {
   targetDate: Date;
 } {
   const refTime = referenceDate.getTime();
+  const ONE_DAY_MS = 24 * 60 * 60 * 1000;
   
-  // Find festivals in the future
+  // Find festivals that are currently celebrating or in the future
   const upcoming = FESTIVALS_DATA
-    .map((f) => ({ festival: f, targetDate: new Date(f.dateIso) }))
-    .filter((item) => item.targetDate.getTime() > refTime)
+    .map((f) => {
+      const targetDate = new Date(f.dateIso);
+      const endDate = new Date(targetDate.getTime() + ONE_DAY_MS - 1);
+      return { festival: f, targetDate, endDate };
+    })
+    .filter((item) => item.endDate.getTime() >= refTime)
     .sort((a, b) => a.targetDate.getTime() - b.targetDate.getTime());
 
   if (upcoming.length > 0) {
-    return upcoming[0];
+    return {
+      festival: upcoming[0].festival,
+      targetDate: upcoming[0].targetDate,
+    };
   }
 
   // Fallback if none in future: return first festival

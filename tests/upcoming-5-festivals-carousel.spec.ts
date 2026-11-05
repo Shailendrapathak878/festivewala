@@ -82,7 +82,7 @@ test.describe('Hero Upcoming 5 Festivals Carousel — E2E Homepage Integration',
     await expect(page.locator('[data-testid="carousel-pause-toggle"]')).toBeVisible();
   });
 
-  test('Slide 1 is Dhanteras with live 4-unit countdown and action buttons', async ({ page }) => {
+  test('Slide 1 is Dhanteras with live celebration status and action buttons', async ({ page }) => {
     await page.goto('/');
     // Pause autoplay and ensure slide 0 is active for deterministic inspection
     await page.locator('[data-testid="carousel-pause-toggle"]').click();
@@ -91,13 +91,10 @@ test.describe('Hero Upcoming 5 Festivals Carousel — E2E Homepage Integration',
     const slideTitle = page.locator('[data-testid="carousel-slide-title"]');
     await expect(slideTitle).toContainText('Dhanteras');
 
-    // Dhanteras is <= 7 days away, so 4-unit countdown must be visible
-    const countdown = page.locator('[data-testid="carousel-slide-countdown"]');
-    await expect(countdown).toBeVisible();
-    await expect(countdown).toContainText('D');
-    await expect(countdown).toContainText('H');
-    await expect(countdown).toContainText('M');
-    await expect(countdown).toContainText('S');
+    // On Dhanteras day (Nov 6), live celebration banner is active, countdown grid is replaced
+    const celebratingBanner = page.locator('[data-testid="carousel-slide-celebrating"]');
+    await expect(celebratingBanner).toBeVisible();
+    await expect(celebratingBanner).toContainText('Sacred Celebration is Live Today');
 
     // Button 1: Explore Greetings
     const greetingsBtn = page.locator('[data-testid="carousel-btn-greetings"]');

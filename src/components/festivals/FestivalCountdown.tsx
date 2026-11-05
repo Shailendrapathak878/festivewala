@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { useLanguage } from '../../hooks/useLanguage';
 import { getFestivalCalendarEntry, type FestivalCalendarEntry } from '../../data/festivals/festivalCalendar';
 import { getNextUpcomingFestival } from '../../data/festivals';
+import { formatDateInIST } from '../../utils/festivalDateUtils';
 import { Sparkles, Calendar, Clock, CheckCircle2, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -115,7 +116,11 @@ export const FestivalCountdown: React.FC<FestivalCountdownProps> = ({
         {/* Eyebrow Pill */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#45216B]/80 border border-[#F2D98B]/40 text-[11px] sm:text-xs font-bold uppercase tracking-widest text-[#F2D98B]">
           <Clock size={13} className="text-[#F2D98B]" />
-          <span>{isHindi ? config.countdownLabelHi : config.countdownLabelEn}</span>
+          <span>
+            {timeLeft.status === 'celebrating'
+              ? (isHindi ? 'पावन उत्सव आज जारी है' : 'Live Celebration Today')
+              : (isHindi ? config.countdownLabelHi : config.countdownLabelEn)}
+          </span>
         </div>
 
         {/* Tithi Display */}
@@ -181,7 +186,7 @@ export const FestivalCountdown: React.FC<FestivalCountdownProps> = ({
                 {isHindi ? 'आगामी उत्सव तिथि' : 'Scheduled Celebration Date'}
               </span>
               <p className="text-sm font-semibold text-[#FAF7F0]">
-                {new Date(config.startDateIso).toLocaleDateString(isHindi ? 'hi-IN' : 'en-US', {
+                {formatDateInIST(config.startDateIso, isHindi ? 'hi-IN' : 'en-US', {
                   day: 'numeric',
                   month: 'long',
                   year: 'numeric',

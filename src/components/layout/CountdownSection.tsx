@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useLanguage } from '../../hooks/useLanguage';
 import { getUpcomingFestivals, type UpcomingFestival } from '../../services/festivalPriorityEngine';
 import { FESTIVALS_DATA } from '../../data/festivals';
+import { formatDateInIST } from '../../utils/festivalDateUtils';
 import {
   Sparkles,
   Calendar,
@@ -98,7 +99,9 @@ export const CountdownSection: React.FC = () => {
               <Clock size={12} className="text-brand-gold" />
               <span>
                 {isPrimary
-                  ? (isHindi ? 'प्रथम आगामी पर्व (Priority 1)' : 'Next Upcoming (Priority 1)')
+                  ? (isCelebrating
+                      ? (isHindi ? 'प्रथम पावन पर्व (सजीव उत्सव)' : 'Live Celebration (Priority 1)')
+                      : (isHindi ? 'प्रथम आगामी पर्व (Priority 1)' : 'Next Upcoming (Priority 1)'))
                   : (isHindi ? 'द्वितीय आगामी पर्व (Priority 2)' : 'Following Celebration (Priority 2)')}
               </span>
             </div>
@@ -175,8 +178,8 @@ export const CountdownSection: React.FC = () => {
             <div className="p-4 rounded-2xl bg-white/5 border border-white/15 text-center mb-6">
               <span className="text-xs text-brand-champagne/80 block">
                 {isHindi
-                  ? `यह पर्व ${new Date(item.startDateIso).toLocaleDateString('hi-IN', { day: 'numeric', month: 'long', year: 'numeric' })} को है। उलटी गिनती ७ दिन पूर्व स्वतः प्रारंभ होगी।`
-                  : `Celebration date: ${new Date(item.startDateIso).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}. Live countdown begins 7 days prior.`}
+                  ? `यह पर्व ${formatDateInIST(item.startDateIso, 'hi-IN', { day: 'numeric', month: 'long', year: 'numeric' })} को है। उलटी गिनती ७ दिन पूर्व स्वतः प्रारंभ होगी।`
+                  : `Celebration date: ${formatDateInIST(item.startDateIso, 'en-US', { day: 'numeric', month: 'short', year: 'numeric' })}. Live countdown begins 7 days prior.`}
               </span>
             </div>
           )}

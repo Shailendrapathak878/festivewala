@@ -4,6 +4,7 @@ import { SectionHeading } from '../common/SectionHeading';
 import { PrimaryButton } from '../common/PrimaryButton';
 import { FESTIVALS_DATA } from '../../data/festivals';
 import { getUpcomingFestivals } from '../../services/festivalPriorityEngine';
+import { formatDateInIST } from '../../utils/festivalDateUtils';
 import { useLanguage } from '../../hooks/useLanguage';
 import { Sparkles, Calendar, ArrowRight, Flame, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -102,7 +103,7 @@ export const FestivalDiscoverySection: React.FC = () => {
                     <span>
                       {featuredUpcoming?.daysRemaining === 0
                         ? loc('Today / Ongoing', 'आज / जारी है', 'Today')
-                        : `${new Date(featuredUpcoming?.startDateIso || featuredFestival.dateIso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} • ${featuredUpcoming?.daysRemaining ?? 0} ${loc('Days Left', 'दिन शेष', 'Days Left')}`}
+                        : `${formatDateInIST(featuredUpcoming?.startDateIso || featuredFestival.dateIso, 'en-US', { month: 'short', day: 'numeric', year: 'numeric' })} • ${featuredUpcoming?.daysRemaining ?? 0} ${loc('Days Left', 'दिन शेष', 'Days Left')}`}
                     </span>
                   </div>
                 </div>
