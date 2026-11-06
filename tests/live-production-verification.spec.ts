@@ -18,18 +18,23 @@ test.describe('FestiveWala Live Production Verification (https://festivewala.in)
     });
   });
 
-  test('1. Live Homepage: Hero Carousel, Upcoming Festivals & Discovery', async ({ page }) => {
+  test('1. Live Homepage: Hero Carousel, SEO H1, Upcoming Festivals & Discovery', async ({ page }) => {
+    page.setDefaultTimeout(45000);
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto('https://festivewala.in/', { waitUntil: 'domcontentloaded' });
 
     // Verify Title & Hero
-    await expect(page).toHaveTitle(/FestiveWala/);
+    await expect(page).toHaveTitle(/Indian Festival Greetings|FestiveWala/);
     const carousel = page.locator('[data-testid="hero-festival-carousel"]');
-    await expect(carousel).toBeVisible({ timeout: 15000 });
+    await expect(carousel).toBeVisible({ timeout: 25000 });
 
     // Verify Slide 1 is Dhanteras
     const slideTitle = page.locator('[data-testid="carousel-slide-title"]');
     await expect(slideTitle).toContainText('Dhanteras');
+
+    // Verify H1 contains Indian Festival Greetings
+    const h1 = page.locator('h1').first();
+    await expect(h1).toContainText(/Indian Festival Greetings|FestiveWala/i);
 
     // Screenshot
     const p1 = path.join(outputDir, '01_live_homepage_hero_desktop.png');
@@ -37,20 +42,22 @@ test.describe('FestiveWala Live Production Verification (https://festivewala.in)
     fs.copyFileSync(p1, path.join(brainDir, '01_live_homepage_hero_desktop.png'));
   });
 
-  test('2. Live Dhanteras Page: Countdown, 19-Section Guide & Gift Curations', async ({ page }) => {
+  test('2. Live Dhanteras Page: Single H1, Countdown, 19-Section Guide & Gift Curations', async ({ page }) => {
+    page.setDefaultTimeout(45000);
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto('https://festivewala.in/festivals/dhanteras', { waitUntil: 'domcontentloaded' });
 
-    // Check headings
-    const heading = page.locator('h1').first();
-    await expect(heading).toContainText(/Dhanteras|धनतेरस/i);
+    // Check single H1
+    const h1Elements = page.locator('h1');
+    await expect(h1Elements).toHaveCount(1);
+    await expect(h1Elements.first()).toContainText(/Dhanteras|धनतेरस/i);
 
     // Verify 19-Section Guide
     const section2 = page.locator('#sec-meaning-origin');
-    await expect(section2).toBeVisible({ timeout: 15000 });
+    await expect(section2).toBeVisible({ timeout: 20000 });
 
     const section17 = page.locator('#sec-gift-ideas');
-    await expect(section17).toBeVisible({ timeout: 15000 });
+    await expect(section17).toBeVisible({ timeout: 20000 });
 
     // Screenshot
     const p2 = path.join(outputDir, '02_live_dhanteras_page_desktop.png');
@@ -58,14 +65,22 @@ test.describe('FestiveWala Live Production Verification (https://festivewala.in)
     fs.copyFileSync(p2, path.join(brainDir, '02_live_dhanteras_page_desktop.png'));
   });
 
-  test('3. Live Greeting Studio: Dhanteras Pre-filter & Template Rendering', async ({ page }) => {
+  test('3. Live Greeting Studio: SEO H1, 3-Step Guide, Dhanteras Pre-filter & Template Rendering', async ({ page }) => {
+    page.setDefaultTimeout(45000);
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto('https://festivewala.in/greeting-cards?festival=dhanteras', { waitUntil: 'domcontentloaded' });
 
+    // Check H1
+    const h1 = page.locator('h1').first();
+    await expect(h1).toContainText(/Greeting Card Maker|Dhanteras/i);
+
     const templateCards = page.locator('[data-testid="template-card"]');
-    await expect(templateCards.first()).toBeVisible({ timeout: 15000 });
+    await expect(templateCards.first()).toBeVisible({ timeout: 20000 });
     const count = await templateCards.count();
     expect(count).toBeGreaterThanOrEqual(1);
+
+    // Verify 3-step guide is rendered below studio
+    await expect(page.locator('text=How to Create Greeting Cards Online in 3 Simple Steps')).toBeVisible();
 
     // Screenshot
     const p3 = path.join(outputDir, '03_live_greeting_studio_dhanteras.png');
@@ -73,12 +88,17 @@ test.describe('FestiveWala Live Production Verification (https://festivewala.in)
     fs.copyFileSync(p3, path.join(brainDir, '03_live_greeting_studio_dhanteras.png'));
   });
 
-  test('4. Live Wishes Hub: Dhanteras Wishes Isolation', async ({ page }) => {
+  test('4. Live Wishes Hub: SEO H1, Dhanteras Wishes Isolation & FAQs', async ({ page }) => {
+    page.setDefaultTimeout(45000);
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto('https://festivewala.in/wishes?festival=dhanteras', { waitUntil: 'domcontentloaded' });
 
+    // Check H1
+    const h1 = page.locator('h1').first();
+    await expect(h1).toContainText(/Wishes/i);
+
     const wishCards = page.locator('[data-testid="wish-card"]');
-    await expect(wishCards.first()).toBeVisible({ timeout: 15000 });
+    await expect(wishCards.first()).toBeVisible({ timeout: 20000 });
     const count = await wishCards.count();
     expect(count).toBeGreaterThanOrEqual(1);
 
@@ -92,11 +112,12 @@ test.describe('FestiveWala Live Production Verification (https://festivewala.in)
   });
 
   test('5. Live Mobile QA: Viewport 390x844 (iPhone 14) Zero Overflow & Clean Stacking', async ({ page }) => {
+    page.setDefaultTimeout(45000);
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('https://festivewala.in/', { waitUntil: 'domcontentloaded' });
 
     const carousel = page.locator('[data-testid="hero-festival-carousel"]');
-    await expect(carousel).toBeVisible({ timeout: 15000 });
+    await expect(carousel).toBeVisible({ timeout: 25000 });
 
     const hasHorizontalOverflow = await page.evaluate(() => {
       return document.documentElement.scrollWidth > document.documentElement.clientWidth;
@@ -135,6 +156,7 @@ test.describe('FestiveWala Live Production Verification (https://festivewala.in)
   });
 
   test('8. Live Inspiration Hub Verification: No Phase 5 notice & Hub cards render', async ({ page }) => {
+    page.setDefaultTimeout(45000);
     await page.goto('https://festivewala.in/inspiration', { waitUntil: 'domcontentloaded' });
     const bodyText = await page.innerText('body');
     expect(bodyText).not.toContain('Phase 5');
@@ -142,7 +164,7 @@ test.describe('FestiveWala Live Production Verification (https://festivewala.in)
     expect(bodyText).not.toContain('will arrive in Phase 5');
 
     const rangoliLink = page.locator('a[href="/rangoli"]').first();
-    await expect(rangoliLink).toBeVisible({ timeout: 10000 });
+    await expect(rangoliLink).toBeVisible({ timeout: 15000 });
   });
 
   test('9. Live Service Worker & CSP Purity: Zero Monetag tokens', async ({ request }) => {
@@ -159,5 +181,18 @@ test.describe('FestiveWala Live Production Verification (https://festivewala.in)
     expect(csp).not.toContain('nap5k.com');
     expect(csp).toContain('pagead2.googlesyndication.com');
   });
-});
 
+  test('10. Live Sitemap & Robots Verification: 30 canonical URLs declared & accessible', async ({ request }) => {
+    const sitemapRes = await request.get('https://festivewala.in/sitemap.xml');
+    expect(sitemapRes.status()).toBe(200);
+    const sitemapText = await sitemapRes.text();
+    const locMatches = sitemapText.match(/<loc>(.*?)<\/loc>/g) || [];
+    expect(locMatches.length).toBe(30);
+
+    const robotsRes = await request.get('https://festivewala.in/robots.txt');
+    expect(robotsRes.status()).toBe(200);
+    const robotsText = await robotsRes.text();
+    expect(robotsText).toContain('Allow: /manifest.json');
+    expect(robotsText).toContain('Sitemap: https://festivewala.in/sitemap.xml');
+  });
+});

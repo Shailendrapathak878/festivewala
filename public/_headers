@@ -23,15 +23,15 @@
 /sw.js
   Cache-Control: public, max-age=0, no-cache, no-store, must-revalidate
 
-# Cache-Control for SEO & PWA metadata (1 day browser cache, revalidate)
+# Cache-Control for SEO & PWA metadata (Immediate revalidation on deployment)
 /sitemap.xml
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: public, max-age=0, must-revalidate
 
 /robots.txt
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: public, max-age=0, must-revalidate
 
 /manifest.json
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
 
 /ads.txt
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: public, max-age=0, must-revalidate
