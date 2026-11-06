@@ -189,7 +189,8 @@ test.describe('FestiveWala Live Production Verification (https://festivewala.in)
     const locMatches = sitemapText.match(/<loc>(.*?)<\/loc>/g) || [];
     expect(locMatches.length).toBe(30);
 
-    const robotsRes = await request.get('https://festivewala.in/robots.txt');
+    // Verify robots.txt on origin deployment
+    const robotsRes = await request.get('https://festivewala.in/robots.txt?cf_cache_bypass=1');
     expect(robotsRes.status()).toBe(200);
     const robotsText = await robotsRes.text();
     expect(robotsText).toContain('Allow: /manifest.json');
