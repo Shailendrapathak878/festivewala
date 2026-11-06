@@ -81,11 +81,11 @@ export const DhanterasGuideArticle: React.FC<DhanterasGuideArticleProps> = ({
           <span>{isHindi ? 'विस्तृत उत्सव संदर्शिका • २४००+ शब्द' : 'Comprehensive Festival Guide • 2,200+ Words'}</span>
         </div>
 
-        <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#24113D] leading-[1.2] max-w-4xl mx-auto">
+        <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#24113D] leading-[1.2] max-w-4xl mx-auto">
           {isHindi
             ? 'धनतेरस (धनत्रयोदशी) २०२६: महत्व, धन्वंतरि जयंती, यम दीपदान, धातु खरीद व संपूर्ण उत्सव मार्गदर्शिका'
             : 'Dhanteras (Dhanatrayodashi) 2026: Significance, Dhanvantari Jayanti, Yamadeepdaan, Metal Traditions & Complete Celebration Guide'}
-        </h1>
+        </h2>
 
         <p className="font-sans text-sm sm:text-base md:text-lg text-[#24113D]/80 max-w-2xl mx-auto mt-4 leading-relaxed font-light">
           {isHindi

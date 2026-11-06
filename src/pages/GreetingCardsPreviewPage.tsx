@@ -47,6 +47,73 @@ export const GreetingCardsPreviewPage: React.FC<GreetingCardsPreviewPageProps> =
     keywords = 'Diwali greeting card maker, Diwali photo wishes, Deepavali customized card, free festive card download';
   }
 
+  const studioFaqs = isHindi
+    ? [
+        {
+          q: 'क्या फेस्टिववाला ग्रीटिंग कार्ड मेकर पूरी तरह मुफ्त है?',
+          a: 'हाँ, फेस्टिववाला का ऑनलाइन ग्रीटिंग कार्ड मेकर १००% निःशुल्क है। इसके लिए किसी सब्सक्रिप्शन या अकाउंट लॉगिन की आवश्यकता नहीं है।',
+        },
+        {
+          q: 'क्या मेरी फोटो सर्वर पर अपलोड होती है?',
+          a: 'बिल्कुल नहीं। फेस्टिववाला अत्याधुनिक क्लाइंट-साइड HTML5 कैनवस तकनीक पर कार्य करता है। आपकी फोटो आपके ब्राउज़र में ही प्रोसेस होती है और कभी किसी सर्वर पर नहीं भेजी जाती।',
+        },
+        {
+          q: 'कार्ड किन फॉर्मेट्स में डाउनलोड कर सकते हैं?',
+          a: 'आप व्हाट्सएप स्टेटस (9:16 पोर्ट्रेट), इंस्टाग्राम/फेसबुक (1:1 स्क्वायर) और एचडी लैंडस्केप में उच्च-रेज़ोल्यूशन (1080p+) पीएनजी डाउनलोड कर सकते हैं।',
+        },
+        {
+          q: 'क्या मैं अपना नाम और कस्टम बधाई संदेश जोड़ सकता हूँ?',
+          a: 'हाँ, आप अपना नाम, परिवार का नाम, और अपनी पसंद का कोई भी पावन संदेश या शायरी जोड़कर तुरंत कस्टमाइज कर सकते हैं।',
+        },
+      ]
+    : [
+        {
+          q: 'Is FestiveWala Greeting Card Maker completely free?',
+          a: 'Yes, FestiveWala Free Online Greeting Card Maker is 100% free with no hidden charges, watermarks, or account registration required.',
+        },
+        {
+          q: 'Are my uploaded photos sent to any server?',
+          a: 'No. FestiveWala uses 100% client-side HTML5 canvas rendering. Your photos are processed exclusively inside your local web browser and never transmitted to any external server.',
+        },
+        {
+          q: 'What download formats and sizes are available?',
+          a: 'You can export high-resolution (1080p+) PNG images optimized for WhatsApp Status (9:16 Portrait), Instagram/Facebook Posts (1:1 Square), and classic greeting dimensions.',
+        },
+        {
+          q: 'Can I add my name and personalized wishes to the card?',
+          a: 'Yes. You can enter your full name or family signature, pick from 600+ curated festival wishes in Hindi and English, and adjust text layout instantly.',
+        },
+      ];
+
+  const jsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebApplication',
+      name: isHindi ? 'फेस्टिववाला फ्री ऑनलाइन ग्रीटिंग कार्ड मेकर' : 'FestiveWala Free Online Greeting Card Maker',
+      url: canonicalUrl,
+      applicationCategory: 'MultimediaApplication',
+      operatingSystem: 'All Modern Web Browsers',
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'INR',
+      },
+      description: seoDesc,
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: studioFaqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.q,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.a,
+        },
+      })),
+    },
+  ];
+
   return (
     <>
       <SEOHead
@@ -55,9 +122,113 @@ export const GreetingCardsPreviewPage: React.FC<GreetingCardsPreviewPageProps> =
         keywords={keywords}
         canonicalUrl={canonicalUrl}
         ogType="website"
+        jsonLd={jsonLd}
         lang={isHindi ? 'hi' : 'en'}
       />
       <GreetingStudio defaultFestivalId={festivalId} defaultGreetingMode={defaultMode} />
+
+      {/* Crawlable On-Page SEO & User Guide Section */}
+      <section className="bg-brand-cream/60 border-t border-brand-gold/20 py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto space-y-12">
+          {/* Section 1: How It Works */}
+          <div className="space-y-4">
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-brand-deep">
+              {isHindi ? 'ऑनलाइन त्योहार ग्रीटिंग कार्ड कैसे बनाएं (३ सरल चरण)' : 'How to Create Greeting Cards Online in 3 Simple Steps'}
+            </h2>
+            <p className="text-brand-dark/80 text-sm sm:text-base leading-relaxed">
+              {isHindi
+                ? 'फेस्टिववाला के साथ व्यक्तिगत त्योहार ग्रीटिंग कार्ड बनाना बेहद आसान है। बिना किसी तकनीकी कौशल के कुछ ही सेकंडों में सुंदर कार्ड तैयार करें:'
+                : 'FestiveWala makes it effortless to create personalized festival greeting cards. Follow these three quick steps to design a studio-quality festival card:'}
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-2">
+              <div className="bg-white p-5 rounded-xl border border-brand-gold/30 shadow-sm">
+                <div className="w-8 h-8 rounded-full bg-brand-gold/20 text-brand-deep font-bold flex items-center justify-center mb-3">1</div>
+                <h3 className="font-serif font-bold text-brand-deep mb-1">
+                  {isHindi ? 'टेम्प्लेट व त्योहार चुनें' : '1. Choose Template'}
+                </h3>
+                <p className="text-xs sm:text-sm text-brand-dark/70">
+                  {isHindi
+                    ? 'दिवाली, धनतेरस, होली या नव वर्ष के लिए पारंपरिक, आधुनिक या फोटो फ्रेम चुनें।'
+                    : 'Select from 100+ luxury templates tailored for Diwali, Dhanteras, New Year, and sacred festivals.'}
+                </p>
+              </div>
+              <div className="bg-white p-5 rounded-xl border border-brand-gold/30 shadow-sm">
+                <div className="w-8 h-8 rounded-full bg-brand-gold/20 text-brand-deep font-bold flex items-center justify-center mb-3">2</div>
+                <h3 className="font-serif font-bold text-brand-deep mb-1">
+                  {isHindi ? 'फोटो व नाम जोड़ें' : '2. Add Photo & Name'}
+                </h3>
+                <p className="text-xs sm:text-sm text-brand-dark/70">
+                  {isHindi
+                    ? 'अपनी पारिवारिक तस्वीर जोड़ें, नाम लिखें और सुंदर हिंदी या अंग्रेजी शुभकामना चुनें।'
+                    : 'Personalize with your portrait or family photo, type your name, and select heartfelt wishes.'}
+                </p>
+              </div>
+              <div className="bg-white p-5 rounded-xl border border-brand-gold/30 shadow-sm">
+                <div className="w-8 h-8 rounded-full bg-brand-gold/20 text-brand-deep font-bold flex items-center justify-center mb-3">3</div>
+                <h3 className="font-serif font-bold text-brand-deep mb-1">
+                  {isHindi ? 'एचडी डाउनलोड व शेयर' : '3. Instant HD Download'}
+                </h3>
+                <p className="text-xs sm:text-sm text-brand-dark/70">
+                  {isHindi
+                    ? 'एक क्लिक में उच्च-गुणवत्ता पीएनजी डाउनलोड करें या सीधे व्हाट्सएप पर शेयर करें।'
+                    : 'Download crystal-clear 1080p+ PNG files ready for WhatsApp status and social media.'}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Section 2: Personalization & Formats */}
+          <div className="space-y-4">
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-brand-deep">
+              {isHindi ? 'व्यक्तिगत ग्रीटिंग कार्ड और फोटो फ्रेम की विशेषताएं' : 'Personalized Festival Greeting Cards with Photo & Name'}
+            </h2>
+            <p className="text-brand-dark/80 text-sm sm:text-base leading-relaxed">
+              {isHindi
+                ? 'चाहे आपको परिवार के लिए स्नेहपूर्ण संदेश भेजना हो या व्यापारिक ग्राहकों के लिए औपचारिक बधाई, फेस्टिववाला का फ्री ऑनलाइन फेस्टिवल कार्ड क्रिएटर हर अवसर के लिए सुंदर विकल्प प्रदान करता है।'
+                : 'Whether you need an auspicious Diwali greeting for elders, a warm Dhanteras wish for clients, or a WhatsApp story for friends, FestiveWala provides complete creative freedom with zero watermarks.'}
+            </p>
+          </div>
+
+          {/* Section 3: FAQ Section */}
+          <div className="space-y-4">
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-brand-deep">
+              {isHindi ? 'अक्सर पूछे जाने वाले प्रश्न (FAQ)' : 'Frequently Asked Questions (FAQ)'}
+            </h2>
+            <div className="space-y-3">
+              {studioFaqs.map((faq, idx) => (
+                <div key={idx} className="bg-white p-5 rounded-xl border border-brand-gold/20 shadow-sm">
+                  <h3 className="font-serif font-bold text-base text-brand-deep mb-2">{faq.q}</h3>
+                  <p className="text-sm text-brand-dark/80 leading-relaxed">{faq.a}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Section 4: Contextual Internal Linking */}
+          <div className="pt-6 border-t border-brand-gold/20">
+            <h3 className="font-serif text-lg font-bold text-brand-deep mb-3">
+              {isHindi ? 'संबंधित उत्सव संसाधन' : 'Explore Related Celebration Resources'}
+            </h3>
+            <div className="flex flex-wrap gap-3">
+              <a href="/wishes" className="px-4 py-2 bg-white text-brand-deep rounded-full text-xs sm:text-sm border border-brand-gold/40 hover:bg-brand-gold/10 transition-colors font-medium">
+                {isHindi ? '६००+ त्योहार शुभकामनाएं (हिंदी व अंग्रेजी)' : 'Festival Wishes in Hindi and English'}
+              </a>
+              <a href="/festivals/dhanteras" className="px-4 py-2 bg-white text-brand-deep rounded-full text-xs sm:text-sm border border-brand-gold/40 hover:bg-brand-gold/10 transition-colors font-medium">
+                {isHindi ? 'धनतेरस २०२६ संपूर्ण गाइड' : 'Dhanteras Wishes and Greetings'}
+              </a>
+              <a href="/festivals/diwali" className="px-4 py-2 bg-white text-brand-deep rounded-full text-xs sm:text-sm border border-brand-gold/40 hover:bg-brand-gold/10 transition-colors font-medium">
+                {isHindi ? 'दीपावली २०२६ संपूर्ण गाइड' : 'Diwali Wishes and Greetings'}
+              </a>
+              <a href="/rangoli" className="px-4 py-2 bg-white text-brand-deep rounded-full text-xs sm:text-sm border border-brand-gold/40 hover:bg-brand-gold/10 transition-colors font-medium">
+                {isHindi ? 'दिवाली के लिए रंगोली डिजाइन' : 'Rangoli Designs for Diwali'}
+              </a>
+              <a href="/gift-ideas" className="px-4 py-2 bg-white text-brand-deep rounded-full text-xs sm:text-sm border border-brand-gold/40 hover:bg-brand-gold/10 transition-colors font-medium">
+                {isHindi ? 'दिवाली उपहार विचार' : 'Diwali Gift Ideas'}
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 };

@@ -2,7 +2,6 @@ import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useLanguage } from '../hooks/useLanguage';
-import { SectionHeading } from '../components/common/SectionHeading';
 import { StaggerContainer, StaggerItem } from '../components/animation/StaggerContainer';
 import { FESTIVALS_DATA } from '../data/festivals';
 import { FESTIVAL_DETAILS } from '../data/festivals/festivalDetails';
@@ -17,6 +16,7 @@ import {
   BookOpen,
   Palette,
   Gift,
+  Sparkles,
 } from 'lucide-react';
 
 export const FestivalsPage: React.FC = () => {
@@ -59,6 +59,14 @@ export const FestivalsPage: React.FC = () => {
     });
   }, [seasonFilter, searchQuery]);
 
+  const festivalsSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: isHindi ? 'भारतीय पावन पर्व व उत्सव निर्देशिका' : 'Indian Festivals Directory',
+    url: seoConfig.canonicalUrl,
+    description: seoConfig.description,
+  };
+
   return (
     <div className="py-12 md:py-16 bg-[#FAF7F0] min-h-screen">
       <SEOHead
@@ -67,19 +75,25 @@ export const FestivalsPage: React.FC = () => {
         keywords={seoConfig.keywords}
         canonicalUrl={seoConfig.canonicalUrl}
         ogType="website"
+        jsonLd={festivalsSchema}
         lang={isHindi ? 'hi' : 'en'}
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-        {/* Section Heading */}
-        <SectionHeading
-          badge={isHindi ? 'पावन उत्सव निर्देशिका' : 'Festival Experiences & Heritage'}
-          title={isHindi ? 'भारत के प्रमुख पावन पर्व व उत्सव' : 'Discover Sacred Indian Festivals'}
-          subtitle={
-            isHindi
-              ? 'परंपराओं, इतिहास, पकवानों और गृह-सज्जा के साथ प्रत्येक त्योहार का संपूर्ण और जीवंत अनुभव प्राप्त करें।'
-              : 'Explore deep traditions, auspicious dates, culinary lore, decoration ideas, and bespoke greetings for every celebration.'
-          }
-        />
+        {/* Prominent Page H1 */}
+        <div className="text-center max-w-3xl mx-auto space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-gold/15 border border-brand-gold/30 text-xs font-bold text-brand-deep">
+            <Sparkles className="w-3.5 h-3.5 text-brand-gold" />
+            <span>{isHindi ? 'पावन उत्सव निर्देशिका' : 'Festival Experiences & Heritage'}</span>
+          </div>
+          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-deep leading-tight">
+            {isHindi ? 'भारतीय पावन पर्व व उत्सव निर्देशिका' : 'Indian Festivals Directory & Sacred Traditions'}
+          </h1>
+          <p className="text-sm sm:text-base text-brand-dark/75 leading-relaxed">
+            {isHindi
+              ? 'भारत के प्रमुख त्योहारों की पावन परंपराएं, शुभ मुहूर्त, पारंपरिक व्यंजन, गृह सज्जा और विशेष शुभकामनाओं का संपूर्ण संग्रह।'
+              : 'Explore deep traditions, auspicious dates, culinary lore, decoration ideas, and bespoke greetings for every Indian festival.'}
+          </p>
+        </div>
 
         {/* Quick Hub Navigation Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">

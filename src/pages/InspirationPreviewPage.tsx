@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { SectionHeading } from '../components/common/SectionHeading';
 import { EditorialSection } from '../components/layout/EditorialSection';
 import { SEOHead } from '../components/common/SEOHead';
 import { STATIC_ROUTE_SEO } from '../data/seo/seoMetadata';
@@ -50,6 +49,14 @@ export const InspirationPreviewPage: React.FC = () => {
     },
   ];
 
+  const inspirationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: isHindi ? 'भारतीय सांस्कृतिक प्रेरणा व उत्सव संदर्शिका' : 'Indian Festive Inspiration & Cultural Heritage Hub',
+    url: seoConfig.canonicalUrl,
+    description: seoConfig.description,
+  };
+
   return (
     <div className="py-12 md:py-16 bg-[#FAF7F0] min-h-screen">
       <SEOHead
@@ -58,19 +65,26 @@ export const InspirationPreviewPage: React.FC = () => {
         keywords={seoConfig.keywords}
         canonicalUrl={seoConfig.canonicalUrl}
         ogType="website"
+        jsonLd={inspirationSchema}
         lang={isHindi ? 'hi' : 'en'}
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 space-y-10">
-        <SectionHeading
-          badge={t.nav.inspiration}
-          title={isHindi ? 'सांस्कृतिक प्रेरणा और उत्सव कला' : 'Cultural Heritage & Celebration Arts'}
-          subtitle={
-            isHindi
-              ? 'भारतीय उत्सवों की समृद्ध परंपराओं, कला रूपों और आत्मीय विचारों का प्रेरणादायी संगम'
-              : 'Honoring ancient traditions through contemporary aesthetic exploration, decor craftsmanship, and ritual storytelling'
-          }
-        />
+        {/* Prominent Page H1 */}
+        <div className="text-center max-w-3xl mx-auto space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-gold/15 border border-brand-gold/30 text-xs font-bold text-brand-deep">
+            <Sparkles className="w-3.5 h-3.5 text-brand-gold" />
+            <span>{t.nav.inspiration}</span>
+          </div>
+          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-deep leading-tight">
+            {isHindi ? 'भारतीय सांस्कृतिक प्रेरणा व उत्सव संदर्शिका' : 'Indian Festive Inspiration & Cultural Heritage Hub'}
+          </h1>
+          <p className="text-sm sm:text-base text-brand-dark/75 leading-relaxed">
+            {isHindi
+              ? 'भारतीय उत्सवों की समृद्ध परंपराओं, कला रूपों और आत्मीय विचारों का प्रेरणादायी संगम।'
+              : 'Discover timeless Indian festive inspiration: handcrafted Rangoli patterns, eco-friendly home styling, meaningful gifts, and cultural essays.'}
+          </p>
+        </div>
 
         {/* Curated Inspiration Hub Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

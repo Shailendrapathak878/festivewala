@@ -83,25 +83,21 @@ test.describe('Google AdSense Compliance & Zero-Ad Quality Audit Suite', () => {
     expect(content).not.toContain('will arrive in Phase');
 
     // Verify canonical tag on /inspiration
-    const canonical = await page.locator('link[rel="canonical"]').getAttribute('href');
-    expect(canonical).toBe('https://festivewala.in/inspiration');
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://festivewala.in/inspiration');
   });
 
   test('7. Canonical URL Consistency across Festival Sub-Routes', async ({ page }) => {
     // Test /wishes/diwali
     await page.goto('/wishes/diwali', { waitUntil: 'domcontentloaded' });
-    let canonical = await page.locator('link[rel="canonical"]').getAttribute('href');
-    expect(canonical).toBe('https://festivewala.in/wishes/diwali');
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://festivewala.in/wishes/diwali');
 
     // Test /greetings/diwali
     await page.goto('/greetings/diwali', { waitUntil: 'domcontentloaded' });
-    canonical = await page.locator('link[rel="canonical"]').getAttribute('href');
-    expect(canonical).toBe('https://festivewala.in/greetings/diwali');
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://festivewala.in/greetings/diwali');
 
     // Test /photo-greetings/diwali
     await page.goto('/photo-greetings/diwali', { waitUntil: 'domcontentloaded' });
-    canonical = await page.locator('link[rel="canonical"]').getAttribute('href');
-    expect(canonical).toBe('https://festivewala.in/photo-greetings/diwali');
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://festivewala.in/photo-greetings/diwali');
   });
 
   test('8. Trust & Legal Pages Navigation on Mobile and Desktop', async ({ page }) => {

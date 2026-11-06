@@ -2,7 +2,6 @@ import React, { useState, useMemo } from 'react';
 import { useSearchParams, useParams } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { useLanguage } from '../hooks/useLanguage';
-import { SectionHeading } from '../components/common/SectionHeading';
 import { StaggerContainer, StaggerItem } from '../components/animation/StaggerContainer';
 import {
   GIFT_CATEGORIES,
@@ -81,6 +80,58 @@ export const GiftIdeasPage: React.FC = () => {
 
   const seoConfig = isHindi ? STATIC_ROUTE_SEO.gifts.hi : STATIC_ROUTE_SEO.gifts.en;
 
+  const giftFaqs = isHindi
+    ? [
+        {
+          q: 'परिवार और बड़ों के लिए दिवाली पर सबसे अच्छे पारंपरिक उपहार क्या हैं?',
+          a: 'माता-पिता और बड़ों के लिए ड्राई फ्रूट्स के शाही डिब्बे, पीतल या चांदी के पूजा के दीये, हस्तनिर्मित मिठाइयाँ और सात्विक वेलनेस हैंपर्स सर्वोत्तम माने जाते हैं।',
+        },
+        {
+          q: '₹५०० से ₹१,००० के बजट में दिवाली पर क्या गिफ्ट दे सकते हैं?',
+          a: 'मिट्टी के डिजाइनर दीये, हस्तनिर्मित मोमबत्तियाँ (Scented candles), प्रीमियम चाय हैंपर्स, तांबे के पानी के बोतल और पर्यावरण-अनुकूल इनडोर प्लांट्स उत्तम विकल्प हैं।',
+        },
+        {
+          q: 'सहकर्मियों और कॉर्पोरेट क्लाइंट्स के लिए क्या उपहार उपयुक्त हैं?',
+          a: 'कस्टम ड्राई फ्रूट हैंपर्स, प्रीमियम स्टेशनरी, ब्रास आर्टवेयर और पर्सनलाइज्ड ग्रीटिंग कार्ड्स कॉर्पोरेट संबंधों को मजबूत बनाते हैं।',
+        },
+      ]
+    : [
+        {
+          q: 'What are the most traditional and auspicious Diwali gifts for family?',
+          a: 'Premium dry fruit hampers, pure brass puja diyas, silver coins, artisanal sweets, and organic wellness baskets are deeply cherished traditional gifts.',
+        },
+        {
+          q: 'What are thoughtful Diwali gift ideas under ₹500 to ₹1,000?',
+          a: 'Hand-painted terracotta diyas, artisanal soy wax candles, organic herbal tea sets, copper water bottles, and eco-friendly potted plants make delightful, budget-conscious gifts.',
+        },
+        {
+          q: 'What gifts are best suited for colleagues and corporate gifting?',
+          a: 'Curated gourmet hampers, brass desk keepsakes, premium tea collections, and personalized festive greeting cards convey warmth and professional regard.',
+        },
+      ];
+
+  const jsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: isHindi ? 'दिवाली उपहार विचार संग्रह' : 'Diwali Gift Ideas Collection',
+      url: seoConfig.canonicalUrl,
+      description: seoConfig.description,
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: giftFaqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.q,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.a,
+        },
+      })),
+    },
+  ];
+
   return (
     <div className="py-12 md:py-16 bg-[#FAF7F0] min-h-screen text-brand-dark pb-24">
       <SEOHead
@@ -89,18 +140,25 @@ export const GiftIdeasPage: React.FC = () => {
         keywords={seoConfig.keywords}
         canonicalUrl={seoConfig.canonicalUrl}
         ogType="website"
+        jsonLd={jsonLd}
         lang={isHindi ? 'hi' : 'en'}
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <SectionHeading
-          badge={isHindi ? 'त्योहार उपहार मार्गदर्शिका' : 'Thoughtful Festive Gifting'}
-          title={isHindi ? 'रिश्तों व बजट के अनुसार पावन उपहार प्रेरणा' : 'Curated Festival Gift Inspiration for Loved Ones'}
-          subtitle={
-            isHindi
-              ? 'माता-पिता, परिवार, जीवनसाथी और मित्रों के लिए विचारशील, सांस्कृतिक और विभिन्न बजट श्रेणियों में उपहारों के उत्तम सुझाव।'
-              : 'Meaningful, practical, and eco-conscious gift suggestions categorized by relationship, budget tier, and festive occasion.'
-          }
-        />
+        {/* Prominent Page H1 */}
+        <div className="text-center max-w-3xl mx-auto space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-gold/15 border border-brand-gold/30 text-xs font-bold text-brand-deep">
+            <Sparkles className="w-3.5 h-3.5 text-brand-gold" />
+            <span>{isHindi ? 'त्योहार उपहार मार्गदर्शिका' : 'Thoughtful Festive Gifting'}</span>
+          </div>
+          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-deep leading-tight">
+            {isHindi ? 'दिवाली गिफ्ट आइडियाज — परिवार, मित्रों व सहकर्मियों के लिए उपहार' : 'Diwali Gift Ideas for Family, Friends & Corporate'}
+          </h1>
+          <p className="text-sm sm:text-base text-brand-dark/75 leading-relaxed">
+            {isHindi
+              ? 'दिवाली व त्योहारों पर माता-पिता, मित्रों और परिजनों के लिए ५ बजट श्रेणियों में विचारशील उपहार सुझाव।'
+              : 'Thoughtful Diwali gift ideas for family, friends, and colleagues across 5 budget tiers and traditional categories.'}
+          </p>
+        </div>
 
         {/* Festival Selection Bar */}
         <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
@@ -444,6 +502,89 @@ export const GiftIdeasPage: React.FC = () => {
           </div>
         )}
       </AnimatePresence>
+      {/* Educational Guide, Gifting Etiquette & FAQs */}
+      <section className="mt-20 border-t border-brand-gold/20 pt-16">
+        <div className="max-w-4xl mx-auto space-y-12 px-4 sm:px-6">
+          <div className="space-y-4">
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-brand-deep">
+              {isHindi ? 'दिवाली उपहार चयन मार्गदर्शिका: परंपरा, उपयोगिता व आत्मीयता' : 'How to Choose Thoughtful Diwali Gifts: Tradition & Elegance'}
+            </h2>
+            <p className="text-brand-dark/80 text-sm sm:text-base leading-relaxed">
+              {isHindi
+                ? 'दिवाली पर उपहार देना परस्पर सम्मान, कृतज्ञता और स्नेह का पावन प्रतीक है। सही उपहार चुनते समय प्राप्तकर्ता की पसंद, परंपरा और व्यावहारिकता का संतुलन रखना चाहिए।'
+                : 'Diwali gifting is an ancient tradition symbolizing gratitude, goodwill, and shared abundance. Choosing gifts that balance timeless cultural heritage with everyday utility leaves a lasting memory.'}
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-2">
+              <div className="bg-white p-5 rounded-xl border border-brand-gold/30 shadow-sm">
+                <h3 className="font-serif font-bold text-brand-deep mb-2">
+                  {isHindi ? '१. पारंपरिक व शुभ उपहार' : '1. Auspicious & Sacred'}
+                </h3>
+                <p className="text-xs sm:text-sm text-brand-dark/70">
+                  {isHindi
+                    ? 'पीतल के अखंड दीये, चांदी के सिक्के और माता लक्ष्मी-गणेश पूजन सामग्री बड़ों के लिए सर्वोत्तम हैं।'
+                    : 'Handcrafted brass diyas, silver coins, and puja essentials symbolize eternal divine blessings.'}
+                </p>
+              </div>
+              <div className="bg-white p-5 rounded-xl border border-brand-gold/30 shadow-sm">
+                <h3 className="font-serif font-bold text-brand-deep mb-2">
+                  {isHindi ? '२. स्वास्थ्य व वेलनेस हैंपर्स' : '2. Gourmet & Wellness'}
+                </h3>
+                <p className="text-xs sm:text-sm text-brand-dark/70">
+                  {isHindi
+                    ? 'ऑर्गेनिक शहद, नट्स, हर्बल चाय और प्राकृतिक सुगंधित मोमबत्तियाँ आधुनिक उपहारों में लोकप्रिय हैं।'
+                    : 'Organic dry fruits, Kashmiri saffron, wellness teas, and natural soy candles suit modern lifestyles.'}
+                </p>
+              </div>
+              <div className="bg-white p-5 rounded-xl border border-brand-gold/30 shadow-sm">
+                <h3 className="font-serif font-bold text-brand-deep mb-2">
+                  {isHindi ? '३. व्यक्तिगत स्पर्श व कार्ड' : '3. Personalized Cards'}
+                </h3>
+                <p className="text-xs sm:text-sm text-brand-dark/70">
+                  {isHindi
+                    ? 'उपहार के साथ हाथ से लिखा या पर्सनलाइज्ड फोटो ग्रीटिंग कार्ड उपहार की गरिमा को दोगुना कर देता है।'
+                    : 'Accompanying your gift with a personalized festival card with a heartfelt message adds deep warmth.'}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* FAQs */}
+          <div className="space-y-4">
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-brand-deep">
+              {isHindi ? 'अक्सर पूछे जाने वाले प्रश्न (FAQ)' : 'Frequently Asked Questions (FAQ)'}
+            </h2>
+            <div className="space-y-3">
+              {giftFaqs.map((faq, idx) => (
+                <div key={idx} className="bg-white p-5 rounded-xl border border-brand-gold/20 shadow-sm">
+                  <h3 className="font-serif font-bold text-base text-brand-deep mb-2">{faq.q}</h3>
+                  <p className="text-sm text-brand-dark/80 leading-relaxed">{faq.a}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Contextual Links */}
+          <div className="pt-6 border-t border-brand-gold/20">
+            <h3 className="font-serif text-lg font-bold text-brand-deep mb-3">
+              {isHindi ? 'संबंधित दिवाली उत्सव मार्गदर्शिका' : 'Explore Complete Diwali Festivities'}
+            </h3>
+            <div className="flex flex-wrap gap-3">
+              <a href="/festivals/diwali" className="px-4 py-2 bg-white text-brand-deep rounded-full text-xs sm:text-sm border border-brand-gold/40 hover:bg-brand-gold/10 transition-colors font-medium">
+                {isHindi ? 'दीपावली २०२६ संपूर्ण गाइड' : 'Diwali Wishes and Greetings'}
+              </a>
+              <a href="/festivals/dhanteras" className="px-4 py-2 bg-white text-brand-deep rounded-full text-xs sm:text-sm border border-brand-gold/40 hover:bg-brand-gold/10 transition-colors font-medium">
+                {isHindi ? 'धनतेरस धातु खरीद व पूजन' : 'Dhanteras Wishes and Greetings'}
+              </a>
+              <a href="/greeting-cards" className="px-4 py-2 bg-white text-brand-deep rounded-full text-xs sm:text-sm border border-brand-gold/40 hover:bg-brand-gold/10 transition-colors font-medium">
+                {isHindi ? 'फ्री ऑनलाइन ग्रीटिंग कार्ड मेकर' : 'Free Online Greeting Card Maker'}
+              </a>
+              <a href="/wishes" className="px-4 py-2 bg-white text-brand-deep rounded-full text-xs sm:text-sm border border-brand-gold/40 hover:bg-brand-gold/10 transition-colors font-medium">
+                {isHindi ? 'दिवाली की शुभकामनाएं हिंदी व अंग्रेजी में' : 'Festival Wishes in Hindi and English'}
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

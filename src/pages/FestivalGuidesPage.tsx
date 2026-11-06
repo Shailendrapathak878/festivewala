@@ -2,7 +2,6 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useLanguage } from '../hooks/useLanguage';
-import { SectionHeading } from '../components/common/SectionHeading';
 import {
   GUIDE_CATEGORIES,
   FESTIVAL_GUIDES,
@@ -267,6 +266,23 @@ export const FestivalGuidesPage: React.FC = () => {
   }
 
   // DEFAULT VIEW: GUIDES LISTING HUB
+  const hubSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: isHindi ? 'भारतीय त्योहार व परंपराएं संदर्शिका संग्रह' : 'Indian Festivals and Traditions Guides Collection',
+    url: 'https://festivewala.in/festival-guides',
+    description: seoConfig.description,
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: FESTIVAL_GUIDES.map((guide, idx) => ({
+        '@type': 'ListItem',
+        position: idx + 1,
+        url: `https://festivewala.in/festival-guides/${guide.slug}`,
+        name: isHindi ? guide.titleHi : guide.titleEn,
+      })),
+    },
+  };
+
   return (
     <div className="py-12 md:py-16 bg-[#FAF7F0] min-h-screen text-brand-dark pb-24">
       <SEOHead
@@ -275,18 +291,25 @@ export const FestivalGuidesPage: React.FC = () => {
         keywords={seoConfig.keywords}
         canonicalUrl={seoConfig.canonicalUrl}
         ogType="article"
+        jsonLd={hubSchema}
         lang={isHindi ? 'hi' : 'en'}
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <SectionHeading
-          badge={isHindi ? 'उत्सव ज्ञानकोश व मार्गदर्शिकाएं' : 'Festival Guides & Knowledge'}
-          title={isHindi ? 'परंपराओं, स्वच्छता व पकवानों की संपूर्ण मार्गदर्शिका' : 'Comprehensive Festival Guides & Cultural Lore'}
-          subtitle={
-            isHindi
-              ? 'इतिहास, अनुष्ठानों की वैज्ञानिकता, पर्यावरण-अनुकूल त्योहार और पूर्व तैयारी पर प्रमाणित व सुरुचिपूर्ण लेख।'
-              : 'Informative, accessible, and factually authentic articles on rituals, green celebrations, food lore, and safety.'
-          }
-        />
+        {/* Prominent Page H1 */}
+        <div className="text-center max-w-3xl mx-auto space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-gold/15 border border-brand-gold/30 text-xs font-bold text-brand-deep">
+            <Compass className="w-3.5 h-3.5 text-brand-gold" />
+            <span>{isHindi ? 'उत्सव ज्ञानकोश व मार्गदर्शिकाएं' : 'Festival Guides & Knowledge'}</span>
+          </div>
+          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-deep leading-tight">
+            {isHindi ? 'भारतीय त्योहार व परंपराएं — प्रामाणिक सांस्कृतिक गाइड' : 'Indian Festivals and Traditions — Authentic Cultural Guides'}
+          </h1>
+          <p className="text-sm sm:text-base text-brand-dark/75 leading-relaxed">
+            {isHindi
+              ? 'भारतीय त्योहारों के इतिहास, शुभ मुहूर्त, अनुष्ठान परंपराओं और पर्यावरण-अनुकूल उत्सव पर विस्तृत मार्गदर्शिकाएं।'
+              : 'Explore in-depth cultural guides on Indian festivals and traditions: sacred rituals, historical significance, authentic cuisine, and eco-friendly tips.'}
+          </p>
+        </div>
 
         {/* Search & Category Filter Bar */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">

@@ -43,17 +43,20 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
   lang = 'en',
 }) => {
   useEffect(() => {
-    // 1. Title
+    // 1. Language attribute on <html> element
+    document.documentElement.lang = lang === 'hi' ? 'hi' : 'en';
+
+    // 2. Title
     document.title = title;
 
-    // 2. Primary Meta Tags
+    // 3. Primary Meta Tags
     updateOrCreateMeta('name', 'description', description);
     if (keywords) {
       updateOrCreateMeta('name', 'keywords', keywords);
     }
     updateOrCreateMeta('name', 'author', 'FestiveWala Editorial Board');
 
-    // 3. Open Graph / Facebook
+    // 4. Open Graph / Facebook
     updateOrCreateMeta('property', 'og:title', title);
     updateOrCreateMeta('property', 'og:description', description);
     updateOrCreateMeta('property', 'og:type', ogType);
@@ -62,19 +65,19 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
     updateOrCreateMeta('property', 'og:site_name', 'FestiveWala');
     updateOrCreateMeta('property', 'og:locale', lang === 'hi' ? 'hi_IN' : 'en_IN');
 
-    // 4. Twitter Cards
+    // 5. Twitter Cards
     updateOrCreateMeta('name', 'twitter:card', 'summary_large_image');
     updateOrCreateMeta('name', 'twitter:title', title);
     updateOrCreateMeta('name', 'twitter:description', description);
     updateOrCreateMeta('name', 'twitter:image', ogImage);
 
-    // 5. Canonical & Hreflang Tags
+    // 6. Canonical Tag
+    // Note: Single-URL client-side language switching does not use separate hreflang URLs.
+    // Clean up any legacy hreflang tags to prevent Google Search Console conflicting canonical errors.
+    document.querySelectorAll('link[rel="alternate"][hreflang]').forEach((el) => el.remove());
     updateOrCreateLink('canonical', canonicalUrl);
-    updateOrCreateLink('alternate', canonicalUrl, { hreflang: 'en' });
-    updateOrCreateLink('alternate', canonicalUrl, { hreflang: 'hi' });
-    updateOrCreateLink('alternate', canonicalUrl, { hreflang: 'x-default' });
 
-    // 6. JSON-LD Structured Data
+    // 7. JSON-LD Structured Data
     const existingJsonLd = document.getElementById('seo-jsonld');
     if (existingJsonLd) {
       existingJsonLd.remove();

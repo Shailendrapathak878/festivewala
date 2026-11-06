@@ -42,24 +42,24 @@ export const FestivalDetailPage: React.FC = () => {
 
     const pageTitle = isDiwali
       ? (isHindi
-          ? 'दीपावली २०२६ — महत्व, पांच दिन, पूजन विधि, पकवान व संपूर्ण गाइड | फेस्टिववाला'
-          : 'Diwali 2026 — Significance, 5 Days, Rituals, Food & Celebration Guide | FestiveWala')
+          ? 'दीपावली २०२६: पांच पावन दिन, पूजन विधि, शुभकामनाएं व गाइड | फेस्टिववाला'
+          : 'Diwali 2026: 5 Days Significance, Rituals, Wishes & Guide | FestiveWala')
       : isDhanteras
       ? (isHindi
-          ? 'धनतेरस २०२६ — महत्व, धन्वंतरि जयंती, यम दीपदान, धातु खरीद व संपूर्ण गाइड | फेस्टिववाला'
-          : 'Dhanteras 2026 — Significance, Dhanvantari Jayanti, Rituals, Metal Buying & Complete Guide | FestiveWala')
+          ? 'धनतेरस २०२६: महत्व, पूजन विधि, शुभकामनाएं व गाइड | फेस्टिववाला'
+          : 'Dhanteras 2026: Significance, Rituals, Wishes & Guide | FestiveWala')
       : (isHindi
           ? `${festival.nameHi} — मुहूर्त, परंपराएं, व्यंजन व शुभकामनाएं | फेस्टिववाला`
           : `${festival.nameEn} — Date, Rituals, Recipes, Decor & Wishes | FestiveWala`);
 
     const pageDescription = isDiwali
       ? (isHindi
-          ? 'दीपावली (दिवाली) की संपूर्ण मार्गदर्शिका: जानिए दीपोत्सव का अर्थ, पांच पावन दिन (धनतेरस से भाई दूज), लक्ष्मी पूजन विधि, क्षेत्रीय परंपराएं, पारंपरिक पकवान व पर्यावरण-अनुकूल उत्सव विचार।'
-          : 'Complete Diwali festival guide: discover the meaning of Deepavali, 5-day timeline, Lakshmi Puja muhurat, regional traditions, festive recipes, and eco-friendly tips.')
+          ? 'दीपावली २०२६ संपूर्ण मार्गदर्शिका: पांच पावन दिन, लक्ष्मी पूजन शुभ मुहूर्त, सांस्कृतिक महत्व, पारंपरिक पकवान और मंगलमय शुभकामनाएं।'
+          : 'Complete Diwali 2026 celebration guide: 5-day timeline, Lakshmi Puja muhurat, cultural significance, festive recipes, wishes, and eco-friendly tips.')
       : isDhanteras
       ? (isHindi
-          ? 'धनतेरस (धनत्रयोदशी) की संपूर्ण मार्गदर्शिका: जानिए धनतेरस का महत्व, भगवान धन्वंतरि जयंती, यम दीपदान विधि, सोना-चांदी व धातु खरीद का शगुन, पकवान व उपहार संग्रह।'
-          : 'Complete Dhanteras (Dhanatrayodashi) festival guide: discover the meaning of Dhanteras, Bhagwan Dhanvantari Jayanti, Yamadeepdaan rituals, auspicious metal buying traditions, recipes, and gifts.')
+          ? 'धनतेरस २०२६ की संपूर्ण मार्गदर्शिका: जानिए धनतेरस महत्व, धन्वंतरि जयंती, यम दीपदान विधि, धातु खरीद परंपरा, पकवान और पावन शुभकामनाएं।'
+          : 'Complete Dhanteras 2026 celebration guide: discover festival significance, Dhanvantari Jayanti, Yamadeepdaan rituals, metal buying, wishes, and gift ideas.')
       : (isHindi
           ? `${festival.nameHi}: ${festival.about.summaryHi} जानिए शुभ मुहूर्त, पूजन विधि, गृह सज्जा और विशेष पकवान।`
           : `${festival.nameEn}: ${festival.about.summaryEn} Discover traditions, recipes, decoration ideas, and personalized greeting cards.`);

@@ -370,7 +370,17 @@ export const GreetingStudio: React.FC<GreetingStudioProps> = ({
               <span>{isHindi ? 'शाही ग्रीटिंग स्टूडियो • फेज़ ३' : 'Premium Greeting Studio • Phase 3'}</span>
             </div>
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-[#FAF7F0]">
-              {isHindi ? 'व्यक्तिगत उत्सव ग्रीटिंग कार्ड बनाएं' : 'Personalize Festive Greeting Cards'}
+              {selectedFestivalId === 'dhanteras'
+                ? isHindi
+                  ? 'धनतेरस २०२६ ग्रीटिंग कार्ड व फोटो मेकर'
+                  : 'Free Dhanteras Greeting Card Maker'
+                : selectedFestivalId === 'diwali'
+                ? isHindi
+                  ? 'दिवाली २०२६ ग्रीटिंग कार्ड व फोटो मेकर'
+                  : 'Free Diwali Greeting Card Maker'
+                : isHindi
+                ? 'फ्री ऑनलाइन ग्रीटिंग कार्ड मेकर — फोटो व नाम सहित'
+                : 'Free Online Greeting Card Maker — Photo & Name'}
             </h1>
             <p className="text-xs sm:text-sm text-[#FAF7F0]/70 mt-1">
               {isHindi

@@ -599,6 +599,9 @@ export const HeroFestivalCarousel: React.FC = () => {
                   {festivalName} • {isHindi ? 'विशेष उत्सव' : 'Signature Celebration'}
                 </span>
                 <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl font-extrabold text-[#FAF7F0] tracking-tight leading-[1.18]">
+                  <span className="block text-xs sm:text-sm font-sans font-bold uppercase tracking-widest text-[#F2D98B] mb-1">
+                    {isHindi ? 'भारतीय त्योहार शुभकामनाएं व ग्रीटिंग कार्ड्स' : 'Indian Festival Greetings, Wishes & Cards'}
+                  </span>
                   {festivalTagline}
                 </h1>
               </div>

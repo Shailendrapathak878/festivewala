@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { useLanguage } from '../hooks/useLanguage';
-import { SectionHeading } from '../components/common/SectionHeading';
 import { StaggerContainer, StaggerItem } from '../components/animation/StaggerContainer';
 import {
   DECORATION_CATEGORIES,
@@ -21,6 +20,7 @@ import {
   Eye,
   Layers,
   Lightbulb,
+  Sparkles,
 } from 'lucide-react';
 
 export const DecorationsPage: React.FC = () => {
@@ -59,6 +59,50 @@ export const DecorationsPage: React.FC = () => {
 
   const seoConfig = isHindi ? STATIC_ROUTE_SEO.decorations.hi : STATIC_ROUTE_SEO.decorations.en;
 
+  const decorFaqs = isHindi
+    ? [
+        {
+          q: 'दिवाली पर बालकनी और घर की सजावट कैसे करें?',
+          a: 'बालकनी की रेलिंग पर वार्म व्हाइट फेयरी लाइट्स, प्रवेश द्वार पर गेंदे के फूलों और आम के पत्तों का तोरण, और सेंटर टेबल पर पीतल की उरली में तैरते दीये सबसे आकर्षक लगते हैं।',
+        },
+        {
+          q: 'पर्यावरण-अनुकूल (Eco-friendly) त्योहार सजावट के क्या उपाय हैं?',
+          a: 'मिट्टी के प्राकृतिक दीये, सरसों का तेल, ताजे फूल, सूती कपड़े के तोरण और रीसाइकिल्ड पेपर कंदील प्लास्टिक प्रदूषण से बचाते हैं और घर को पावन सौंदर्य देते हैं।',
+        },
+      ]
+    : [
+        {
+          q: 'How can I decorate my balcony and living room for Diwali?',
+          a: 'Drape warm-white LED fairy lights along balcony railings, hang fresh marigold torans at the entrance, and float tea-light diyas in a brass urli with rose petals.',
+        },
+        {
+          q: 'What are the best eco-friendly festival decoration ideas?',
+          a: 'Clay terracotta diyas, natural mustard or sesame oil, real marigold garlands, handcrafted cloth torans, and recycled paper lanterns are sustainable and authentically beautiful.',
+        },
+      ];
+
+  const jsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: isHindi ? 'त्योहार गृह सज्जा विचार संग्रह' : 'Festive Home Decoration Ideas Collection',
+      url: seoConfig.canonicalUrl,
+      description: seoConfig.description,
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: decorFaqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.q,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.a,
+        },
+      })),
+    },
+  ];
+
   return (
     <div className="py-12 md:py-16 bg-[#FAF7F0] min-h-screen text-brand-dark pb-24">
       <SEOHead
@@ -67,18 +111,25 @@ export const DecorationsPage: React.FC = () => {
         keywords={seoConfig.keywords}
         canonicalUrl={seoConfig.canonicalUrl}
         ogType="website"
+        jsonLd={jsonLd}
         lang={isHindi ? 'hi' : 'en'}
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <SectionHeading
-          badge={isHindi ? 'गृह सज्जा विचार' : 'Festive Home Decor Ideas'}
-          title={isHindi ? 'सुलभ, पर्यावरण-अनुकूल व सुंदर उत्सव सज्जा' : 'Affordable DIY & Traditional Festival Decoration Ideas'}
-          subtitle={
-            isHindi
+        {/* Prominent Page H1 */}
+        <div className="text-center max-w-3xl mx-auto space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-gold/15 border border-brand-gold/30 text-xs font-bold text-brand-deep">
+            <Sparkles className="w-3.5 h-3.5 text-brand-gold" />
+            <span>{isHindi ? 'गृह सज्जा विचार' : 'Festive Home Decor Ideas'}</span>
+          </div>
+          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-deep leading-tight">
+            {isHindi ? 'त्योहार गृह सज्जा विचार — दीये, लाइट्स व इको-फ्रेंडली DIY' : 'Festive Home Decoration Ideas — Diyas & Eco-Friendly DIY'}
+          </h1>
+          <p className="text-sm sm:text-base text-brand-dark/75 leading-relaxed">
+            {isHindi
               ? 'मुख्य द्वार, बालकनी, लिविंग रूम और पूजा स्थल के लिए ताजे फूलों, दीयों और कागजी शिल्प के व्यावहारिक विचार।'
-              : 'Practical, budget-friendly DIY and sustainable decoration guides tailored for welcoming positive festival energy.'
-          }
-        />
+              : 'Practical, budget-friendly DIY and sustainable decoration guides tailored for Diwali, Navratri, and festive home celebrations.'}
+          </p>
+        </div>
 
         {/* Search & Favorites Toggle Bar */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
@@ -386,6 +437,57 @@ export const DecorationsPage: React.FC = () => {
           </div>
         )}
       </AnimatePresence>
+      {/* Educational Guide & FAQs */}
+      <section className="mt-20 border-t border-brand-gold/20 pt-16">
+        <div className="max-w-4xl mx-auto space-y-12 px-4 sm:px-6">
+          <div className="space-y-4">
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-brand-deep">
+              {isHindi ? 'दिवाली व त्योहार गृह सज्जा के आवश्यक सुझाव' : 'Festive Home Styling: Safety, Elegance & Eco-Consciousness'}
+            </h2>
+            <p className="text-brand-dark/80 text-sm sm:text-base leading-relaxed">
+              {isHindi
+                ? 'घर की सज्जा में रोशनी और सुगंध का विशेष महत्व होता है। तेल के दीयों को कभी भी पर्दों या ज्वलनशील वस्तुओं के पास न रखें और बालकनी में सुरक्षित रूप से रखें।'
+                : 'Festive decor elevates the celebratory ambiance of the entire home. Always position lit oil diyas on stable heat-resistant surfaces away from curtains, and use high-grade insulated wiring for outdoor lighting.'}
+            </p>
+          </div>
+
+          {/* FAQs */}
+          <div className="space-y-4">
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-brand-deep">
+              {isHindi ? 'अक्सर पूछे जाने वाले प्रश्न (FAQ)' : 'Frequently Asked Questions (FAQ)'}
+            </h2>
+            <div className="space-y-3">
+              {decorFaqs.map((faq, idx) => (
+                <div key={idx} className="bg-white p-5 rounded-xl border border-brand-gold/20 shadow-sm">
+                  <h3 className="font-serif font-bold text-base text-brand-deep mb-2">{faq.q}</h3>
+                  <p className="text-sm text-brand-dark/80 leading-relaxed">{faq.a}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Contextual Links */}
+          <div className="pt-6 border-t border-brand-gold/20">
+            <h3 className="font-serif text-lg font-bold text-brand-deep mb-3">
+              {isHindi ? 'संबंधित उत्सव विचार' : 'Related Festival Resources'}
+            </h3>
+            <div className="flex flex-wrap gap-3">
+              <a href="/rangoli" className="px-4 py-2 bg-white text-brand-deep rounded-full text-xs sm:text-sm border border-brand-gold/40 hover:bg-brand-gold/10 transition-colors font-medium">
+                {isHindi ? 'दिवाली के लिए रंगोली डिजाइन' : 'Rangoli Designs for Diwali'}
+              </a>
+              <a href="/festivals/diwali" className="px-4 py-2 bg-white text-brand-deep rounded-full text-xs sm:text-sm border border-brand-gold/40 hover:bg-brand-gold/10 transition-colors font-medium">
+                {isHindi ? 'दीपावली २०२६ संपूर्ण गाइड' : 'Diwali Wishes and Greetings'}
+              </a>
+              <a href="/gift-ideas" className="px-4 py-2 bg-white text-brand-deep rounded-full text-xs sm:text-sm border border-brand-gold/40 hover:bg-brand-gold/10 transition-colors font-medium">
+                {isHindi ? 'दिवाली उपहार विचार' : 'Diwali Gift Ideas'}
+              </a>
+              <a href="/greeting-cards" className="px-4 py-2 bg-white text-brand-deep rounded-full text-xs sm:text-sm border border-brand-gold/40 hover:bg-brand-gold/10 transition-colors font-medium">
+                {isHindi ? 'फ्री ऑनलाइन ग्रीटिंग कार्ड मेकर' : 'Free Online Greeting Card Maker'}
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

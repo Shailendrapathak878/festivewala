@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { useLanguage } from '../hooks/useLanguage';
-import { SectionHeading } from '../components/common/SectionHeading';
 import {
   RANGOLI_CATEGORIES,
   RANGOLI_DESIGNS,
@@ -91,6 +90,58 @@ export const RangoliPage: React.FC = () => {
 
   const seoConfig = isHindi ? STATIC_ROUTE_SEO.rangoli.hi : STATIC_ROUTE_SEO.rangoli.en;
 
+  const rangoliFaqs = isHindi
+    ? [
+        {
+          q: 'शुरुआती लोगों के लिए सबसे सरल रंगोली डिजाइन कौन से हैं?',
+          a: 'शुरुआती लोगों के लिए बिंदू वाली रंगोली (Chukki Kolam) और फूलों की पंखुड़ियों (Marigold/Rose petals) से बनी रंगोली सबसे आसान और सुंदर होती है।',
+        },
+        {
+          q: 'रंगोली बनाने के लिए किन पारंपरिक सामग्रियों का उपयोग किया जाता है?',
+          a: 'पारंपरिक रूप से सूखे चावल का आटा, सफेद पत्थर का चूर्ण, प्राकृतिक गुलाल, हल्दी, कुमकुम और ताजे फूलों का उपयोग किया जाता है।',
+        },
+        {
+          q: 'क्या मैं इन रंगोली डिजाइनों को मुफ्त डाउनलोड कर सकता हूँ?',
+          a: 'हाँ, फेस्टिववाला पर सभी रंगोली डिजाइनों के लिए वेक्टर एसवीजी (SVG) और हाई-डेफिनिशन पीएनजी (HD PNG) मुफ्त डाउनलोड उपलब्ध है।',
+        },
+      ]
+    : [
+        {
+          q: 'Which rangoli designs are easiest for beginners to draw at home?',
+          a: 'Dot-grid patterns (Chukki Rangoli) and floral petal mandalas with marigolds and rose petals are the easiest, most forgiving designs for beginners.',
+        },
+        {
+          q: 'What traditional materials are best for Diwali rangoli?',
+          a: 'Traditionally, coarse white rice flour, powdered quartz, natural dry colors, turmeric, kumkum, and fresh flower petals are used to invite positive energy and prosperity.',
+        },
+        {
+          q: 'Can I download these Rangoli patterns for free?',
+          a: 'Yes, every design on FestiveWala can be freely downloaded as scalable vector SVG files and high-resolution PNG images for offline reference.',
+        },
+      ];
+
+  const jsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: isHindi ? 'दिवाली के लिए रंगोली डिजाइन संग्रह' : 'Rangoli Designs for Diwali Collection',
+      url: seoConfig.canonicalUrl,
+      description: seoConfig.description,
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: rangoliFaqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.q,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.a,
+        },
+      })),
+    },
+  ];
+
   return (
     <div className="py-12 md:py-16 bg-[#FAF7F0] min-h-screen text-brand-dark pb-24">
       <SEOHead
@@ -99,18 +150,25 @@ export const RangoliPage: React.FC = () => {
         keywords={seoConfig.keywords}
         canonicalUrl={seoConfig.canonicalUrl}
         ogType="website"
+        jsonLd={jsonLd}
         lang={isHindi ? 'hi' : 'en'}
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <SectionHeading
-          badge={isHindi ? 'रंगोली कला वीथिका' : 'Rangoli Art Gallery'}
-          title={isHindi ? 'पारंपरिक, मयूर व पुष्प रंगोली संग्रह' : 'Curated Indian Rangoli Art & Kolam Gallery'}
-          subtitle={
-            isHindi
-              ? 'आठ प्रमुख श्रेणियों में रंगोली डिजाइनों की प्रेरणा, सामग्री सूची और चरणबद्ध निर्माण विधि।'
-              : 'Discover auspicious patterns, sacred Kolams, and floral mandalas with step-by-step creation guides and free downloads.'
-          }
-        />
+        {/* Prominent Page H1 */}
+        <div className="text-center max-w-3xl mx-auto space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-gold/15 border border-brand-gold/30 text-xs font-bold text-brand-deep">
+            <Sparkles className="w-3.5 h-3.5 text-brand-gold" />
+            <span>{isHindi ? 'रंगोली कला वीथिका' : 'Rangoli Art Gallery'}</span>
+          </div>
+          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-deep leading-tight">
+            {isHindi ? 'दिवाली के लिए रंगोली डिजाइन — सरल व सुंदर पैटर्न' : 'Rangoli Designs for Diwali — Simple & Easy Patterns'}
+          </h1>
+          <p className="text-sm sm:text-base text-brand-dark/75 leading-relaxed">
+            {isHindi
+              ? 'घर के लिए सरल रंगोली डिजाइन, पारंपरिक कोलम, पुष्प मांडना और निःशुल्क एचडी डाउनलोड।'
+              : 'Explore simple rangoli designs for home, Diwali rangoli patterns, flower kolams, and free HD SVG/PNG downloads.'}
+          </p>
+        </div>
 
         {/* View Mode & Favorites Bar */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
@@ -461,6 +519,89 @@ export const RangoliPage: React.FC = () => {
           </div>
         )}
       </AnimatePresence>
+      {/* Educational Guide, Materials Checklist & FAQs */}
+      <section className="mt-20 border-t border-brand-gold/20 pt-16">
+        <div className="max-w-4xl mx-auto space-y-12 px-4 sm:px-6">
+          <div className="space-y-4">
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-brand-deep">
+              {isHindi ? 'घर पर सुंदर रंगोली बनाने के पारंपरिक तरीके व सामग्रियां' : 'Traditional Rangoli Designs for Home & Diwali: Techniques & Materials'}
+            </h2>
+            <p className="text-brand-dark/80 text-sm sm:text-base leading-relaxed">
+              {isHindi
+                ? 'भारतीय संस्कृति में रंगोली केवल एक कला नहीं, बल्कि घर में सकारात्मक ऊर्जा, सुख और माँ लक्ष्मी के स्वागत का पावन माध्यम है। दीवाली, ओणम और पोंगल जैसे महापर्वों पर घर के मुख्य द्वार पर रंगोली बनाना अत्यंत शुभ माना जाता है।'
+                : 'In Indian cultural traditions, Rangoli is a sacred art form designed to welcome deities, channel positive cosmic energy, and bring good fortune. During Diwali, Dhanteras, and festive seasons, drawing a beautiful Rangoli at the home entrance is an auspicious ritual.'}
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-2">
+              <div className="bg-white p-5 rounded-xl border border-brand-gold/30 shadow-sm">
+                <h3 className="font-serif font-bold text-brand-deep mb-2">
+                  {isHindi ? '१. चावल का आटा व प्राकृतिक रंग' : '1. Organic Rice Flour & Quartz'}
+                </h3>
+                <p className="text-xs sm:text-sm text-brand-dark/70">
+                  {isHindi
+                    ? 'पारंपरिक रूप से सूखे चावल के आटे का उपयोग चींटियों व पक्षियों के आहार और शुभता के लिए किया जाता है।'
+                    : 'White quartz powder and coarse rice flour provide sharp lines while honoring ancient traditions.'}
+                </p>
+              </div>
+              <div className="bg-white p-5 rounded-xl border border-brand-gold/30 shadow-sm">
+                <h3 className="font-serif font-bold text-brand-deep mb-2">
+                  {isHindi ? '२. फूलों की रंगोली (Flower Kolam)' : '2. Fresh Flower Petals'}
+                </h3>
+                <p className="text-xs sm:text-sm text-brand-dark/70">
+                  {isHindi
+                    ? 'गेंदे के फूल, गुलाब की पंखुड़ियां और आम के पत्ते पर्यावरण-अनुकूल व सुगंधित रंगोली बनाते हैं।'
+                    : 'Marigold and rose petals combined with brass diyas create fragrant, eco-friendly centerpieces.'}
+                </p>
+              </div>
+              <div className="bg-white p-5 rounded-xl border border-brand-gold/30 shadow-sm">
+                <h3 className="font-serif font-bold text-brand-deep mb-2">
+                  {isHindi ? '३. बिंदू वाली आसान रंगोली' : '3. Simple Dot Grids (Chukki)'}
+                </h3>
+                <p className="text-xs sm:text-sm text-brand-dark/70">
+                  {isHindi
+                    ? 'शुरुआती लोग ३x३ या ५x५ बिंदुओं के ग्रिड से शुरुआत कर अत्यंत सममित पैटर्न बना सकते हैं।'
+                    : 'Beginners can easily construct symmetrical geometric patterns using dot grids from 3x3 to 7x7.'}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* FAQs */}
+          <div className="space-y-4">
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-brand-deep">
+              {isHindi ? 'अक्सर पूछे जाने वाले प्रश्न (FAQ)' : 'Frequently Asked Questions (FAQ)'}
+            </h2>
+            <div className="space-y-3">
+              {rangoliFaqs.map((faq, idx) => (
+                <div key={idx} className="bg-white p-5 rounded-xl border border-brand-gold/20 shadow-sm">
+                  <h3 className="font-serif font-bold text-base text-brand-deep mb-2">{faq.q}</h3>
+                  <p className="text-sm text-brand-dark/80 leading-relaxed">{faq.a}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Contextual Links */}
+          <div className="pt-6 border-t border-brand-gold/20">
+            <h3 className="font-serif text-lg font-bold text-brand-deep mb-3">
+              {isHindi ? 'संबंधित उत्सव प्रेरणा' : 'Related Diwali Celebration Guides & Tools'}
+            </h3>
+            <div className="flex flex-wrap gap-3">
+              <a href="/festivals/diwali" className="px-4 py-2 bg-white text-brand-deep rounded-full text-xs sm:text-sm border border-brand-gold/40 hover:bg-brand-gold/10 transition-colors font-medium">
+                {isHindi ? 'दीपावली २०२६ संपूर्ण गाइड' : 'Diwali Wishes and Greetings'}
+              </a>
+              <a href="/decoration-ideas" className="px-4 py-2 bg-white text-brand-deep rounded-full text-xs sm:text-sm border border-brand-gold/40 hover:bg-brand-gold/10 transition-colors font-medium">
+                {isHindi ? 'त्योहार गृह सज्जा विचार' : 'Festive Home Decoration Ideas'}
+              </a>
+              <a href="/greeting-cards" className="px-4 py-2 bg-white text-brand-deep rounded-full text-xs sm:text-sm border border-brand-gold/40 hover:bg-brand-gold/10 transition-colors font-medium">
+                {isHindi ? 'फ्री ऑनलाइन ग्रीटिंग कार्ड मेकर' : 'Free Online Greeting Card Maker'}
+              </a>
+              <a href="/gift-ideas" className="px-4 py-2 bg-white text-brand-deep rounded-full text-xs sm:text-sm border border-brand-gold/40 hover:bg-brand-gold/10 transition-colors font-medium">
+                {isHindi ? 'दिवाली उपहार विचार' : 'Diwali Gift Ideas'}
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
