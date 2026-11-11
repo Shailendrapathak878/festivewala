@@ -935,19 +935,19 @@ export const DiwaliGuideArticle: React.FC<DiwaliGuideArticleProps> = ({
               {isHindi ? 'फेस्टिववाला सज्जा संग्रह' : 'Explore FestiveWala Design Hub'}
             </span>
             <h4 className="font-serif text-lg sm:text-xl font-bold">
-              {isHindi ? 'घर की सजावट और रंगोली डिजाइनों की संपूर्ण गैलरी' : 'Discover 100+ Rangoli Patterns & Decor Inspirations'}
+              {isHindi ? 'घर की सजावट और रंगोली डिजाइनों की संपूर्ण गैलरी' : 'Discover Curated Rangoli Patterns & Decor Inspirations'}
             </h4>
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <Link
-              to="/rangoli"
+              to="/rangoli/"
               className="px-4 py-2 rounded-xl bg-[#F2D98B] hover:bg-[#FFE082] text-[#24113D] font-bold text-xs shadow-md transition-transform active:scale-95 flex items-center gap-1.5"
             >
               <Palette size={14} />
               <span>{isHindi ? 'रंगोली गैलरी देखें' : 'View Rangoli'}</span>
             </Link>
             <Link
-              to="/decoration-ideas"
+              to="/decoration-ideas/"
               className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/25 text-[#FAF7F0] font-semibold text-xs transition-all flex items-center gap-1.5"
             >
               <Sparkles size={14} />
@@ -1306,14 +1306,14 @@ export const DiwaliGuideArticle: React.FC<DiwaliGuideArticleProps> = ({
             </div>
             <div className="flex flex-wrap items-center gap-3">
               <Link
-                to="/greeting-cards"
+                to="/greeting-cards/"
                 className="px-5 py-2.5 rounded-xl bg-[#F2D98B] hover:bg-[#FFE082] text-[#24113D] font-bold text-xs sm:text-sm shadow-md transition-transform active:scale-95 flex items-center gap-2 min-h-[44px]"
               >
                 <Palette size={15} />
                 <span>{isHindi ? 'कार्ड बनाएं' : 'Open Card Studio'}</span>
               </Link>
               <Link
-                to="/wishes"
+                to="/wishes/"
                 className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/25 text-[#FAF7F0] font-semibold text-xs sm:text-sm transition-all flex items-center gap-2 min-h-[44px]"
               >
                 <BookOpen size={15} />
@@ -1407,7 +1407,7 @@ export const DiwaliGuideArticle: React.FC<DiwaliGuideArticleProps> = ({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <Link
-            to="/greeting-cards"
+            to="/greeting-cards/"
             className="group p-5 rounded-2xl bg-white border border-brand-gold/30 hover:border-brand-gold shadow-sm hover:shadow-lg transition-all flex flex-col justify-between space-y-3"
           >
             <div>
@@ -1428,7 +1428,7 @@ export const DiwaliGuideArticle: React.FC<DiwaliGuideArticleProps> = ({
           </Link>
 
           <Link
-            to="/wishes"
+            to="/wishes/"
             className="group p-5 rounded-2xl bg-white border border-brand-gold/30 hover:border-brand-gold shadow-sm hover:shadow-lg transition-all flex flex-col justify-between space-y-3"
           >
             <div>
@@ -1449,7 +1449,7 @@ export const DiwaliGuideArticle: React.FC<DiwaliGuideArticleProps> = ({
           </Link>
 
           <Link
-            to="/rangoli"
+            to="/rangoli/"
             className="group p-5 rounded-2xl bg-white border border-brand-gold/30 hover:border-brand-gold shadow-sm hover:shadow-lg transition-all flex flex-col justify-between space-y-3"
           >
             <div>
@@ -1470,7 +1470,7 @@ export const DiwaliGuideArticle: React.FC<DiwaliGuideArticleProps> = ({
           </Link>
 
           <Link
-            to="/decoration-ideas"
+            to="/decoration-ideas/"
             className="group p-5 rounded-2xl bg-white border border-brand-gold/30 hover:border-brand-gold shadow-sm hover:shadow-lg transition-all flex flex-col justify-between space-y-3"
           >
             <div>

@@ -46,7 +46,7 @@ export const Header: React.FC = () => {
       <div className="bg-brand-deep text-brand-champagne border-b border-brand-gold/30 px-3 py-1.5 text-[11px] sm:text-xs font-sans tracking-wide">
         <div className="max-w-7xl mx-auto flex items-center justify-between sm:justify-center gap-2">
           <Link
-            to="/festivals"
+            to="/festivals/"
             className="flex items-center gap-2 truncate group focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold rounded"
           >
             <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-wider bg-brand-gold text-brand-deep flex-shrink-0">
@@ -82,7 +82,7 @@ export const Header: React.FC = () => {
             <LanguageSwitcher />
 
             <PrimaryButton
-              to="/greeting-cards"
+              to="/greeting-cards/"
               size="sm"
               variant="royal"
               icon={<Sparkles size={14} className="text-brand-gold" />}
@@ -94,7 +94,7 @@ export const Header: React.FC = () => {
           {/* Mobile Right Actions: Create CTA (on tablet/phablet) + Compact Language Switcher + Hamburger */}
           <div className="flex xl:hidden items-center gap-1.5 sm:gap-2">
             <Link
-              to="/greeting-cards"
+              to="/greeting-cards/"
               className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-brand-royal text-brand-champagne border border-brand-gold/30 text-xs font-bold active:scale-95 transition-all shadow-sm focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold"
               aria-label={isHindi ? 'कार्ड बनाएं' : 'Create Card'}
             >

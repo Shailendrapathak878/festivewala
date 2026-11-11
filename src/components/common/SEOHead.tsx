@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import type { MetaTagsConfig } from '../../data/seo/types';
+import { useSeoCollector } from './SeoContext';
 
 interface SEOHeadProps extends MetaTagsConfig {
   lang?: 'en' | 'hi' | 'hi-Latn' | 'hinglish';
@@ -37,14 +38,35 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
   title,
   description,
   keywords,
-  canonicalUrl = window.location.href.split('?')[0],
+  canonicalUrl,
   ogType = 'website',
   ogImage = 'https://festivewala.in/assets/brand/og-festivewala.png',
   jsonLd,
   lang = 'en',
   noindex = false,
 }) => {
+  const resolvedCanonical =
+    canonicalUrl ??
+    (typeof window !== 'undefined' ? window.location.href.split('?')[0] : 'https://festivewala.in/');
+
+  const collectSeo = useSeoCollector();
+  if (collectSeo) {
+    collectSeo({
+      title,
+      description,
+      keywords,
+      canonicalUrl: resolvedCanonical,
+      ogType,
+      ogImage,
+      jsonLd,
+      lang,
+      noindex,
+    });
+  }
+
   useEffect(() => {
+    if (typeof document === 'undefined') return;
+
     // 1. Language attribute on <html> element
     const normalizedHtmlLang =
       lang === 'hi' ? 'hi' : lang === 'hi-Latn' || lang === 'hinglish' ? 'hi-Latn' : 'en';
@@ -65,7 +87,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       updateOrCreateMeta('name', 'robots', 'index, follow');
       // Clean up any legacy hreflang tags to prevent Google Search Console conflicting canonical errors.
       document.querySelectorAll('link[rel="alternate"][hreflang]').forEach((el) => el.remove());
-      updateOrCreateLink('canonical', canonicalUrl);
+      updateOrCreateLink('canonical', resolvedCanonical);
     }
 
     // 4. Primary Meta Tags
@@ -73,14 +95,14 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
     if (keywords) {
       updateOrCreateMeta('name', 'keywords', keywords);
     }
-    updateOrCreateMeta('name', 'author', 'FestiveWala Editorial Board');
+    updateOrCreateMeta('name', 'author', 'Shailendra Pathak — FestiveWala');
 
     // 5. Open Graph / Facebook
     updateOrCreateMeta('property', 'og:title', title);
     updateOrCreateMeta('property', 'og:description', description);
     updateOrCreateMeta('property', 'og:type', ogType);
     if (!noindex) {
-      updateOrCreateMeta('property', 'og:url', canonicalUrl);
+      updateOrCreateMeta('property', 'og:url', resolvedCanonical);
     }
     updateOrCreateMeta('property', 'og:image', ogImage);
     updateOrCreateMeta('property', 'og:site_name', 'FestiveWala');
@@ -112,8 +134,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
         script.remove();
       }
     };
-  }, [title, description, keywords, canonicalUrl, ogType, ogImage, jsonLd, lang, noindex]);
+  }, [title, description, keywords, resolvedCanonical, ogType, ogImage, jsonLd, lang, noindex]);
 
   return null;
 };
-

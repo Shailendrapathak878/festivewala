@@ -78,7 +78,7 @@ test.describe('Chhath Puja 2026 Complete Experience & Verification Suite', () =>
     await expect(page.locator('#sec-chhath-schedule')).toContainText(/Nov 15, 2026/i);
 
     // Canonical & robots meta
-    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://festivewala.in/festivals/chhath-puja');
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://festivewala.in/festivals/chhath-puja/');
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index, follow');
 
     // JSON-LD: WebPage, BreadcrumbList, Article, FAQPage present — strictly NO generic Event schema
@@ -168,7 +168,7 @@ test.describe('Chhath Puja 2026 Complete Experience & Verification Suite', () =>
       const res = await page.goto(`/festival-guides/${guide.slug}`, { waitUntil: 'domcontentloaded' });
       expect(res?.status()).toBe(200);
       await expect(page.locator('h1')).toContainText(guide.titleEn);
-      await expect(page.locator(`a[href="/festivals/chhath-puja"]`).first()).toBeVisible();
+      await expect(page.locator(`a[href="/festivals/chhath-puja/"]`).first()).toBeVisible();
     }
   });
 

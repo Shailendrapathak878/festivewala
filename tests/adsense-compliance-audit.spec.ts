@@ -52,7 +52,8 @@ test.describe('Google AdSense Compliance & Zero-Ad Quality Audit Suite', () => {
     expect(content).toContain('Google AdSense');
     expect(content).toContain('aboutads.info');
     expect(content).toContain('adssettings.google.com');
-    expect(content).toContain('contact@festivewala.in');
+    expect(content).toContain('Pandit979212@gmail.com');
+    expect(content).not.toContain('contact@festivewala.in');
   });
 
   test('4. Robots.txt Compliance: manifest.json is not blocked and sitemap is declared', () => {
@@ -76,10 +77,10 @@ test.describe('Google AdSense Compliance & Zero-Ad Quality Audit Suite', () => {
     for (const expectedUrl of expectedEntries) {
       expect(locs).toContain(expectedUrl);
     }
-    expect(sitemap).toContain('https://festivewala.in/inspiration');
-    expect(sitemap).toContain('https://festivewala.in/privacy-policy');
-    expect(sitemap).toContain('https://festivewala.in/about');
-    expect(sitemap).toContain('https://festivewala.in/contact');
+    expect(sitemap).toContain('https://festivewala.in/inspiration/');
+    expect(sitemap).toContain('https://festivewala.in/privacy-policy/');
+    expect(sitemap).toContain('https://festivewala.in/about/');
+    expect(sitemap).toContain('https://festivewala.in/contact/');
   });
 
   test('6. No Under-Construction Placeholders on Live Routes', async ({ page }) => {
@@ -91,21 +92,21 @@ test.describe('Google AdSense Compliance & Zero-Ad Quality Audit Suite', () => {
     expect(content).not.toContain('will arrive in Phase');
 
     // Verify canonical tag on /inspiration
-    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://festivewala.in/inspiration');
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://festivewala.in/inspiration/');
   });
 
   test('7. Canonical URL Consistency across Festival Sub-Routes', async ({ page }) => {
     // Test /wishes/diwali
     await page.goto('/wishes/diwali', { waitUntil: 'domcontentloaded' });
-    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://festivewala.in/wishes/diwali');
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://festivewala.in/wishes/diwali/');
 
     // Test /greetings/diwali
     await page.goto('/greetings/diwali', { waitUntil: 'domcontentloaded' });
-    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://festivewala.in/greetings/diwali');
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://festivewala.in/greetings/diwali/');
 
     // Test /photo-greetings/diwali
     await page.goto('/photo-greetings/diwali', { waitUntil: 'domcontentloaded' });
-    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://festivewala.in/photo-greetings/diwali');
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://festivewala.in/photo-greetings/diwali/');
   });
 
   test('8. Trust & Legal Pages Navigation on Mobile and Desktop', async ({ page }) => {
@@ -113,11 +114,11 @@ test.describe('Google AdSense Compliance & Zero-Ad Quality Audit Suite', () => {
 
     // Verify footer links exist and are visible
     const footer = page.locator('footer');
-    await expect(footer.locator('a[href="/about"]').first()).toBeVisible();
-    await expect(footer.locator('a[href="/contact"]').first()).toBeVisible();
-    await expect(footer.locator('a[href="/privacy-policy"]').first()).toBeVisible();
-    await expect(footer.locator('a[href="/terms-of-service"]').first()).toBeVisible();
-    await expect(footer.locator('a[href="/disclaimer"]').first()).toBeVisible();
+    await expect(footer.locator('a[href="/about/"]').first()).toBeVisible();
+    await expect(footer.locator('a[href="/contact/"]').first()).toBeVisible();
+    await expect(footer.locator('a[href="/privacy-policy/"]').first()).toBeVisible();
+    await expect(footer.locator('a[href="/terms-of-service/"]').first()).toBeVisible();
+    await expect(footer.locator('a[href="/disclaimer/"]').first()).toBeVisible();
   });
 
   test('9. Greeting Studio Ad-Free Protection & Free Downloads', async ({ page }) => {

@@ -3,12 +3,17 @@
  * Domain: https://festivewala.in
  *
  * Runs on Cloudflare Pages (Free Plan compatible).
+ * Uses config/routeManifest.json as the single authoritative route source of truth.
  * Ensures:
- * 1. Valid routes serve /index.html with HTTP 200.
- * 2. Permanent 301 redirects for legacy aliases (/privacy, /terms, /greeting-studio).
- * 3. Invalid / unknown routes (including unknown sub-routes like /festivals/unknown)
- *    serve /404.html with genuine HTTP 404 and X-Robots-Tag: noindex, nofollow.
+ * 1. Permanent 301 redirects for legacy aliases (/privacy, /terms, /greeting-studio).
+ * 2. Indexed Wishes category query URLs (/wishes/?category=<slug>) serve matching prerendered HTML
+ *    with aligned raw HTML <link rel="canonical"> metadata.
+ * 3. Valid prerendered routes serve their exact static index.html with HTTP 200.
+ * 4. Unsupported/unknown routes NEVER wrap 404.html with HTTP 200; they return genuine HTTP 404
+ *    with X-Robots-Tag: noindex, nofollow.
  */
+
+import routeManifest from '../config/routeManifest.json';
 
 interface Env {
   ASSETS: {
@@ -16,68 +21,17 @@ interface Env {
   };
 }
 
-const REDIRECTS: Record<string, string> = {
-  '/privacy': '/privacy-policy',
-  '/terms': '/terms-of-service',
-  '/greeting-studio': '/greeting-cards',
-};
-
-const VALID_STATIC_EXACT = new Set([
-  '/',
-  '/festivals',
-  '/wishes',
-  '/greeting-cards',
-  '/inspiration',
-  '/rangoli',
-  '/decoration-ideas',
-  '/gift-ideas',
-  '/festival-guides',
-  '/about',
-  '/contact',
-  '/privacy-policy',
-  '/terms-of-service',
-  '/disclaimer',
-]);
-
-const VALID_FESTIVAL_DETAIL_IDS = new Set([
-  'dhanteras',
-  'diwali',
-  'chhath-puja',
-  'holi',
-  'raksha-bandhan',
-  'christmas',
-  'new-year',
-]);
-
-const VALID_FESTIVAL_HUB_IDS = new Set([
-  'dhanteras',
-  'diwali',
-  'chhath-puja',
-  'christmas',
-  'new-year',
-  'makar-sankranti',
-  'maha-shivratri',
-  'holi',
-  'raksha-bandhan',
-  'navratri',
-]);
-
-const VALID_GUIDE_SLUGS = new Set([
-  'diwali-five-days-significance',
-  'eco-friendly-festival-guide',
-  'holi-herbal-colors-safety',
-  'festival-home-cleaning-declutter',
-  'chhath-puja-four-day-rituals-guide',
-  'chhath-nahay-khay-kharna-meaning-rules',
-  'sandhya-usha-arghya-significance-chhath',
-  'chhath-puja-samagri-soop-daura-checklist',
-  'authentic-chhath-prasad-thekua-rasiyaw-recipes',
-  'surya-dev-chhathi-maiya-history-mythology',
-  'eco-friendly-chhath-terrace-kund-guide',
-  'regional-chhath-puja-traditions-india-nepal',
-  'chhath-puja-folk-songs-cultural-meaning',
-  'chhath-36-hour-nirjala-vrat-rules-health-care',
-]);
+const REDIRECTS: Record<string, string> = routeManifest.redirects;
+const VALID_STATIC_EXACT = new Set<string>(routeManifest.staticExact);
+const VALID_FESTIVAL_DETAIL_IDS = new Set<string>(routeManifest.festivalDetailIds);
+const VALID_FESTIVAL_HUB_SECTIONS: Record<string, Set<string>> = Object.fromEntries(
+  Object.entries(routeManifest.festivalHubSections).map(([section, slugs]) => [
+    section,
+    new Set<string>(slugs),
+  ])
+);
+const VALID_GUIDE_SLUGS = new Set<string>(routeManifest.guideSlugs);
+const VALID_WISHES_CATEGORY_QUERIES = new Set<string>(routeManifest.wishesCategoryQueries);
 
 function isValidAppRoute(pathname: string): boolean {
   if (VALID_STATIC_EXACT.has(pathname)) {
@@ -96,21 +50,36 @@ function isValidAppRoute(pathname: string): boolean {
   if (section === 'festival-guides') {
     return VALID_GUIDE_SLUGS.has(slug);
   }
-  if (
-    section === 'wishes' ||
-    section === 'greetings' ||
-    section === 'photo-greetings' ||
-    section === 'gift-ideas'
-  ) {
-    return VALID_FESTIVAL_HUB_IDS.has(slug);
+
+  const allowedHubSlugs = VALID_FESTIVAL_HUB_SECTIONS[section];
+  if (allowedHubSlugs) {
+    return allowedHubSlugs.has(slug);
   }
 
   return false;
 }
 
+async function serveNotFound(context: Parameters<PagesFunction<Env>>[0]): Promise<Response> {
+  const notFoundRes = await context.env.ASSETS.fetch(new URL('/404.html', context.request.url));
+  const newHeaders = new Headers(notFoundRes.headers);
+  newHeaders.set('X-Robots-Tag', 'noindex, nofollow');
+  newHeaders.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+
+  return new Response(notFoundRes.body, {
+    status: 404,
+    statusText: 'Not Found',
+    headers: newHeaders,
+  });
+}
+
 export const onRequest: PagesFunction<Env> = async (context) => {
   const url = new URL(context.request.url);
   const pathname = url.pathname.replace(/\/$/, '') || '/';
+
+  // 0. Block direct external requests to internal prerender storage
+  if (pathname === '/_categories' || pathname.startsWith('/_categories/')) {
+    return serveNotFound(context);
+  }
 
   // 1. Handle permanent 301 redirects
   if (REDIRECTS[pathname]) {
@@ -125,31 +94,39 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     });
   }
 
-  // 2. Fetch static asset from Cloudflare CDN
+  // 2. Serve category-specific prerendered HTML for indexed /wishes/?category=<slug> URLs
+  //    before static /wishes/index.html lookup so raw HTML canonical and client canonical match.
+  const categoryParam = url.searchParams.get('category')?.toLowerCase();
+  if (pathname === '/wishes' && categoryParam && VALID_WISHES_CATEGORY_QUERIES.has(categoryParam)) {
+    const categoryAssetRes = await context.env.ASSETS.fetch(
+      new URL(`/_categories/wishes-${categoryParam}.html`, context.request.url)
+    );
+    if (categoryAssetRes.ok && categoryAssetRes.status === 200) {
+      return new Response(categoryAssetRes.body, {
+        status: 200,
+        headers: categoryAssetRes.headers,
+      });
+    }
+  }
+
+  // 3. Fetch static asset from Cloudflare CDN
   const response = await context.next();
   if (response.status !== 404) {
     return response;
   }
 
-  // 3. Check if pathname matches a strictly valid SPA route
+  // 4. Check if pathname matches a strictly valid prerendered route
   if (isValidAppRoute(pathname)) {
-    // Serve index.html with 200 OK so client-side React Router mounts
-    const indexRes = await context.env.ASSETS.fetch(new URL('/index.html', context.request.url));
-    return new Response(indexRes.body, {
-      status: 200,
-      headers: indexRes.headers,
-    });
+    const targetAsset = pathname === '/' ? '/index.html' : `${pathname}/index.html`;
+    const indexRes = await context.env.ASSETS.fetch(new URL(targetAsset, context.request.url));
+    if (indexRes.ok && indexRes.status === 200) {
+      return new Response(indexRes.body, {
+        status: 200,
+        headers: indexRes.headers,
+      });
+    }
   }
 
-  // 4. Truly unknown route: Serve 404.html with genuine HTTP 404 status
-  const notFoundRes = await context.env.ASSETS.fetch(new URL('/404.html', context.request.url));
-  const newHeaders = new Headers(notFoundRes.headers);
-  newHeaders.set('X-Robots-Tag', 'noindex, nofollow');
-  newHeaders.set('Cache-Control', 'no-cache, no-store, must-revalidate');
-
-  return new Response(notFoundRes.body, {
-    status: 404,
-    statusText: 'Not Found',
-    headers: newHeaders,
-  });
+  // 5. Truly unknown or unsupported route: Serve 404.html with genuine HTTP 404 status
+  return serveNotFound(context);
 };

@@ -35,12 +35,12 @@ export const RootLayout: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col bg-brand-ivory text-brand-dark selection:bg-brand-gold-light/40 selection:text-brand-deep pb-16 md:pb-0 overflow-x-hidden w-full">
       <Header />
+      <FirstVisitLanguageModal />
       <PageTransition key={location.pathname} className="flex-grow">
         <Outlet />
       </PageTransition>
       <Footer />
       <BackToTop />
-      <FirstVisitLanguageModal />
       <MobileBottomNav />
     </div>
   );

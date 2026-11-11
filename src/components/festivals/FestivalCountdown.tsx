@@ -205,7 +205,7 @@ export const FestivalCountdown: React.FC<FestivalCountdownProps> = ({
         {showExploreLink && (
           <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
             <Link
-              to={`/festivals/${config.festivalId}`}
+              to={`/festivals/${config.festivalId}/`}
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#F2D98B] to-[#D4AF37] text-[#24113D] font-bold text-xs sm:text-sm shadow-md hover:brightness-105 active:scale-95 transition-all min-h-[44px]"
             >
               <span>{isHindi ? `${config.displayNameHi} संपूर्ण अनुभव` : `Explore ${config.displayNameEn}`}</span>
@@ -213,7 +213,7 @@ export const FestivalCountdown: React.FC<FestivalCountdownProps> = ({
             </Link>
 
             <Link
-              to={`/greeting-cards?festival=${config.festivalId}`}
+              to={`/greeting-cards/?festival=${config.festivalId}`}
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#45216B] hover:bg-[#5C2B8F] text-[#FAF7F0] border border-[#F2D98B]/40 font-semibold text-xs sm:text-sm shadow-md transition-all min-h-[44px]"
             >
               <Sparkles size={14} className="text-[#F2D98B]" />

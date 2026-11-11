@@ -1,7 +1,7 @@
-# Cloudflare Pages Redirects
-# Domain: https://festivewala.in
+# Cloudflare Pages Static Redirects
+# https://developers.cloudflare.com/pages/configuration/redirects/
 #
 # Define authoritative HTTP 301 permanent redirects for legacy aliases
-/privacy /privacy-policy 301
-/terms /terms-of-service 301
-/greeting-studio /greeting-cards 301
+/privacy /privacy-policy/ 301
+/terms /terms-of-service/ 301
+/greeting-studio /greeting-cards/ 301

@@ -99,7 +99,7 @@ export const FestivalsPage: React.FC = () => {
         {/* Quick Hub Navigation Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
           <Link
-            to="/rangoli"
+            to="/rangoli/"
             className="p-3.5 sm:p-4 rounded-2xl bg-white border border-brand-gold/30 hover:border-brand-gold shadow-sm hover:shadow-md transition-all flex items-center gap-3 group"
           >
             <div className="w-9 h-9 rounded-xl bg-[#24113D] text-[#F2D98B] flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
@@ -116,7 +116,7 @@ export const FestivalsPage: React.FC = () => {
           </Link>
 
           <Link
-            to="/decoration-ideas"
+            to="/decoration-ideas/"
             className="p-3.5 sm:p-4 rounded-2xl bg-white border border-brand-gold/30 hover:border-brand-gold shadow-sm hover:shadow-md transition-all flex items-center gap-3 group"
           >
             <div className="w-9 h-9 rounded-xl bg-[#24113D] text-[#F2D98B] flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
@@ -133,7 +133,7 @@ export const FestivalsPage: React.FC = () => {
           </Link>
 
           <Link
-            to="/gift-ideas"
+            to="/gift-ideas/"
             className="p-3.5 sm:p-4 rounded-2xl bg-white border border-brand-gold/30 hover:border-brand-gold shadow-sm hover:shadow-md transition-all flex items-center gap-3 group"
           >
             <div className="w-9 h-9 rounded-xl bg-[#24113D] text-[#F2D98B] flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
@@ -150,7 +150,7 @@ export const FestivalsPage: React.FC = () => {
           </Link>
 
           <Link
-            to="/festival-guides"
+            to="/festival-guides/"
             className="p-3.5 sm:p-4 rounded-2xl bg-white border border-brand-gold/30 hover:border-brand-gold shadow-sm hover:shadow-md transition-all flex items-center gap-3 group"
           >
             <div className="w-9 h-9 rounded-xl bg-[#24113D] text-[#F2D98B] flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
@@ -289,7 +289,7 @@ export const FestivalsPage: React.FC = () => {
                           </Link>
                         ) : (
                           <Link
-                            to="/greeting-cards"
+                            to="/greeting-cards/"
                             className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-brand-light hover:bg-brand-gold/20 text-brand-dark font-bold text-xs transition-colors"
                           >
                             <span>{isHindi ? 'ग्रीटिंग कार्ड बनाएं' : 'Design Card in Studio'}</span>

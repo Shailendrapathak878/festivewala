@@ -610,7 +610,7 @@ export const DhanterasGuideArticle: React.FC<DhanterasGuideArticleProps> = ({
           </p>
           <div className="pt-2">
             <Link
-              to="/gift-ideas/dhanteras"
+              to="/gift-ideas/dhanteras/"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#24113D] text-[#F2D98B] font-bold text-xs sm:text-sm shadow-md hover:bg-[#381B5E] transition-all"
             >
               <Gift size={16} />
@@ -699,14 +699,14 @@ export const DhanterasGuideArticle: React.FC<DhanterasGuideArticleProps> = ({
         </p>
         <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
           <Link
-            to="/greeting-cards?festival=dhanteras"
+            to="/greeting-cards/?festival=dhanteras"
             className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#F2D98B] to-[#D4AF37] text-[#24113D] font-bold text-xs sm:text-sm shadow-md hover:brightness-105 active:scale-95 transition-all min-h-[44px] flex items-center gap-2"
           >
             <Coins size={16} />
             <span>{isHindi ? '२५ धनतेरस ग्रीटिंग्स देखें' : 'Explore 25 Dhanteras Greetings'}</span>
           </Link>
           <Link
-            to="/wishes?festival=dhanteras"
+            to="/wishes/?festival=dhanteras"
             className="px-6 py-3 rounded-xl bg-[#45216B] hover:bg-[#5C2B8F] text-[#FAF7F0] border border-[#F2D98B]/40 font-semibold text-xs sm:text-sm shadow-md transition-all min-h-[44px] flex items-center gap-2"
           >
             <Heart size={16} className="text-[#F2D98B]" />

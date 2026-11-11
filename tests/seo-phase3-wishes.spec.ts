@@ -13,43 +13,43 @@ test.describe('SEO Step 3.4 Phase 3 - Wishes Section SEO Optimization', () => {
       slug: 'birthday',
       expectedTitlePart: 'Birthday Wishes',
       expectedH1Part: 'Birthday Wishes',
-      expectedCanonical: 'https://festivewala.in/wishes?category=birthday',
-      sampleLink: '/greeting-cards',
+      expectedCanonical: 'https://festivewala.in/wishes/?category=birthday',
+      sampleLink: '/greeting-cards/',
     },
     {
       slug: 'anniversary',
       expectedTitlePart: 'Anniversary Wishes',
       expectedH1Part: 'Anniversary Wishes',
-      expectedCanonical: 'https://festivewala.in/wishes?category=anniversary',
-      sampleLink: '/greeting-cards',
+      expectedCanonical: 'https://festivewala.in/wishes/?category=anniversary',
+      sampleLink: '/greeting-cards/',
     },
     {
       slug: 'love',
       expectedTitlePart: 'Love Messages',
       expectedH1Part: 'Love Messages',
-      expectedCanonical: 'https://festivewala.in/wishes?category=love',
-      sampleLink: '/wishes?category=anniversary',
+      expectedCanonical: 'https://festivewala.in/wishes/?category=love',
+      sampleLink: '/wishes/?category=anniversary',
     },
     {
       slug: 'friendship',
       expectedTitlePart: 'Friendship Messages',
       expectedH1Part: 'Friendship Messages',
-      expectedCanonical: 'https://festivewala.in/wishes?category=friendship',
-      sampleLink: '/wishes?category=birthday',
+      expectedCanonical: 'https://festivewala.in/wishes/?category=friendship',
+      sampleLink: '/wishes/?category=birthday',
     },
     {
       slug: 'good-morning',
       expectedTitlePart: 'Good Morning Wishes',
       expectedH1Part: 'Good Morning Wishes',
-      expectedCanonical: 'https://festivewala.in/wishes?category=good-morning',
+      expectedCanonical: 'https://festivewala.in/wishes/?category=good-morning',
       sampleLink: '/#quote-of-the-day',
     },
     {
       slug: 'good-night',
       expectedTitlePart: 'Good Night Wishes',
       expectedH1Part: 'Good Night Wishes',
-      expectedCanonical: 'https://festivewala.in/wishes?category=good-night',
-      sampleLink: '/wishes?category=good-morning',
+      expectedCanonical: 'https://festivewala.in/wishes/?category=good-night',
+      sampleLink: '/wishes/?category=good-morning',
     },
   ];
 
@@ -126,7 +126,7 @@ test.describe('SEO Step 3.4 Phase 3 - Wishes Section SEO Optimization', () => {
 
     // Canonical link check
     const canonical = page.locator('link[rel="canonical"]');
-    await expect(canonical).toHaveAttribute('href', 'https://festivewala.in/wishes');
+    await expect(canonical).toHaveAttribute('href', 'https://festivewala.in/wishes/');
 
     // Editorial Intro check
     const intro = page.locator('[data-testid="wishes-editorial-intro"]');
@@ -163,7 +163,7 @@ test.describe('SEO Step 3.4 Phase 3 - Wishes Section SEO Optimization', () => {
     await expect(h1).toContainText('Diwali Wishes');
 
     const canonical = page.locator('link[rel="canonical"]');
-    await expect(canonical).toHaveAttribute('href', 'https://festivewala.in/wishes/diwali');
+    await expect(canonical).toHaveAttribute('href', 'https://festivewala.in/wishes/diwali/');
 
     const intro = page.locator('[data-testid="wishes-editorial-intro"]');
     await expect(intro).toBeVisible();

@@ -19,7 +19,7 @@ export const DisclaimerPage: React.FC = () => {
       <SEOHead
         title={seoTitle}
         description={seoDescription}
-        canonicalUrl="https://festivewala.in/disclaimer"
+        canonicalUrl="https://festivewala.in/disclaimer/"
         ogType="website"
         lang={isHindi ? 'hi' : 'en'}
       />

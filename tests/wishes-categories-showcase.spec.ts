@@ -27,8 +27,7 @@ test.describe('Wishes UI & Category Showcase Integration Suite (Step 3.3)', () =
   });
 
   test('2. /wishes?category=festival loads exactly 700 festival wishes', async ({ page }) => {
-    await page.goto('/wishes?category=festival');
-    await page.waitForLoadState('domcontentloaded');
+    await page.goto('/wishes?category=festival', { waitUntil: 'domcontentloaded' });
 
     const totalCount = page.locator('[data-testid="wishes-total-count"]');
     await expect(totalCount).toHaveText('700');
@@ -237,31 +236,31 @@ test.describe('Wishes UI & Category Showcase Integration Suite (Step 3.3)', () =
     await page.waitForTimeout(200);
 
     // Verify Birthday link destination
-    const birthdayLink = page.locator('header a[href="/wishes?category=birthday"]');
+    const birthdayLink = page.locator('header a[href="/wishes/?category=birthday"]');
     await expect(birthdayLink).toBeVisible();
 
     // Verify Anniversary link destination
-    const anniversaryLink = page.locator('header a[href="/wishes?category=anniversary"]');
+    const anniversaryLink = page.locator('header a[href="/wishes/?category=anniversary"]');
     await expect(anniversaryLink).toBeVisible();
 
     // Verify Love Messages link destination
-    const loveLink = page.locator('header a[href="/wishes?category=love"]');
+    const loveLink = page.locator('header a[href="/wishes/?category=love"]');
     await expect(loveLink).toBeVisible();
 
     // Verify Friendship Messages link destination
-    const friendLink = page.locator('header a[href="/wishes?category=friendship"]');
+    const friendLink = page.locator('header a[href="/wishes/?category=friendship"]');
     await expect(friendLink).toBeVisible();
 
     // Verify Good Morning link destination
-    const morningLink = page.locator('header a[href="/wishes?category=good-morning"]');
+    const morningLink = page.locator('header a[href="/wishes/?category=good-morning"]');
     await expect(morningLink).toBeVisible();
 
     // Verify Good Night link destination
-    const nightLink = page.locator('header a[href="/wishes?category=good-night"]');
+    const nightLink = page.locator('header a[href="/wishes/?category=good-night"]');
     await expect(nightLink).toBeVisible();
 
     // Verify Festival link destination in desktop header
-    const festivalLink = page.locator('header a[href="/wishes?category=festival"]');
+    const festivalLink = page.locator('header a[href="/wishes/?category=festival"]');
     await expect(festivalLink).toBeVisible();
   });
 });

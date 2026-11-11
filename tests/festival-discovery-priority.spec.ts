@@ -97,18 +97,18 @@ test.describe('Homepage & Navigation — Discovery Integration UI', () => {
     if (u1.features.hasGreetings) {
       await expect(page.locator('[data-testid="carousel-btn-greetings"]')).toHaveAttribute(
         'href',
-        `/greeting-cards?festival=${p1.id}`
+        `/greeting-cards/?festival=${p1.id}`
       );
     } else {
       await expect(page.locator('[data-testid="carousel-btn-greetings-disabled"]')).toBeDisabled();
     }
     await expect(page.locator('[data-testid="carousel-btn-wishes"]')).toHaveAttribute(
       'href',
-      `/wishes?festival=${p1.id}`
+      `/wishes/?festival=${p1.id}`
     );
     await expect(page.locator('[data-testid="carousel-btn-guide"]')).toHaveAttribute(
       'href',
-      u1.features.guideUrl || `/festivals/${p1.id}`
+      u1.features.guideUrl || `/festivals/${p1.id}/`
     );
 
     // Advance to Slide 2 and verify Priority 2 festival & feature links
@@ -117,26 +117,25 @@ test.describe('Homepage & Navigation — Discovery Integration UI', () => {
     if (u2.features.hasGreetings) {
       await expect(page.locator('[data-testid="carousel-btn-greetings"]')).toHaveAttribute(
         'href',
-        `/greeting-cards?festival=${p2.id}`
+        `/greeting-cards/?festival=${p2.id}`
       );
     } else {
       await expect(page.locator('[data-testid="carousel-btn-greetings-disabled"]')).toBeDisabled();
     }
     await expect(page.locator('[data-testid="carousel-btn-wishes"]')).toHaveAttribute(
       'href',
-      `/wishes?festival=${p2.id}`
+      `/wishes/?festival=${p2.id}`
     );
   });
 
   test('Greeting Studio default priority & strict Dhanteras/Diwali isolation', async ({ page }) => {
     await page.clock.setFixedTime(new Date('2026-11-05T10:00:00+05:30'));
     // Open Greeting Studio directly without festival query parameter
-    await page.goto('/greeting-cards');
-    await page.waitForLoadState('networkidle');
+    await page.goto('/greeting-cards', { waitUntil: 'domcontentloaded' });
 
     // In Auto mode: Priority 1 (Dhanteras) section is displayed first
     const p1Section = page.locator('[data-testid="greeting-priority-1-section"]');
-    await expect(p1Section).toBeVisible();
+    await expect(p1Section).toBeVisible({ timeout: 10000 });
     await expect(p1Section).toContainText('Dhanteras 2026');
 
     // Priority 2 (Diwali) section is displayed below it

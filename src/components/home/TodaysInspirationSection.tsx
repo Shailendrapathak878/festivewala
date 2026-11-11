@@ -140,7 +140,7 @@ export const TodaysInspirationSection: React.FC = () => {
           {/* Card 1: Quote of the Day */}
           <div
             id="quote-of-the-day"
-            className="flex flex-col justify-between p-6 sm:p-8 rounded-3xl bg-white border border-brand-gold/30 shadow-card-luxury relative group hover:border-brand-gold transition-all duration-300 scroll-mt-28"
+            className="flex flex-col justify-between p-6 sm:p-8 rounded-3xl bg-white border border-brand-gold/30 shadow-card-luxury relative group hover:border-brand-gold transition-all duration-300 scroll-mt-32"
           >
             <div className="space-y-4">
               <div className="flex items-center justify-between border-b border-brand-gold/15 pb-3">
@@ -198,7 +198,7 @@ export const TodaysInspirationSection: React.FC = () => {
           {/* Card 2: Thought of the Day */}
           <div
             id="thought-of-the-day"
-            className="flex flex-col justify-between p-6 sm:p-8 rounded-3xl bg-white border border-brand-gold/30 shadow-card-luxury relative group hover:border-brand-gold transition-all duration-300 scroll-mt-28"
+            className="flex flex-col justify-between p-6 sm:p-8 rounded-3xl bg-white border border-brand-gold/30 shadow-card-luxury relative group hover:border-brand-gold transition-all duration-300 scroll-mt-32"
           >
             <div className="space-y-4">
               <div className="flex items-center justify-between border-b border-brand-gold/15 pb-3">
@@ -257,7 +257,7 @@ export const TodaysInspirationSection: React.FC = () => {
         {/* Link to Full Inspiration Hub */}
         <div className="mt-8 text-center">
           <Link
-            to="/inspiration"
+            to="/inspiration/"
             className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-brand-royal hover:text-brand-deep underline-offset-4 hover:underline"
           >
             <BookOpen className="w-4 h-4 text-brand-gold" />

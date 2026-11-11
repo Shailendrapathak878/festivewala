@@ -41,9 +41,9 @@ export const QuickActionSection: React.FC = () => {
     {
       id: 'action-create-greeting',
       route: '/greeting-cards',
-      badgeEn: '100+ Designer Templates',
-      badgeHi: '१००+ सुंदर डिजाइन्स',
-      badgeHinglish: '100+ Ready Templates',
+      badgeEn: '184 Designer Templates',
+      badgeHi: '१८४ सुंदर डिजाइन्स',
+      badgeHinglish: '184 Ready Templates',
       titleEn: 'Create Greeting',
       titleHi: 'ग्रीटिंग कार्ड बनाएं',
       titleHinglish: 'Greeting Card Banayein',

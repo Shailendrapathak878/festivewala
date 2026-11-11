@@ -2,8 +2,19 @@ import React, { useMemo } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { WishesShowcase } from '../components/layout/WishesShowcase';
 import { SEOHead } from '../components/common/SEOHead';
+import { Custom404 } from '../components/common/Custom404';
 import { useLanguage } from '../hooks/useLanguage';
 import { WISHES_CATEGORIES_SEO_DATA } from '../data/seo/wishesCategoryData';
+
+const SUPPORTED_WISHES_FESTIVAL_HUBS = new Set(['dhanteras', 'diwali', 'chhath-puja']);
+const INDEXED_WISHES_CATEGORIES = new Set([
+  'birthday',
+  'anniversary',
+  'love',
+  'friendship',
+  'good-morning',
+  'good-night',
+]);
 
 export const WishesPreviewPage: React.FC = () => {
   const { festivalId } = useParams<{ festivalId?: string }>();
@@ -11,12 +22,15 @@ export const WishesPreviewPage: React.FC = () => {
   const categoryParam = searchParams.get('category')?.toLowerCase();
   const { isHindi, isHinglish } = useLanguage();
 
+  const isUnsupportedFestivalHub = Boolean(
+    festivalId && !SUPPORTED_WISHES_FESTIVAL_HUBS.has(festivalId)
+  );
   const isDhanteras = festivalId === 'dhanteras';
   const isDiwali = festivalId === 'diwali';
   const isChhath = festivalId === 'chhath-puja';
 
   const isOccasionCategory = Boolean(
-    categoryParam && ['birthday', 'anniversary', 'love', 'friendship', 'good-morning', 'good-night'].includes(categoryParam)
+    categoryParam && INDEXED_WISHES_CATEGORIES.has(categoryParam)
   );
 
   // Determine active content definition
@@ -30,11 +44,15 @@ export const WishesPreviewPage: React.FC = () => {
     return WISHES_CATEGORIES_SEO_DATA.festival;
   }, [isChhath, isDhanteras, isDiwali, categoryParam]);
 
+  if (isUnsupportedFestivalHub) {
+    return <Custom404 />;
+  }
+
   const canonicalUrl = festivalId
-    ? `https://festivewala.in/wishes/${festivalId}`
-    : categoryParam
-    ? `https://festivewala.in/wishes?category=${categoryParam}`
-    : 'https://festivewala.in/wishes';
+    ? `https://festivewala.in/wishes/${festivalId}/`
+    : isOccasionCategory && categoryParam
+    ? `https://festivewala.in/wishes/?category=${categoryParam}`
+    : 'https://festivewala.in/wishes/';
 
   const seoTitle = isHindi ? activeContent.seoTitle.hi : activeContent.seoTitle.en;
   const seoDesc = isHindi ? activeContent.seoDesc.hi : activeContent.seoDesc.en;
@@ -57,7 +75,7 @@ export const WishesPreviewPage: React.FC = () => {
         },
         {
           q: 'क्या यहां हिंदी, अंग्रेजी और हिंग्लिश तीनों भाषाओं में संदेश उपलब्ध हैं?',
-          a: 'हाँ, फेस्टिववाला पर ६००+ संदेश हिंदी, अंग्रेजी और हिंग्लिश तीनों प्रारूपों में उपलब्ध हैं। साथ ही पारंपरिक संस्कृत श्लोक भी अर्थ सहित संकलित हैं।',
+          a: 'हाँ, फेस्टिववाला पर १,३०० संकलित संदेश हिंदी, अंग्रेजी और हिंग्लिश तीनों प्रारूपों में उपलब्ध हैं। साथ ही पारंपरिक संस्कृत श्लोक भी अर्थ सहित संकलित हैं।',
         },
         {
           q: 'क्या परिवार और व्यावसायिक संपर्कों के लिए अलग-अलग श्रेणियां हैं?',

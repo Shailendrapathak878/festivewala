@@ -2,8 +2,11 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { GreetingStudio } from '../features/greeting-studio/components/GreetingStudio';
 import { SEOHead } from '../components/common/SEOHead';
+import { Custom404 } from '../components/common/Custom404';
 import { STATIC_ROUTE_SEO } from '../data/seo/seoMetadata';
 import { useLanguage } from '../hooks/useLanguage';
+
+const SUPPORTED_GREETING_FESTIVAL_HUBS = new Set(['dhanteras', 'diwali', 'chhath-puja']);
 
 interface GreetingCardsPreviewPageProps {
   defaultMode?: 'simple' | 'photo';
@@ -12,6 +15,10 @@ interface GreetingCardsPreviewPageProps {
 export const GreetingCardsPreviewPage: React.FC<GreetingCardsPreviewPageProps> = ({ defaultMode }) => {
   const { festivalId } = useParams<{ festivalId?: string }>();
   const { isHindi } = useLanguage();
+
+  if (festivalId && !SUPPORTED_GREETING_FESTIVAL_HUBS.has(festivalId)) {
+    return <Custom404 />;
+  }
   const isDhanteras = festivalId === 'dhanteras';
   const isDiwali = festivalId === 'diwali';
   const isChhath = festivalId === 'chhath-puja';
@@ -21,12 +28,12 @@ export const GreetingCardsPreviewPage: React.FC<GreetingCardsPreviewPageProps> =
   let seoDesc = isHindi ? STATIC_ROUTE_SEO.greetingCards.hi.description : STATIC_ROUTE_SEO.greetingCards.en.description;
   let keywords = isHindi ? STATIC_ROUTE_SEO.greetingCards.hi.keywords : STATIC_ROUTE_SEO.greetingCards.en.keywords;
 
-  let canonicalUrl = 'https://festivewala.in/greeting-cards';
+  let canonicalUrl = 'https://festivewala.in/greeting-cards/';
   if (festivalId) {
     if (isPhotoMode) {
-      canonicalUrl = `https://festivewala.in/photo-greetings/${festivalId}`;
+      canonicalUrl = `https://festivewala.in/photo-greetings/${festivalId}/`;
     } else {
-      canonicalUrl = `https://festivewala.in/greetings/${festivalId}`;
+      canonicalUrl = `https://festivewala.in/greetings/${festivalId}/`;
     }
   }
 
@@ -112,7 +119,7 @@ export const GreetingCardsPreviewPage: React.FC<GreetingCardsPreviewPageProps> =
         },
         {
           q: 'Can I add my name and personalized wishes to the card?',
-          a: 'Yes. You can enter your full name or family signature, pick from 600+ curated festival wishes in Hindi and English, and adjust text layout instantly.',
+          a: 'Yes. You can enter your full name or family signature, pick from 700 curated festival wishes in Hindi and English, and adjust text layout instantly.',
         },
       ];
 
@@ -181,7 +188,7 @@ export const GreetingCardsPreviewPage: React.FC<GreetingCardsPreviewPageProps> =
                 <p className="text-xs sm:text-sm text-brand-dark/70">
                   {isHindi
                     ? 'दिवाली, धनतेरस, होली या नव वर्ष के लिए पारंपरिक, आधुनिक या फोटो फ्रेम चुनें।'
-                    : 'Select from 100+ luxury templates tailored for Diwali, Dhanteras, New Year, and sacred festivals.'}
+                    : 'Select from 184 luxury card and photo templates tailored for Diwali, Dhanteras, Chhath Puja, and sacred festivals.'}
                 </p>
               </div>
               <div className="bg-white p-5 rounded-xl border border-brand-gold/30 shadow-sm">
@@ -242,16 +249,16 @@ export const GreetingCardsPreviewPage: React.FC<GreetingCardsPreviewPageProps> =
               {isHindi ? 'संबंधित उत्सव संसाधन' : 'Explore Related Celebration Resources'}
             </h3>
             <div className="flex flex-wrap gap-3">
-              <a href="/wishes" className="px-4 py-2 bg-white text-brand-deep rounded-full text-xs sm:text-sm border border-brand-gold/40 hover:bg-brand-gold/10 transition-colors font-medium">
-                {isHindi ? '६००+ त्योहार शुभकामनाएं (हिंदी व अंग्रेजी)' : 'Festival Wishes in Hindi and English'}
+              <a href="/wishes/" className="px-4 py-2 bg-white text-brand-deep rounded-full text-xs sm:text-sm border border-brand-gold/40 hover:bg-brand-gold/10 transition-colors font-medium">
+                {isHindi ? '७०० त्योहार शुभकामनाएं (हिंदी व अंग्रेजी)' : 'Festival Wishes in Hindi and English'}
               </a>
-              <a href="/festivals/dhanteras" className="px-4 py-2 bg-white text-brand-deep rounded-full text-xs sm:text-sm border border-brand-gold/40 hover:bg-brand-gold/10 transition-colors font-medium">
+              <a href="/festivals/dhanteras/" className="px-4 py-2 bg-white text-brand-deep rounded-full text-xs sm:text-sm border border-brand-gold/40 hover:bg-brand-gold/10 transition-colors font-medium">
                 {isHindi ? 'धनतेरस २०२६ संपूर्ण गाइड' : 'Dhanteras Wishes and Greetings'}
               </a>
-              <a href="/festivals/diwali" className="px-4 py-2 bg-white text-brand-deep rounded-full text-xs sm:text-sm border border-brand-gold/40 hover:bg-brand-gold/10 transition-colors font-medium">
+              <a href="/festivals/diwali/" className="px-4 py-2 bg-white text-brand-deep rounded-full text-xs sm:text-sm border border-brand-gold/40 hover:bg-brand-gold/10 transition-colors font-medium">
                 {isHindi ? 'दीपावली २०२६ संपूर्ण गाइड' : 'Diwali Wishes and Greetings'}
               </a>
-              <a href="/rangoli" className="px-4 py-2 bg-white text-brand-deep rounded-full text-xs sm:text-sm border border-brand-gold/40 hover:bg-brand-gold/10 transition-colors font-medium">
+              <a href="/rangoli/" className="px-4 py-2 bg-white text-brand-deep rounded-full text-xs sm:text-sm border border-brand-gold/40 hover:bg-brand-gold/10 transition-colors font-medium">
                 {isHindi ? 'दिवाली के लिए रंगोली डिजाइन' : 'Rangoli Designs for Diwali'}
               </a>
               <a href="/gift-ideas" className="px-4 py-2 bg-white text-brand-deep rounded-full text-xs sm:text-sm border border-brand-gold/40 hover:bg-brand-gold/10 transition-colors font-medium">

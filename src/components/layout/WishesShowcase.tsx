@@ -502,11 +502,11 @@ export const WishesShowcase: React.FC<WishesShowcaseProps> = ({
         };
       default:
         return {
-          badge: isHindi ? 'पावन शुभकामना केंद्र • ६०० संदेश' : 'Smart Wishes Hub • 600 Curated Messages',
-          title: isHindi ? '६०० पावन संदेश संग्रह एवं कस्टम विश जनरेटर' : 'Readymade Wishes & Custom Wishes Generator',
+          badge: isHindi ? 'पावन शुभकामना केंद्र • ७०० संदेश' : 'Smart Wishes Hub • 700 Curated Messages',
+          title: isHindi ? '७०० पावन संदेश संग्रह एवं कस्टम विश जनरेटर' : 'Readymade Wishes & Custom Wishes Generator',
           subtitle: isHindi
-            ? '६०० तैयार शुभकामनाओं में खोजें, रिश्ता और भाव चुनकर व्यक्तिगत संदेश बनाएं, या पसंदीदा सहेजें।'
-            : 'Browse 600 readymade festival wishes, generate custom personalized messages, or save your favorites.',
+            ? '७०० तैयार शुभकामनाओं में खोजें, रिश्ता और भाव चुनकर व्यक्तिगत संदेश बनाएं, या पसंदीदा सहेजें।'
+            : 'Browse 700 readymade festival wishes, generate custom personalized messages, or save your favorites.',
         };
     }
   }, [activeMainCategory, isHindi]);
@@ -518,7 +518,7 @@ export const WishesShowcase: React.FC<WishesShowcaseProps> = ({
       labelHi: 'त्योहार शुभकामनाएं',
       labelHinglish: 'Festival Wishes',
       icon: <Flame className="w-3.5 h-3.5" />,
-      count: 600,
+      count: 700,
     },
     {
       id: 'birthday',

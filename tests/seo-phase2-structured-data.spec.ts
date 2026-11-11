@@ -81,7 +81,7 @@ test.describe('SEO Phase 2: Structured Data & Schema Consolidation', () => {
       // 2. WebPage schema linking to WebSite Knowledge Graph
       const webPage = schemas.find((s: Record<string, unknown>) => s['@type'] === 'WebPage');
       expect(webPage).toBeTruthy();
-      expect(webPage.url).toBe(`https://festivewala.in/festivals/${id}`);
+      expect(webPage.url).toBe(`https://festivewala.in/festivals/${id}/`);
       expect(webPage.isPartOf['@id']).toBe('https://festivewala.in/#website');
 
       // 3. BreadcrumbList schema
@@ -93,7 +93,7 @@ test.describe('SEO Phase 2: Structured Data & Schema Consolidation', () => {
       const article = schemas.find((s: Record<string, unknown>) => s['@type'] === 'Article');
       expect(article).toBeTruthy();
       expect(article.headline).toMatch(nameMatch);
-      expect(article.author.name).toBe('FestiveWala Editorial Board');
+      expect(article.author.name).toBe('Shailendra Pathak');
     }
   });
 
@@ -193,8 +193,10 @@ test.describe('SEO Phase 2: Structured Data & Schema Consolidation', () => {
     ];
 
     for (const { cat, expectedName } of testCases) {
-      await page.goto(`/wishes?category=${cat}`);
-      await page.waitForLoadState('domcontentloaded');
+      await page.goto(`/wishes?category=${cat}`, { waitUntil: 'domcontentloaded' });
+      await expect
+        .poll(async () => (await page.locator('#seo-jsonld').textContent()) || '')
+        .toContain(expectedName);
 
       const jsonLdContent = await page.locator('#seo-jsonld').textContent();
       const schemas = JSON.parse(jsonLdContent!);
@@ -222,16 +224,20 @@ test.describe('SEO Phase 2: Structured Data & Schema Consolidation', () => {
       }, lang);
 
       // 1. Homepage WebPage schema & <html lang>
-      await page.goto('/');
-      await page.waitForLoadState('domcontentloaded');
+      await page.goto('/', { waitUntil: 'domcontentloaded' });
       await expect(page.locator('html')).toHaveAttribute('lang', expectedInLang);
+      await expect
+        .poll(async () => (await page.locator('#seo-jsonld').textContent()) || '')
+        .toContain(`"inLanguage":"${expectedInLang}"`);
       const homeSchema = JSON.parse((await page.locator('#seo-jsonld').textContent())!);
       expect(homeSchema.inLanguage).toBe(expectedInLang);
 
       // 2. FestivalDetailPage WebPage + Article schemas & <html lang>
-      await page.goto('/festivals/diwali');
-      await page.waitForLoadState('domcontentloaded');
+      await page.goto('/festivals/diwali', { waitUntil: 'domcontentloaded' });
       await expect(page.locator('html')).toHaveAttribute('lang', expectedInLang);
+      await expect
+        .poll(async () => (await page.locator('#seo-jsonld').textContent()) || '')
+        .toContain(`"inLanguage":"${expectedInLang}"`);
       const festSchemas = JSON.parse((await page.locator('#seo-jsonld').textContent())!);
       const webPage = festSchemas.find((s: Record<string, unknown>) => s['@type'] === 'WebPage');
       const article = festSchemas.find((s: Record<string, unknown>) => s['@type'] === 'Article');

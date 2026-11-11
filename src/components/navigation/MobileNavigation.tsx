@@ -102,14 +102,14 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
 
   const primaryCategories = [
     { key: 'home', path: '/', labelEn: 'Home', labelHi: 'होम', labelHinglish: 'Home', icon: <Home className="w-4 h-4 text-brand-gold" /> },
-    { key: 'cards', path: '/greeting-cards', labelEn: 'Cards', labelHi: 'कार्ड्स', labelHinglish: 'Cards', icon: <Sparkles className="w-4 h-4 text-brand-gold" /> },
-    { key: 'wishes', path: '/wishes', labelEn: 'Wishes', labelHi: 'संदेश', labelHinglish: 'Wishes', icon: <MessageSquareHeart className="w-4 h-4 text-rose-400" /> },
-    { key: 'festivals', path: '/festivals', labelEn: 'Festivals', labelHi: 'त्योहार', labelHinglish: 'Festivals', icon: <Calendar className="w-4 h-4 text-sky-400" /> },
-    { key: 'rangoli', path: '/rangoli', labelEn: 'Rangoli', labelHi: 'रंगोली', labelHinglish: 'Rangoli', icon: <Palette className="w-4 h-4 text-amber-400" /> },
-    { key: 'decorations', path: '/decoration-ideas', labelEn: 'Decor', labelHi: 'सजावट', labelHinglish: 'Decor', icon: <Sparkles className="w-4 h-4 text-emerald-400" /> },
-    { key: 'gifts', path: '/gift-ideas', labelEn: 'Gifts', labelHi: 'गिफ्ट्स', labelHinglish: 'Gifts', icon: <Gift className="w-4 h-4 text-rose-400" /> },
-    { key: 'guides', path: '/festival-guides', labelEn: 'Guides', labelHi: 'गाइड्स', labelHinglish: 'Guides', icon: <BookOpen className="w-4 h-4 text-teal-400" /> },
-    { key: 'inspiration', path: '/inspiration', labelEn: 'Inspiration', labelHi: 'प्रेरणा', labelHinglish: 'Inspiration', icon: <Compass className="w-4 h-4 text-brand-gold" /> },
+    { key: 'cards', path: '/greeting-cards/', labelEn: 'Cards', labelHi: 'कार्ड्स', labelHinglish: 'Cards', icon: <Sparkles className="w-4 h-4 text-brand-gold" /> },
+    { key: 'wishes', path: '/wishes/', labelEn: 'Wishes', labelHi: 'संदेश', labelHinglish: 'Wishes', icon: <MessageSquareHeart className="w-4 h-4 text-rose-400" /> },
+    { key: 'festivals', path: '/festivals/', labelEn: 'Festivals', labelHi: 'त्योहार', labelHinglish: 'Festivals', icon: <Calendar className="w-4 h-4 text-sky-400" /> },
+    { key: 'rangoli', path: '/rangoli/', labelEn: 'Rangoli', labelHi: 'रंगोली', labelHinglish: 'Rangoli', icon: <Palette className="w-4 h-4 text-amber-400" /> },
+    { key: 'decorations', path: '/decoration-ideas/', labelEn: 'Decor', labelHi: 'सजावट', labelHinglish: 'Decor', icon: <Sparkles className="w-4 h-4 text-emerald-400" /> },
+    { key: 'gifts', path: '/gift-ideas/', labelEn: 'Gifts', labelHi: 'गिफ्ट्स', labelHinglish: 'Gifts', icon: <Gift className="w-4 h-4 text-rose-400" /> },
+    { key: 'guides', path: '/festival-guides/', labelEn: 'Guides', labelHi: 'गाइड्स', labelHinglish: 'Guides', icon: <BookOpen className="w-4 h-4 text-teal-400" /> },
+    { key: 'inspiration', path: '/inspiration/', labelEn: 'Inspiration', labelHi: 'प्रेरणा', labelHinglish: 'Inspiration', icon: <Compass className="w-4 h-4 text-brand-gold" /> },
   ];
 
   const categories: DrawerCategory[] = [
@@ -130,7 +130,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
       items: [
         {
           key: 'greeting-cards',
-          path: '/greeting-cards',
+          path: '/greeting-cards/',
           labelEn: 'Greeting Cards Maker',
           labelHi: 'ग्रीटिंग कार्ड्स मेकर',
           labelHinglish: 'Greeting Cards Maker',
@@ -138,7 +138,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
         },
         {
           key: 'photo-greetings',
-          path: '/greeting-cards?mode=photo',
+          path: '/greeting-cards/?mode=photo',
           labelEn: 'Photo Greetings Studio',
           labelHi: 'फोटो ग्रीटिंग्स स्टूडियो',
           labelHinglish: 'Photo Greetings Studio',
@@ -146,7 +146,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
         },
         {
           key: 'festival-greetings',
-          path: '/greeting-cards',
+          path: '/greetings/diwali/',
           labelEn: 'Festival Greeting Cards',
           labelHi: 'त्योहार ग्रीटिंग कार्ड्स',
           labelHinglish: 'Festival Greeting Cards',
@@ -154,7 +154,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
         },
         {
           key: 'creative-studio',
-          path: '/greeting-studio',
+          path: '/greeting-cards/',
           labelEn: 'Creative Canvas Studio',
           labelHi: 'क्रिएटिव कैनवास स्टूडियो',
           labelHinglish: 'Creative Canvas Studio',
@@ -171,15 +171,15 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
       items: [
         {
           key: 'wishes-hub',
-          path: '/wishes',
-          labelEn: 'All Wishes Hub (1,200+)',
-          labelHi: 'शुभकामना संग्रह (१२००+)',
-          labelHinglish: 'All Wishes Hub (1,200+)',
+          path: '/wishes/',
+          labelEn: 'All Wishes Hub (1,300)',
+          labelHi: 'शुभकामना संग्रह (१,३००)',
+          labelHinglish: 'All Wishes Hub (1,300)',
           icon: <MessageSquareHeart className="w-4 h-4 text-rose-400" />,
         },
         {
           key: 'birthday-wishes',
-          path: '/wishes?category=birthday',
+          path: '/wishes/?category=birthday',
           labelEn: 'Birthday Blessings',
           labelHi: 'जन्मदिन की शुभकामनाएं',
           labelHinglish: 'Birthday Wishes',
@@ -187,7 +187,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
         },
         {
           key: 'anniversary-wishes',
-          path: '/wishes?category=anniversary',
+          path: '/wishes/?category=anniversary',
           labelEn: 'Anniversary Wishes',
           labelHi: 'विवाह वर्षगांठ बधाई',
           labelHinglish: 'Anniversary Wishes',
@@ -195,7 +195,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
         },
         {
           key: 'love-messages',
-          path: '/wishes?category=love',
+          path: '/wishes/?category=love',
           labelEn: 'Love Messages',
           labelHi: 'प्रेम संदेश',
           labelHinglish: 'Love Messages',
@@ -203,7 +203,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
         },
         {
           key: 'friendship-messages',
-          path: '/wishes?category=friendship',
+          path: '/wishes/?category=friendship',
           labelEn: 'Friendship Messages',
           labelHi: 'मित्रता संदेश',
           labelHinglish: 'Friendship Messages',
@@ -211,7 +211,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
         },
         {
           key: 'good-morning-wishes',
-          path: '/wishes?category=good-morning',
+          path: '/wishes/?category=good-morning',
           labelEn: 'Good Morning Wishes',
           labelHi: 'सुप्रभात संदेश',
           labelHinglish: 'Good Morning Wishes',
@@ -219,7 +219,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
         },
         {
           key: 'good-night-wishes',
-          path: '/wishes?category=good-night',
+          path: '/wishes/?category=good-night',
           labelEn: 'Good Night Wishes',
           labelHi: 'शुभ रात्रि संदेश',
           labelHinglish: 'Good Night Wishes',
@@ -227,7 +227,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
         },
         {
           key: 'festival-wishes',
-          path: '/wishes?category=festival',
+          path: '/wishes/?category=festival',
           labelEn: 'Festival Greetings',
           labelHi: 'त्योहार विशेष संदेश',
           labelHinglish: 'Festival Wishes',
@@ -244,7 +244,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
       items: [
         {
           key: 'festivals',
-          path: '/festivals',
+          path: '/festivals/',
           labelEn: 'Festival Calendar',
           labelHi: 'त्योहार कैलेंडर',
           labelHinglish: 'Festival Calendar',
@@ -252,7 +252,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
         },
         {
           key: 'rangoli',
-          path: '/rangoli',
+          path: '/rangoli/',
           labelEn: 'Rangoli Gallery',
           labelHi: 'रंगोली कला गैलरी',
           labelHinglish: 'Rangoli Gallery',
@@ -260,7 +260,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
         },
         {
           key: 'decorations',
-          path: '/decoration-ideas',
+          path: '/decoration-ideas/',
           labelEn: 'Decoration Ideas',
           labelHi: 'गृह सज्जा आइडियाज',
           labelHinglish: 'Decoration Ideas',
@@ -268,7 +268,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
         },
         {
           key: 'gifts',
-          path: '/gift-ideas',
+          path: '/gift-ideas/',
           labelEn: 'Gift Recommendations',
           labelHi: 'उपहार सुझाव व गाइड्स',
           labelHinglish: 'Gift Ideas',
@@ -276,7 +276,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
         },
         {
           key: 'guides',
-          path: '/festival-guides',
+          path: '/festival-guides/',
           labelEn: 'Cultural Festival Guides',
           labelHi: 'सांस्कृतिक त्योहार गाइड्स',
           labelHinglish: 'Festival Guides',
@@ -284,7 +284,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
         },
         {
           key: 'inspiration',
-          path: '/inspiration',
+          path: '/inspiration/',
           labelEn: 'Creative Inspiration Hub',
           labelHi: 'सांस्कृतिक प्रेरणा संगम',
           labelHinglish: 'Inspiration Hub',
@@ -326,7 +326,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
       items: [
         {
           key: 'about',
-          path: '/about',
+          path: '/about/',
           labelEn: 'About FestiveWala',
           labelHi: 'फेस्टिववाला के बारे में',
           labelHinglish: 'About FestiveWala',
@@ -334,7 +334,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
         },
         {
           key: 'contact',
-          path: '/contact',
+          path: '/contact/',
           labelEn: 'Contact Us',
           labelHi: 'संपर्क करें',
           labelHinglish: 'Contact Us',
@@ -342,7 +342,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
         },
         {
           key: 'privacy-policy',
-          path: '/privacy-policy',
+          path: '/privacy-policy/',
           labelEn: 'Privacy Policy',
           labelHi: 'गोपनीयता नीति',
           labelHinglish: 'Privacy Policy',
@@ -350,7 +350,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
         },
         {
           key: 'terms-of-service',
-          path: '/terms-of-service',
+          path: '/terms-of-service/',
           labelEn: 'Terms of Service',
           labelHi: 'सेवा की शर्तें',
           labelHinglish: 'Terms of Service',
@@ -358,7 +358,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
         },
         {
           key: 'disclaimer',
-          path: '/disclaimer',
+          path: '/disclaimer/',
           labelEn: 'Disclaimer',
           labelHi: 'अस्वीकरण',
           labelHinglish: 'Disclaimer',
@@ -585,7 +585,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
             </div>
 
             <PrimaryButton
-              to="/greeting-cards"
+              to="/greeting-cards/"
               onClick={onClose}
               fullWidth
               size="lg"

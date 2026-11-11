@@ -70,9 +70,9 @@ test.describe('SEO Step 3.4 Phase 4 — Technical SEO Optimization Suite', () =>
   // 4. Redirect destinations and absence of loops
   test('4. URL aliases issue permanent 301 redirects to canonical destinations without loops', async ({ page }) => {
     const redirectTests = [
-      { alias: '/privacy', destination: '/privacy-policy' },
-      { alias: '/terms', destination: '/terms-of-service' },
-      { alias: '/greeting-studio', destination: '/greeting-cards' },
+      { alias: '/privacy', destination: '/privacy-policy/' },
+      { alias: '/terms', destination: '/terms-of-service/' },
+      { alias: '/greeting-studio', destination: '/greeting-cards/' },
     ];
 
     for (const item of redirectTests) {
@@ -93,10 +93,10 @@ test.describe('SEO Step 3.4 Phase 4 — Technical SEO Optimization Suite', () =>
   test('5. Canonical URLs match canonical definitions across varied page types', async ({ page }) => {
     const canonicalChecks = [
       { path: '/', expected: 'https://festivewala.in/' },
-      { path: '/wishes', expected: 'https://festivewala.in/wishes' },
-      { path: '/wishes?category=anniversary', expected: 'https://festivewala.in/wishes?category=anniversary' },
-      { path: '/festivals/diwali', expected: 'https://festivewala.in/festivals/diwali' },
-      { path: '/about', expected: 'https://festivewala.in/about' },
+      { path: '/wishes', expected: 'https://festivewala.in/wishes/' },
+      { path: '/wishes?category=anniversary', expected: 'https://festivewala.in/wishes/?category=anniversary' },
+      { path: '/festivals/diwali', expected: 'https://festivewala.in/festivals/diwali/' },
+      { path: '/about', expected: 'https://festivewala.in/about/' },
     ];
 
     for (const check of canonicalChecks) {
@@ -184,7 +184,7 @@ test.describe('SEO Step 3.4 Phase 4 — Technical SEO Optimization Suite', () =>
   // 12. No broken internal links on core pages
   test('12. Core navigation links on Homepage point to valid destinations', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
-    await page.locator('header a[href="/festivals"]').first().waitFor({ state: 'attached' });
+    await page.locator('header a[href="/festivals/"]').first().waitFor({ state: 'attached' });
 
     const internalLinks = await page.$$eval('a[href^="/"]', (anchors) =>
       anchors.map((a) => a.getAttribute('href')).filter(Boolean) as string[]
@@ -237,8 +237,85 @@ test.describe('SEO Step 3.4 Phase 4 — Technical SEO Optimization Suite', () =>
     const redirectsFile = path.resolve(process.cwd(), 'public', '_redirects');
     expect(fs.existsSync(redirectsFile)).toBe(true);
     const redirectsContent = fs.readFileSync(redirectsFile, 'utf8');
-    expect(redirectsContent).toContain('/privacy /privacy-policy 301');
-    expect(redirectsContent).toContain('/terms /terms-of-service 301');
-    expect(redirectsContent).toContain('/greeting-studio /greeting-cards 301');
+    expect(redirectsContent).toContain('/privacy /privacy-policy/ 301');
+    expect(redirectsContent).toContain('/terms /terms-of-service/ 301');
+    expect(redirectsContent).toContain('/greeting-studio /greeting-cards/ 301');
+  });
+
+  // 15. All 40 festival hub combinations match authoritative routeManifest (11 return 200, 29 return 404)
+  test('15. All 40 festival hub combinations return strict HTTP 200 or genuine HTTP 404 (no soft-404s)', async ({ request }) => {
+    const manifest = JSON.parse(
+      fs.readFileSync(path.resolve(process.cwd(), 'config', 'routeManifest.json'), 'utf8')
+    ) as { festivalHubSections: Record<string, string[]> };
+
+    const sections = ['greetings', 'photo-greetings', 'wishes', 'gift-ideas'];
+    const festivals = [
+      'dhanteras',
+      'diwali',
+      'chhath-puja',
+      'christmas',
+      'new-year',
+      'makar-sankranti',
+      'maha-shivratri',
+      'holi',
+      'raksha-bandhan',
+      'navratri',
+    ];
+
+    let supportedCount = 0;
+    let unsupportedCount = 0;
+
+    for (const section of sections) {
+      const allowed = new Set(manifest.festivalHubSections[section] || []);
+      for (const fest of festivals) {
+        const route = `/${section}/${fest}/`;
+        const res = await request.get(route);
+        const html = await res.text();
+        if (allowed.has(fest)) {
+          supportedCount++;
+          expect(res.status(), `${route} must return HTTP 200`).toBe(200);
+          expect(html).toContain(`<link rel="canonical" href="https://festivewala.in${route}"`);
+        } else {
+          unsupportedCount++;
+          expect(res.status(), `${route} must return genuine HTTP 404`).toBe(404);
+          expect(res.headers()['x-robots-tag']).toBe('noindex, nofollow');
+          expect(html).toContain('noindex, nofollow');
+        }
+      }
+    }
+
+    expect(supportedCount).toBe(11);
+    expect(unsupportedCount).toBe(29);
+
+    const internalRes = await request.get('/_categories/wishes-birthday.html');
+    expect(internalRes.status()).toBe(404);
+  });
+
+  // 16. Query canonical consistency between raw HTML response and hydrated browser DOM
+  test('16. Wishes category query URLs match canonical identically in raw HTML and browser DOM', async ({ page, request }) => {
+    const indexedCategories = ['birthday', 'anniversary', 'love', 'friendship', 'good-morning', 'good-night'];
+
+    for (const cat of indexedCategories) {
+      const queryPath = `/wishes/?category=${cat}`;
+      const expectedCanonical = `https://festivewala.in/wishes/?category=${cat}`;
+
+      const rawRes = await request.get(queryPath);
+      expect(rawRes.status()).toBe(200);
+      const rawHtml = await rawRes.text();
+      expect(rawHtml).toContain(`<link rel="canonical" href="${expectedCanonical}"`);
+
+      await page.goto(queryPath, { waitUntil: 'domcontentloaded' });
+      await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', expectedCanonical);
+    }
+
+    for (const nonIndexedQuery of ['/wishes/?category=festival', '/wishes/?category=invalid-cat']) {
+      const rawRes = await request.get(nonIndexedQuery);
+      expect(rawRes.status()).toBe(200);
+      const rawHtml = await rawRes.text();
+      expect(rawHtml).toContain('<link rel="canonical" href="https://festivewala.in/wishes/"');
+
+      await page.goto(nonIndexedQuery, { waitUntil: 'domcontentloaded' });
+      await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://festivewala.in/wishes/');
+    }
   });
 });

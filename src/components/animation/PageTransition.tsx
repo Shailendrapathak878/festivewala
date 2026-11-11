@@ -17,7 +17,7 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children, classN
     }
   }, []);
 
-  if (shouldReduceMotion) {
+  if (shouldReduceMotion || typeof window === 'undefined') {
     return <main className={`w-full ${className}`}>{children}</main>;
   }
 

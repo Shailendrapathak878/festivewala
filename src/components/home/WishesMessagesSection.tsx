@@ -54,7 +54,7 @@ export const WishesMessagesSection: React.FC = () => {
       labelEn: 'Birthday Wishes',
       labelHi: 'जन्मदिन शुभकामनाएं',
       labelHinglish: 'Birthday Wishes',
-      route: '/wishes?category=birthday',
+      route: '/wishes/?category=birthday',
       icon: <Cake className="w-4 h-4" />,
       accent: 'border-pink-400 text-pink-600 bg-pink-50',
       sampleWishes: [
@@ -91,7 +91,7 @@ export const WishesMessagesSection: React.FC = () => {
       labelEn: 'Anniversary Wishes',
       labelHi: 'वैवाहिक वर्षगांठ',
       labelHinglish: 'Anniversary Wishes',
-      route: '/wishes?category=anniversary',
+      route: '/wishes/?category=anniversary',
       icon: <Heart className="w-4 h-4" />,
       accent: 'border-rose-400 text-rose-600 bg-rose-50',
       sampleWishes: [
@@ -128,7 +128,7 @@ export const WishesMessagesSection: React.FC = () => {
       labelEn: 'Love & Friendship',
       labelHi: 'प्रेम व मित्रता',
       labelHinglish: 'Love & Friendship',
-      route: '/wishes?category=friendship',
+      route: '/wishes/?category=friendship',
       icon: <Users className="w-4 h-4" />,
       accent: 'border-amber-400 text-amber-600 bg-amber-50',
       sampleWishes: WISHES_DATA.filter((w) => w.category === 'friends').slice(0, 2),
@@ -138,7 +138,7 @@ export const WishesMessagesSection: React.FC = () => {
       labelEn: 'Good Morning',
       labelHi: 'शुभ प्रभात',
       labelHinglish: 'Good Morning',
-      route: '/wishes?category=good-morning',
+      route: '/wishes/?category=good-morning',
       icon: <Sun className="w-4 h-4" />,
       accent: 'border-amber-400 text-amber-600 bg-amber-50',
       sampleWishes: [
@@ -175,7 +175,7 @@ export const WishesMessagesSection: React.FC = () => {
       labelEn: 'Good Night',
       labelHi: 'शुभ रात्रि',
       labelHinglish: 'Good Night',
-      route: '/wishes?category=good-night',
+      route: '/wishes/?category=good-night',
       icon: <Moon className="w-4 h-4" />,
       accent: 'border-indigo-400 text-indigo-600 bg-indigo-50',
       sampleWishes: [
@@ -212,7 +212,7 @@ export const WishesMessagesSection: React.FC = () => {
       labelEn: 'Festival Wishes',
       labelHi: 'त्योहार शुभकामनाएं',
       labelHinglish: 'Festival Wishes',
-      route: '/wishes?category=festival',
+      route: '/wishes/?category=festival',
       icon: <Flame className="w-4 h-4" />,
       accent: 'border-purple-400 text-purple-600 bg-purple-50',
       sampleWishes: WISHES_DATA.filter((w) => w.category === 'traditional').slice(0, 2),
@@ -380,11 +380,11 @@ export const WishesMessagesSection: React.FC = () => {
 
           <div>
             <Link
-              to="/wishes"
+              to="/wishes/"
               className="inline-flex items-center gap-1.5 text-xs text-brand-muted hover:text-brand-deep font-semibold underline-offset-4 hover:underline"
             >
               <Sparkles className="w-3.5 h-3.5 text-brand-gold" />
-              <span>{loc('Browse All 1,200+ Festival & Occasion Wishes in Wishes Hub', 'विशेस हब में सभी १२००+ पावन संदेश ब्राउज़ करें', 'Browse 1,200+ Wishes in Hub')} →</span>
+              <span>{loc('Browse All 1,300 Festival & Occasion Wishes in Wishes Hub', 'विशेस हब में सभी १,३०० पावन संदेश ब्राउज़ करें', 'Browse 1,300 Wishes in Hub')} →</span>
             </Link>
           </div>
         </div>

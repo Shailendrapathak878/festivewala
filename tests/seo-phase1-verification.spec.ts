@@ -89,7 +89,7 @@ test.describe('Step 3.4 Phase 1: Critical Technical SEO Fixes Suite', () => {
 
     // Canonical should be restored to https://festivewala.in/wishes
     const canonical = page.locator('link[rel="canonical"]');
-    await expect(canonical).toHaveAttribute('href', 'https://festivewala.in/wishes');
+    await expect(canonical).toHaveAttribute('href', 'https://festivewala.in/wishes/');
   });
 
   test('4. XML Sitemap: Exactly 50 unique canonical URLs with Chhath Puja and all 6 occasion categories included', async () => {
@@ -103,12 +103,12 @@ test.describe('Step 3.4 Phase 1: Critical Technical SEO Fixes Suite', () => {
     expect(new Set(locMatches).size, 'All sitemap URLs must be unique').toBe(50);
 
     const requiredOccasions = [
-      'https://festivewala.in/wishes?category=birthday',
-      'https://festivewala.in/wishes?category=anniversary',
-      'https://festivewala.in/wishes?category=love',
-      'https://festivewala.in/wishes?category=friendship',
-      'https://festivewala.in/wishes?category=good-morning',
-      'https://festivewala.in/wishes?category=good-night',
+      'https://festivewala.in/wishes/?category=birthday',
+      'https://festivewala.in/wishes/?category=anniversary',
+      'https://festivewala.in/wishes/?category=love',
+      'https://festivewala.in/wishes/?category=friendship',
+      'https://festivewala.in/wishes/?category=good-morning',
+      'https://festivewala.in/wishes/?category=good-night',
     ];
 
     for (const occUrl of requiredOccasions) {
@@ -125,7 +125,7 @@ test.describe('Step 3.4 Phase 1: Critical Technical SEO Fixes Suite', () => {
 
       // Canonical matches the exact URL
       const canonical = page.locator('link[rel="canonical"]');
-      await expect(canonical).toHaveAttribute('href', `https://festivewala.in/wishes?category=${cat}`);
+      await expect(canonical).toHaveAttribute('href', `https://festivewala.in/wishes/?category=${cat}`);
 
       // Robots meta is index, follow
       await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index, follow');

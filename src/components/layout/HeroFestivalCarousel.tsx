@@ -662,7 +662,7 @@ export const HeroFestivalCarousel: React.FC = () => {
                 {/* Button 1: Explore Greetings */}
                 {features.hasGreetings ? (
                   <Link
-                    to={`/greeting-cards?festival=${festival.id}`}
+                    to={`/greeting-cards/?festival=${festival.id}`}
                     data-testid="carousel-btn-greetings"
                     className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-gradient-to-r from-[#F2D98B] via-[#D4AF37] to-[#F2D98B] text-[#24113D] font-bold text-xs sm:text-sm tracking-wide shadow-md hover:shadow-lg hover:brightness-105 active:scale-[0.98] transition-all min-h-[46px]"
                     aria-label={`Explore greetings for ${festival.nameEn}`}
@@ -685,7 +685,7 @@ export const HeroFestivalCarousel: React.FC = () => {
 
                 {/* Button 2: Explore Wishes */}
                 <Link
-                  to={`/wishes?festival=${festival.id}`}
+                  to={`/wishes/?festival=${festival.id}`}
                   data-testid="carousel-btn-wishes"
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-[#24113D] hover:bg-[#341857] text-[#F2D98B] border border-[#F2D98B]/50 font-bold text-xs sm:text-sm tracking-wide shadow-md active:scale-[0.98] transition-all min-h-[46px]"
                   aria-label={`Explore wishes for ${festival.nameEn}`}
@@ -696,7 +696,7 @@ export const HeroFestivalCarousel: React.FC = () => {
 
                 {/* Optional Guide Link */}
                 <Link
-                  to={features.guideUrl || `/festivals/${festival.id}`}
+                  to={features.guideUrl || `/festivals/${festival.id}/`}
                   data-testid="carousel-btn-guide"
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold text-[#F2D98B] hover:text-white hover:underline transition-colors"
                   aria-label={`Explore festival guide for ${festival.nameEn}`}

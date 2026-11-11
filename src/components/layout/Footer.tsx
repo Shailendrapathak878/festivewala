@@ -43,27 +43,27 @@ export const Footer: React.FC = () => {
             </h3>
             <ul className="space-y-1.5 text-xs sm:text-sm text-brand-white/75 font-sans">
               <li>
-                <Link to="/festivals/diwali" className="py-1 inline-block hover:text-brand-champagne transition-colors">
+                <Link to="/festivals/diwali/" className="py-1 inline-block hover:text-brand-champagne transition-colors">
                   {isHindi ? 'दीपावली (Diwali)' : 'Diwali Experience'}
                 </Link>
               </li>
               <li>
-                <Link to="/festivals/holi" className="py-1 inline-block hover:text-brand-champagne transition-colors">
+                <Link to="/festivals/holi/" className="py-1 inline-block hover:text-brand-champagne transition-colors">
                   {isHindi ? 'होली (Holi)' : 'Holi Experience'}
                 </Link>
               </li>
               <li>
-                <Link to="/festivals/raksha-bandhan" className="py-1 inline-block hover:text-brand-champagne transition-colors">
+                <Link to="/festivals/raksha-bandhan/" className="py-1 inline-block hover:text-brand-champagne transition-colors">
                   {isHindi ? 'रक्षाबंधन' : 'Raksha Bandhan'}
                 </Link>
               </li>
               <li>
-                <Link to="/festivals/christmas" className="py-1 inline-block hover:text-brand-champagne transition-colors">
+                <Link to="/festivals/christmas/" className="py-1 inline-block hover:text-brand-champagne transition-colors">
                   {isHindi ? 'क्रिसमस' : 'Christmas'}
                 </Link>
               </li>
               <li>
-                <Link to="/festivals/new-year" className="py-1 inline-block hover:text-brand-champagne transition-colors">
+                <Link to="/festivals/new-year/" className="py-1 inline-block hover:text-brand-champagne transition-colors">
                   {isHindi ? 'नव वर्ष' : 'New Year'}
                 </Link>
               </li>
@@ -77,22 +77,22 @@ export const Footer: React.FC = () => {
             </h3>
             <ul className="space-y-1.5 text-xs sm:text-sm text-brand-white/75 font-sans">
               <li>
-                <Link to="/rangoli" className="py-1 inline-block hover:text-brand-champagne transition-colors">
+                <Link to="/rangoli/" className="py-1 inline-block hover:text-brand-champagne transition-colors">
                   {isHindi ? 'रंगोली गैलरी' : 'Rangoli Gallery'}
                 </Link>
               </li>
               <li>
-                <Link to="/decoration-ideas" className="py-1 inline-block hover:text-brand-champagne transition-colors">
+                <Link to="/decoration-ideas/" className="py-1 inline-block hover:text-brand-champagne transition-colors">
                   {isHindi ? 'सजावट के विचार' : 'Decoration Ideas'}
                 </Link>
               </li>
               <li>
-                <Link to="/gift-ideas" className="py-1 inline-block hover:text-brand-champagne transition-colors">
+                <Link to="/gift-ideas/" className="py-1 inline-block hover:text-brand-champagne transition-colors">
                   {isHindi ? 'त्योहार उपहार मार्गदर्शिका' : 'Festival Gift Ideas'}
                 </Link>
               </li>
               <li>
-                <Link to="/festival-guides" className="py-1 inline-block hover:text-brand-champagne transition-colors">
+                <Link to="/festival-guides/" className="py-1 inline-block hover:text-brand-champagne transition-colors">
                   {isHindi ? 'उत्सव मार्गदर्शिकाएं' : 'Festival Guides'}
                 </Link>
               </li>
@@ -102,31 +102,31 @@ export const Footer: React.FC = () => {
           {/* Col 5: Trust & Company */}
           <div className="space-y-2.5">
             <h3 className="font-display text-xs sm:text-sm font-bold text-brand-white uppercase tracking-widest-luxury border-b border-brand-gold/20 pb-1.5">
-              {isHindi ? 'कंपनी व नीतियां' : 'Trust & Policies'}
+              {isHindi ? 'परिचय व नीतियां' : 'Trust & Policies'}
             </h3>
             <ul className="space-y-1.5 text-xs sm:text-sm text-brand-white/75 font-sans">
               <li>
-                <Link to="/about" className="py-1 inline-block hover:text-brand-champagne transition-colors">
+                <Link to="/about/" className="py-1 inline-block hover:text-brand-champagne transition-colors">
                   {isHindi ? 'हमारे बारे में' : 'About Us'}
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="py-1 inline-block hover:text-brand-champagne transition-colors">
+                <Link to="/contact/" className="py-1 inline-block hover:text-brand-champagne transition-colors">
                   {isHindi ? 'संपर्क करें' : 'Contact Us'}
                 </Link>
               </li>
               <li>
-                <Link to="/privacy-policy" className="py-1 inline-block hover:text-brand-champagne transition-colors">
+                <Link to="/privacy-policy/" className="py-1 inline-block hover:text-brand-champagne transition-colors">
                   {isHindi ? 'गोपनीयता नीति' : 'Privacy Policy'}
                 </Link>
               </li>
               <li>
-                <Link to="/terms-of-service" className="py-1 inline-block hover:text-brand-champagne transition-colors">
+                <Link to="/terms-of-service/" className="py-1 inline-block hover:text-brand-champagne transition-colors">
                   {isHindi ? 'नियम व शर्तें' : 'Terms of Service'}
                 </Link>
               </li>
               <li>
-                <Link to="/disclaimer" className="py-1 inline-block hover:text-brand-champagne transition-colors">
+                <Link to="/disclaimer/" className="py-1 inline-block hover:text-brand-champagne transition-colors">
                   {isHindi ? 'अस्वीकरण' : 'Disclaimer'}
                 </Link>
               </li>
@@ -144,15 +144,15 @@ export const Footer: React.FC = () => {
                 : 'All rights reserved.'}
             </p>
             <div className="flex items-center gap-3 text-brand-champagne/60 text-[10px] sm:text-[11px]">
-              <Link to="/privacy-policy" className="hover:text-brand-champagne transition-colors underline-offset-2 hover:underline">
+              <Link to="/privacy-policy/" className="hover:text-brand-champagne transition-colors underline-offset-2 hover:underline">
                 {isHindi ? 'गोपनीयता' : 'Privacy'}
               </Link>
               <span>•</span>
-              <Link to="/terms-of-service" className="hover:text-brand-champagne transition-colors underline-offset-2 hover:underline">
+              <Link to="/terms-of-service/" className="hover:text-brand-champagne transition-colors underline-offset-2 hover:underline">
                 {isHindi ? 'नियम' : 'Terms'}
               </Link>
               <span>•</span>
-              <Link to="/disclaimer" className="hover:text-brand-champagne transition-colors underline-offset-2 hover:underline">
+              <Link to="/disclaimer/" className="hover:text-brand-champagne transition-colors underline-offset-2 hover:underline">
                 {isHindi ? 'अस्वीकरण' : 'Disclaimer'}
               </Link>
             </div>

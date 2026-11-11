@@ -30,10 +30,10 @@ export const CreateSomethingBeautifulSection: React.FC = () => {
   const CREATION_FEATURES: FeatureCard[] = [
     {
       id: 'feature-greeting-cards',
-      route: '/greeting-cards',
-      badgeEn: '100+ Templates',
-      badgeHi: '१००+ सुंदर डिजाइन्स',
-      badgeHinglish: '100+ Templates',
+      route: '/greeting-cards/',
+      badgeEn: '184 Templates',
+      badgeHi: '१८४ सुंदर डिजाइन्स',
+      badgeHinglish: '184 Templates',
       titleEn: 'Greeting Cards',
       titleHi: 'ग्रीटिंग कार्ड्स',
       titleHinglish: 'Greeting Cards',
@@ -50,7 +50,7 @@ export const CreateSomethingBeautifulSection: React.FC = () => {
     },
     {
       id: 'feature-photo-greetings',
-      route: '/greeting-cards?mode=photo',
+      route: '/greeting-cards/?mode=photo',
       badgeEn: '100% Private',
       badgeHi: 'गोपनीय व सुरक्षित',
       badgeHinglish: '100% On-Device',
@@ -70,7 +70,7 @@ export const CreateSomethingBeautifulSection: React.FC = () => {
     },
     {
       id: 'feature-festival-greetings',
-      route: '/greeting-cards',
+      route: '/greeting-cards/',
       badgeEn: 'Every Occasion',
       badgeHi: 'प्रत्येक पर्व',
       badgeHinglish: 'All Festivals',
@@ -90,7 +90,7 @@ export const CreateSomethingBeautifulSection: React.FC = () => {
     },
     {
       id: 'feature-creative-studio',
-      route: '/greeting-studio',
+      route: '/greeting-cards/',
       badgeEn: 'Full Studio',
       badgeHi: 'सम्पूर्ण स्टूडियो',
       badgeHinglish: 'Custom Canvas',

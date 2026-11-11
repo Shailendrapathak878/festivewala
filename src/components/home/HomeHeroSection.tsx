@@ -56,7 +56,7 @@ export const HomeHeroSection: React.FC = () => {
         {/* Primary & Secondary Call to Actions */}
         <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 max-w-md sm:max-w-none mx-auto">
           <Link
-            to="/greeting-cards"
+            to="/greeting-cards/"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 sm:py-4 rounded-2xl bg-gradient-to-r from-brand-champagne via-brand-gold to-brand-gold text-brand-deep font-bold text-sm sm:text-base shadow-lg shadow-brand-gold/25 hover:shadow-brand-gold/40 hover:scale-[1.02] active:scale-[0.98] transition-all min-h-[50px]"
           >
             <Wand2 className="w-5 h-5 text-brand-deep" />
@@ -65,7 +65,7 @@ export const HomeHeroSection: React.FC = () => {
           </Link>
 
           <Link
-            to="/wishes"
+            to="/wishes/"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 sm:py-4 rounded-2xl bg-white/10 hover:bg-white/15 text-[#FAF7F0] border border-brand-gold/30 hover:border-brand-gold/60 font-semibold text-sm sm:text-base backdrop-blur-sm active:scale-[0.98] transition-all min-h-[50px]"
           >
             <MessageSquareHeart className="w-5 h-5 text-brand-champagne" />
@@ -100,7 +100,7 @@ export const HomeHeroSection: React.FC = () => {
               <Heart className="w-4 h-4" />
             </div>
             <div>
-              <p className="text-xs sm:text-sm font-bold text-[#FAF7F0]">600+ Wishes</p>
+              <p className="text-xs sm:text-sm font-bold text-[#FAF7F0]">1,300 Wishes</p>
               <p className="text-[11px] text-brand-champagne/70">{loc('Hindi, English & Hinglish', 'हिंदी, अंग्रेजी व हिंगलिश', 'Curated Messages')}</p>
             </div>
           </div>

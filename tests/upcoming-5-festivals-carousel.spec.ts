@@ -108,17 +108,17 @@ test.describe('Hero Upcoming 5 Festivals Carousel — E2E Homepage Integration',
     // Button 1: Explore Greetings
     const greetingsBtn = page.locator('[data-testid="carousel-btn-greetings"]');
     await expect(greetingsBtn).toBeVisible();
-    await expect(greetingsBtn).toHaveAttribute('href', `/greeting-cards?festival=${expectedP1.festival.id}`);
+    await expect(greetingsBtn).toHaveAttribute('href', `/greeting-cards/?festival=${expectedP1.festival.id}`);
 
     // Button 2: Explore Wishes
     const wishesBtn = page.locator('[data-testid="carousel-btn-wishes"]');
     await expect(wishesBtn).toBeVisible();
-    await expect(wishesBtn).toHaveAttribute('href', `/wishes?festival=${expectedP1.festival.id}`);
+    await expect(wishesBtn).toHaveAttribute('href', `/wishes/?festival=${expectedP1.festival.id}`);
 
     // Guide link
     const guideBtn = page.locator('[data-testid="carousel-btn-guide"]');
     await expect(guideBtn).toBeVisible();
-    await expect(guideBtn).toHaveAttribute('href', `/festivals/${expectedP1.festival.id}`);
+    await expect(guideBtn).toHaveAttribute('href', `/festivals/${expectedP1.festival.id}/`);
   });
 
   test('Clicking Next button advances to Diwali (Slide 2)', async ({ page }) => {
@@ -139,10 +139,10 @@ test.describe('Hero Upcoming 5 Festivals Carousel — E2E Homepage Integration',
 
     // Verify Diwali links
     const greetingsBtn = page.locator('[data-testid="carousel-btn-greetings"]');
-    await expect(greetingsBtn).toHaveAttribute('href', '/greeting-cards?festival=diwali');
+    await expect(greetingsBtn).toHaveAttribute('href', '/greeting-cards/?festival=diwali');
 
     const wishesBtn = page.locator('[data-testid="carousel-btn-wishes"]');
-    await expect(wishesBtn).toHaveAttribute('href', '/wishes?festival=diwali');
+    await expect(wishesBtn).toHaveAttribute('href', '/wishes/?festival=diwali');
   });
 
   test('Clicking Indicator Dot 4 navigates to Christmas (Slide 4) with date status (no 7-day countdown)', async ({ page }) => {
@@ -170,6 +170,7 @@ test.describe('Hero Upcoming 5 Festivals Carousel — E2E Homepage Integration',
     // Pause autoplay and reset to slide 0 first
     await page.locator('[data-testid="carousel-pause-toggle"]').click();
     await page.locator('[data-testid="carousel-indicator-dot"]').first().click();
+    await expect(page.locator('[data-testid="carousel-slide-title"]')).toContainText('Dhanteras');
 
     const carousel = page.locator('[data-testid="hero-festival-carousel"]');
     await carousel.focus();
@@ -210,7 +211,7 @@ test.describe('Hero Upcoming 5 Festivals Carousel — E2E Homepage Integration',
     const greetingsBtn = page.locator('[data-testid="carousel-btn-greetings"]');
     await greetingsBtn.click();
 
-    await expect(page).toHaveURL(/greeting-cards\?festival=dhanteras/);
+    await expect(page).toHaveURL(/greeting-cards\/\?festival=dhanteras/);
 
     // Verify Dhanteras greetings are active and visible
     const templateCards = page.locator('[data-testid="template-card"]');
@@ -231,7 +232,7 @@ test.describe('Hero Upcoming 5 Festivals Carousel — E2E Homepage Integration',
     const wishesBtn = page.locator('[data-testid="carousel-btn-wishes"]');
     await wishesBtn.click();
 
-    await expect(page).toHaveURL(/wishes\?festival=dhanteras/);
+    await expect(page).toHaveURL(/wishes\/\?festival=dhanteras/);
 
     // Verify Dhanteras wishes are active and visible
     const wishCards = page.locator('[data-testid="wish-card"]');

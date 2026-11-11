@@ -12,6 +12,7 @@ import {
 } from '../data/gifts/giftsData';
 import { useGiftFavorites } from '../features/gifts/hooks/useGiftFavorites';
 import { SEOHead } from '../components/common/SEOHead';
+import { Custom404 } from '../components/common/Custom404';
 import { STATIC_ROUTE_SEO } from '../data/seo/seoMetadata';
 import {
   Search,
@@ -79,6 +80,37 @@ export const GiftIdeasPage: React.FC = () => {
   }, [selectedFestival, activeCategory, activeBudgetTier, activeRecipient, searchQuery, showOnlyFavorites, favoriteIds]);
 
   const seoConfig = isHindi ? STATIC_ROUTE_SEO.gifts.hi : STATIC_ROUTE_SEO.gifts.en;
+  const activeRouteFest = routeFestivalId === 'dhanteras' || routeFestivalId === 'diwali' ? routeFestivalId : null;
+
+  if (routeFestivalId && !activeRouteFest) {
+    return <Custom404 />;
+  }
+  const pageTitle = activeRouteFest === 'dhanteras'
+    ? (isHindi
+        ? 'धनतेरस २०२६ शुभ उपहार विचार — सोना-चांदी, पीतल व पारंपरिक उपहार | FestiveWala'
+        : 'Dhanteras 2026 Auspicious Gift Ideas — Coins, Brassware & Festive Hampers | FestiveWala')
+    : activeRouteFest === 'diwali'
+    ? (isHindi
+        ? 'दिवाली २०२६ उपहार विचार — परिवार, मित्र व कॉर्पोरेट गिफ्ट्स | FestiveWala'
+        : 'Diwali 2026 Gift Ideas — Traditional & Modern Festive Hampers | FestiveWala')
+    : seoConfig.title;
+  const pageDescription = activeRouteFest === 'dhanteras'
+    ? (isHindi
+        ? 'धनतेरस २०२६ के लिए शुभ उपहार चुनें — चांदी के सिक्के, पीतल के पूजन पात्र, लक्ष्मी-गणेश मूर्तियाँ और पारंपरिक हैंपर्स।'
+        : 'Browse auspicious Dhanteras 2026 gift ideas including silver coins, pure brass puja lamps, Ganesha-Lakshmi idols, and traditional hampers.')
+    : activeRouteFest === 'diwali'
+    ? (isHindi
+        ? 'दीपावली २०२६ के लिए खास उपहार सुझाव — ड्राई फ्रूट हैंपर्स, हस्तनिर्मित दीये, और कॉर्पोरेट गिफ्ट बॉक्स।'
+        : 'Curated Diwali 2026 gift ideas for parents, friends, and colleagues across traditional puja keepsakes and thoughtful budget tiers.')
+    : seoConfig.description;
+  const pageCanonical = activeRouteFest
+    ? `https://festivewala.in/gift-ideas/${activeRouteFest}/`
+    : seoConfig.canonicalUrl;
+  const pageH1 = activeRouteFest === 'dhanteras'
+    ? (isHindi ? 'धनतेरस २०२६ शुभ उपहार विचार' : 'Dhanteras 2026 Auspicious Gift Ideas')
+    : activeRouteFest === 'diwali'
+    ? (isHindi ? 'दिवाली २०२६ गिफ्ट आइडियाज — शुभ उपहार संग्रह' : 'Diwali 2026 Gift Ideas for Family & Friends')
+    : (isHindi ? 'दिवाली गिफ्ट आइडियाज — परिवार, मित्रों व सहकर्मियों के लिए उपहार' : 'Diwali Gift Ideas for Family, Friends & Corporate');
 
   const giftFaqs = isHindi
     ? [
@@ -114,9 +146,11 @@ export const GiftIdeasPage: React.FC = () => {
     {
       '@context': 'https://schema.org',
       '@type': 'CollectionPage',
-      name: isHindi ? 'दिवाली उपहार विचार संग्रह' : 'Diwali Gift Ideas Collection',
-      url: seoConfig.canonicalUrl,
-      description: seoConfig.description,
+      name: activeRouteFest === 'dhanteras'
+        ? (isHindi ? 'धनतेरस उपहार विचार संग्रह' : 'Dhanteras Gift Ideas Collection')
+        : (isHindi ? 'दिवाली उपहार विचार संग्रह' : 'Diwali Gift Ideas Collection'),
+      url: pageCanonical,
+      description: pageDescription,
     },
     {
       '@context': 'https://schema.org',
@@ -135,10 +169,10 @@ export const GiftIdeasPage: React.FC = () => {
   return (
     <div className="py-12 md:py-16 bg-[#FAF7F0] min-h-screen text-brand-dark pb-24">
       <SEOHead
-        title={seoConfig.title}
-        description={seoConfig.description}
+        title={pageTitle}
+        description={pageDescription}
         keywords={seoConfig.keywords}
-        canonicalUrl={seoConfig.canonicalUrl}
+        canonicalUrl={pageCanonical}
         ogType="website"
         ogImage={seoConfig.ogImage}
         jsonLd={jsonLd}
@@ -152,12 +186,10 @@ export const GiftIdeasPage: React.FC = () => {
             <span>{isHindi ? 'त्योहार उपहार मार्गदर्शिका' : 'Thoughtful Festive Gifting'}</span>
           </div>
           <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-deep leading-tight">
-            {isHindi ? 'दिवाली गिफ्ट आइडियाज — परिवार, मित्रों व सहकर्मियों के लिए उपहार' : 'Diwali Gift Ideas for Family, Friends & Corporate'}
+            {pageH1}
           </h1>
           <p className="text-sm sm:text-base text-brand-dark/75 leading-relaxed">
-            {isHindi
-              ? 'दिवाली व त्योहारों पर माता-पिता, मित्रों और परिजनों के लिए ५ बजट श्रेणियों में विचारशील उपहार सुझाव।'
-              : 'Thoughtful Diwali gift ideas for family, friends, and colleagues across 5 budget tiers and traditional categories.'}
+            {pageDescription}
           </p>
         </div>
 

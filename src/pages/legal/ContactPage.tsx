@@ -89,7 +89,7 @@ export const ContactPage: React.FC = () => {
       <SEOHead
         title={seoTitle}
         description={seoDescription}
-        canonicalUrl="https://festivewala.in/contact"
+        canonicalUrl="https://festivewala.in/contact/"
         ogType="website"
         lang={isHindi ? 'hi' : 'en'}
       />
@@ -106,8 +106,8 @@ export const ContactPage: React.FC = () => {
           </h1>
           <p className="text-xs sm:text-sm text-brand-dark/75 font-sans leading-relaxed">
             {isHindi
-              ? 'त्योहार से जुड़ी सामग्री, ग्रीटिंग कार्ड्स या तकनीकी सहायता के लिए हमारी टीम से संपर्क करें।'
-              : 'Whether you have a suggestion for festival guides, need help with Greeting Studio, or want to report an issue, we are here to assist.'}
+              ? 'त्योहार से जुड़ी सामग्री, ग्रीटिंग कार्ड्स या तकनीकी सहायता के लिए सीधे संपर्क करें।'
+              : 'Whether you have a suggestion for festival guides, need help with Greeting Studio, or want to report an issue, reach out directly.'}
           </p>
         </div>
 

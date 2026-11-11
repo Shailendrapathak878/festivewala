@@ -73,7 +73,7 @@ export const MobileBottomNav: React.FC = () => {
 
         {/* Item 2: Create (Raised Prominent Gold Button) */}
         <NavLink
-          to="/greeting-cards"
+          to="/greeting-cards/"
           className={`flex flex-col items-center justify-center min-w-[58px] py-1 px-1 rounded-xl transition-all ${
             isCreateActive
               ? 'text-[#F2D98B] font-bold'
@@ -99,7 +99,7 @@ export const MobileBottomNav: React.FC = () => {
 
         {/* Item 3: Wishes */}
         <NavLink
-          to="/wishes"
+          to="/wishes/"
           className={`flex flex-col items-center justify-center min-w-[56px] py-1 px-1 rounded-xl transition-all ${
             isWishesActive
               ? 'text-[#F2D98B] font-bold'
@@ -121,7 +121,7 @@ export const MobileBottomNav: React.FC = () => {
 
         {/* Item 4: Explore */}
         <NavLink
-          to="/festivals"
+          to="/festivals/"
           className={`flex flex-col items-center justify-center min-w-[56px] py-1 px-1 rounded-xl transition-all ${
             isExploreActive
               ? 'text-[#F2D98B] font-bold'

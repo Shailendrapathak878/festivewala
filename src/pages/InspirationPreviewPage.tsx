@@ -14,8 +14,8 @@ export const InspirationPreviewPage: React.FC = () => {
     {
       titleEn: 'Rangoli Art Gallery',
       titleHi: 'रंगोली कला गैलरी',
-      descEn: '60+ traditional, floral, and geometric step-by-step vector designs with free downloads.',
-      descHi: '६०+ पारंपरिक, पुष्प व ज्यामितीय पैटर्न और मुफ्त वेक्टर डाउनलोड।',
+      descEn: 'Curated traditional, floral, and geometric step-by-step vector Rangoli designs with free downloads.',
+      descHi: 'पारंपरिक, पुष्प व ज्यामितीय रंगोली पैटर्न और मुफ्त वेक्टर डाउनलोड।',
       path: '/rangoli',
       icon: <Palette className="w-6 h-6 text-amber-500" />,
       color: 'from-amber-500/10 to-transparent',

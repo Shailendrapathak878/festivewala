@@ -168,7 +168,7 @@ export const PopularTemplatesSection: React.FC = () => {
                 {/* Create Action Button */}
                 <div className="pt-3 border-t border-brand-gold/15 flex items-center gap-2">
                   <Link
-                    to={`/greeting-cards?template=${template.id}`}
+                    to={`/greeting-cards/?template=${template.id}`}
                     className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-brand-deep text-brand-champagne hover:bg-brand-royal text-xs font-bold transition-all shadow-sm focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold min-h-[42px]"
                   >
                     <Wand2 size={14} className="text-brand-gold" />
@@ -192,7 +192,7 @@ export const PopularTemplatesSection: React.FC = () => {
         {/* View All Studio Cards CTA */}
         <div className="text-center">
           <Link
-            to="/greeting-cards"
+            to="/greeting-cards/"
             className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl bg-gradient-to-r from-brand-royal to-brand-deep text-brand-champagne font-bold text-sm sm:text-base border border-brand-gold/40 shadow-royal hover:scale-[1.02] active:scale-[0.98] transition-all"
           >
             <Sparkles size={16} className="text-brand-gold" />
@@ -233,7 +233,7 @@ export const PopularTemplatesSection: React.FC = () => {
 
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
               <Link
-                to={`/greeting-cards?template=${activeEdition.id}`}
+                to={`/greeting-cards/?template=${activeEdition.id}`}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-brand-gold text-brand-deep font-bold text-sm shadow-md hover:bg-brand-champagne transition-all"
               >
                 <Wand2 size={15} />

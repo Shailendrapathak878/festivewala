@@ -1,127 +1,235 @@
 /**
- * FestiveWala Post-Build Route Entrypoint & 404 Generator
+ * FestiveWala Post-Build Route Prerender & 404 Generator
  * Domain: https://festivewala.in
  *
- * 1. Generates static entrypoint directory index.html files for all valid routes so
- *    Cloudflare Pages and static CDNs serve them with HTTP 200 without SPA catch-all overhead.
- * 2. Generates dist/404.html containing pre-rendered Custom404 UI,
- *    noindex robots directive, and removed canonical tag so unknown routes return genuine HTTP 404.
+ * 1. Builds a temporary Vite SSR bundle of src/entry-server.tsx and prerenders all
+ *    valid canonical routes using React 19 prerenderToNodeStream.
+ * 2. Writes route-specific HTML (distinct <title>, <meta>, <link rel="canonical">,
+ *    JSON-LD structured data, and full rendered body inside #root) so crawlers,
+ *    No-JS clients, and Cloudflare Pages edge CDN serve HTTP 200 content directly.
+ * 3. Preserves inline GA4 script hashes verbatim for public/_headers CSP compliance.
+ * 4. Generates dist/404.html containing pre-rendered Custom404 UI and noindex directive.
  */
 
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
+import { build as viteBuild } from 'vite';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 const distDir = path.join(rootDir, 'dist');
+const ssrTempDir = path.join(rootDir, '.ssr-tmp');
+
+const routeManifest = JSON.parse(
+  fs.readFileSync(path.join(rootDir, 'config', 'routeManifest.json'), 'utf8')
+);
 
 const VALID_STATIC_ROUTES = [
-  // Core routes
-  'festivals',
-  'wishes',
-  'greeting-cards',
-  'inspiration',
-  'rangoli',
-  'decoration-ideas',
-  'gift-ideas',
-  'festival-guides',
-
-  // Festivals (Strictly the 7 festival detail routes present in FESTIVAL_DETAILS)
-  'festivals/dhanteras',
-  'festivals/diwali',
-  'festivals/chhath-puja',
-  'festivals/holi',
-  'festivals/raksha-bandhan',
-  'festivals/christmas',
-  'festivals/new-year',
-
-  // Greetings & Wishes festival hubs
-  'greetings/dhanteras',
-  'greetings/diwali',
-  'greetings/chhath-puja',
-  'photo-greetings/dhanteras',
-  'photo-greetings/diwali',
-  'photo-greetings/chhath-puja',
-  'wishes/dhanteras',
-  'wishes/diwali',
-  'wishes/chhath-puja',
-  'gift-ideas/dhanteras',
-  'gift-ideas/diwali',
-
-  // Festival Guides
-  'festival-guides/diwali-five-days-significance',
-  'festival-guides/eco-friendly-festival-guide',
-  'festival-guides/holi-herbal-colors-safety',
-  'festival-guides/festival-home-cleaning-declutter',
-  'festival-guides/chhath-puja-four-day-rituals-guide',
-  'festival-guides/chhath-nahay-khay-kharna-meaning-rules',
-  'festival-guides/sandhya-usha-arghya-significance-chhath',
-  'festival-guides/chhath-puja-samagri-soop-daura-checklist',
-  'festival-guides/authentic-chhath-prasad-thekua-rasiyaw-recipes',
-  'festival-guides/surya-dev-chhathi-maiya-history-mythology',
-  'festival-guides/eco-friendly-chhath-terrace-kund-guide',
-  'festival-guides/regional-chhath-puja-traditions-india-nepal',
-  'festival-guides/chhath-puja-folk-songs-cultural-meaning',
-  'festival-guides/chhath-36-hour-nirjala-vrat-rules-health-care',
-
-  // Trust & Legal Pages
-  'about',
-  'contact',
-  'privacy-policy',
-  'terms-of-service',
-  'disclaimer',
+  ...routeManifest.staticExact
+    .filter((route) => route !== '/')
+    .map((route) => route.replace(/^\//, '')),
+  ...routeManifest.festivalDetailIds.map((id) => `festivals/${id}`),
+  ...Object.entries(routeManifest.festivalHubSections).flatMap(([section, slugs]) =>
+    slugs.map((slug) => `${section}/${slug}`)
+  ),
+  ...routeManifest.guideSlugs.map((slug) => `festival-guides/${slug}`),
 ];
 
-export function runPostBuild() {
-  const indexHtmlPath = path.join(distDir, 'index.html');
-  if (!fs.existsSync(indexHtmlPath)) {
-    console.error('[PostBuild Error] dist/index.html not found. Run vite build first.');
-    return;
+const WISHES_CATEGORY_QUERIES = routeManifest.wishesCategoryQueries;
+
+function escapeHtmlAttr(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function escapeHtmlText(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function upsertMetaTag(html, attrName, attrValue, content) {
+  const safeContent = escapeHtmlAttr(content);
+  const pattern = new RegExp(`<meta\\s+[^>]*${attrName}="${attrValue}"[^>]*\\/?>`, 'i');
+  const tag = `<meta ${attrName}="${attrValue}" content="${safeContent}" />`;
+  if (pattern.test(html)) {
+    return html.replace(pattern, () => tag);
   }
+  return html.replace('</head>', () => `    ${tag}\n  </head>`);
+}
 
-  const indexHtml = fs.readFileSync(indexHtmlPath, 'utf8');
+function injectPrerenderedPage(baseHtml, routePath, renderResult) {
+  const { html: bodyHtml, seo } = renderResult;
+  let pageHtml = baseHtml;
 
-  // 1. Generate static entrypoints for each valid route
-  let generatedCount = 0;
-  for (const route of VALID_STATIC_ROUTES) {
-    const routeDir = path.join(distDir, route);
-    if (!fs.existsSync(routeDir)) {
-      fs.mkdirSync(routeDir, { recursive: true });
+  // Remove fallback <noscript> block in prerendered HTML because #root already holds full content
+  pageHtml = pageHtml.replace(/<noscript>[\s\S]*?<\/noscript>\s*/i, () => '');
+
+  if (seo) {
+    if (seo.title) {
+      pageHtml = pageHtml.replace(
+        /<title>[\s\S]*?<\/title>/i,
+        () => `<title>${escapeHtmlText(seo.title)}</title>`
+      );
+      pageHtml = upsertMetaTag(pageHtml, 'name', 'title', seo.title);
+      pageHtml = upsertMetaTag(pageHtml, 'property', 'og:title', seo.title);
+      pageHtml = upsertMetaTag(pageHtml, 'name', 'twitter:title', seo.title);
     }
-    const targetHtmlPath = path.join(routeDir, 'index.html');
-    fs.writeFileSync(targetHtmlPath, indexHtml, 'utf8');
-    generatedCount++;
+
+    if (seo.description) {
+      pageHtml = upsertMetaTag(pageHtml, 'name', 'description', seo.description);
+      pageHtml = upsertMetaTag(pageHtml, 'property', 'og:description', seo.description);
+      pageHtml = upsertMetaTag(pageHtml, 'name', 'twitter:description', seo.description);
+    }
+
+    if (seo.keywords) {
+      pageHtml = upsertMetaTag(pageHtml, 'name', 'keywords', seo.keywords);
+    }
+
+    pageHtml = upsertMetaTag(pageHtml, 'name', 'author', 'Shailendra Pathak — FestiveWala');
+
+    const fallbackCanonical =
+      routePath === '/' ? 'https://festivewala.in/' : `https://festivewala.in${routePath}`;
+    const canonical = seo.canonicalUrl || fallbackCanonical;
+
+    if (seo.noindex) {
+      pageHtml = upsertMetaTag(pageHtml, 'name', 'robots', 'noindex, nofollow');
+      pageHtml = pageHtml.replace(/<link\s+rel="canonical"[^>]*\/?>\s*/gi, () => '');
+    } else {
+      pageHtml = upsertMetaTag(pageHtml, 'name', 'robots', 'index, follow');
+      // Guarantee a single authoritative canonical tag
+      pageHtml = pageHtml.replace(/<link\s+rel="canonical"[^>]*\/?>\s*/gi, () => '');
+      pageHtml = pageHtml.replace(
+        '</head>',
+        () => `    <link rel="canonical" href="${escapeHtmlAttr(canonical)}" />\n  </head>`
+      );
+      pageHtml = upsertMetaTag(pageHtml, 'property', 'og:url', canonical);
+    }
+
+    if (seo.ogType) {
+      pageHtml = upsertMetaTag(pageHtml, 'property', 'og:type', seo.ogType);
+    }
+    if (seo.ogImage) {
+      pageHtml = upsertMetaTag(pageHtml, 'property', 'og:image', seo.ogImage);
+      pageHtml = upsertMetaTag(pageHtml, 'name', 'twitter:image', seo.ogImage);
+    }
+
+    pageHtml = upsertMetaTag(pageHtml, 'property', 'og:locale', seo.lang === 'hi' ? 'hi_IN' : 'en_IN');
+
+    // Remove any previously injected dynamic #seo-jsonld block cleanly before adding current route's JSON-LD
+    pageHtml = pageHtml.replace(/<script\s+id="seo-jsonld"[^>]*>[\s\S]*?<\/script>\s*/gi, () => '');
+    if (seo.jsonLd && !seo.noindex) {
+      const safeJsonLd = JSON.stringify(seo.jsonLd).replace(/<\/script/gi, '<\\/script');
+      pageHtml = pageHtml.replace(
+        '</head>',
+        () => `    <script id="seo-jsonld" type="application/ld+json">${safeJsonLd}</script>\n  </head>`
+      );
+    }
   }
-  console.log(`[PostBuild] Generated ${generatedCount} static entrypoints in dist/`);
 
-  // 2. Generate dist/404.html with pre-rendered Custom404 UI and noindex
-  let notFoundHtml = indexHtml;
-
-  // Replace Title
-  notFoundHtml = notFoundHtml.replace(
-    /<title>.*?<\/title>/i,
-    '<title>Page Not Found (404) | FestiveWala</title>'
+  pageHtml = pageHtml.replace(
+    '<div id="root"></div>',
+    () => `<div id="root">${bodyHtml}</div>`
   );
 
-  // Inject or replace robots meta with noindex, nofollow
+  return pageHtml;
+}
+
+export async function runPostBuild() {
+  const indexHtmlPath = path.join(distDir, 'index.html');
+  if (!fs.existsSync(indexHtmlPath)) {
+    throw new Error('[PostBuild Error] dist/index.html not found. Run vite build first.');
+  }
+
+  const baseIndexHtml = fs.readFileSync(indexHtmlPath, 'utf8');
+
+  // 1. Build temporary Vite SSR module bundle
+  console.log('[PostBuild] Building temporary SSR renderer...');
+  await viteBuild({
+    root: rootDir,
+    logLevel: 'warn',
+    build: {
+      ssr: path.join(rootDir, 'src', 'entry-server.tsx'),
+      outDir: ssrTempDir,
+      emptyOutDir: true,
+      write: true,
+    },
+  });
+
+  let generatedCount = 0;
+  try {
+    const ssrEntryFile = fs
+      .readdirSync(ssrTempDir)
+      .find((file) => /^entry-server\.(m?js|cjs)$/.test(file));
+    if (!ssrEntryFile) {
+      throw new Error('[PostBuild Error] entry-server bundle not found in .ssr-tmp');
+    }
+
+    const ssrModule = await import(pathToFileURL(path.join(ssrTempDir, ssrEntryFile)).href);
+    const renderRoute = ssrModule.renderRoute;
+
+    // 2. Prerender root '/', every static sub-route, and indexed Wishes category query pages into dist/
+    const allTargets = [
+      { routePath: '/', outputFile: indexHtmlPath },
+      ...VALID_STATIC_ROUTES.map((route) => ({
+        routePath: `/${route}/`,
+        outputFile: path.join(distDir, route, 'index.html'),
+      })),
+      ...WISHES_CATEGORY_QUERIES.map((category) => ({
+        routePath: `/wishes/?category=${category}`,
+        outputFile: path.join(distDir, '_categories', `wishes-${category}.html`),
+      })),
+    ];
+
+    for (const target of allTargets) {
+      const rendered = await renderRoute(target.routePath);
+      if (!rendered?.html || rendered.html.trim().length < 200) {
+        throw new Error(`[PostBuild Error] Prerendered HTML too small for ${target.routePath}`);
+      }
+      const outDir = path.dirname(target.outputFile);
+      if (!fs.existsSync(outDir)) {
+        fs.mkdirSync(outDir, { recursive: true });
+      }
+      const finalHtml = injectPrerenderedPage(baseIndexHtml, target.routePath, rendered);
+      fs.writeFileSync(target.outputFile, finalHtml, 'utf8');
+      generatedCount++;
+    }
+  } finally {
+    fs.rmSync(ssrTempDir, { recursive: true, force: true });
+  }
+
+  console.log(
+    `[PostBuild] Prerendered ${generatedCount} static HTML pages in dist/ (46 path routes + ${WISHES_CATEGORY_QUERIES.length} indexed query routes)`
+  );
+
+  // 3. Generate dist/404.html with pre-rendered Custom404 UI and noindex
+  let notFoundHtml = baseIndexHtml.replace(/<noscript>[\s\S]*?<\/noscript>\s*/i, () => '');
+
+  notFoundHtml = notFoundHtml.replace(
+    /<title>.*?<\/title>/i,
+    () => '<title>Page Not Found (404) | FestiveWala</title>'
+  );
+
   if (notFoundHtml.includes('name="robots"')) {
     notFoundHtml = notFoundHtml.replace(
       /<meta\s+name="robots"\s+content="[^"]*"\s*\/?>/i,
-      '<meta name="robots" content="noindex, nofollow" />'
+      () => '<meta name="robots" content="noindex, nofollow" />'
     );
   } else {
     notFoundHtml = notFoundHtml.replace(
       '</head>',
-      '    <meta name="robots" content="noindex, nofollow" />\n  </head>'
+      () => '    <meta name="robots" content="noindex, nofollow" />\n  </head>'
     );
   }
 
-  // Remove any canonical URL tag
-  notFoundHtml = notFoundHtml.replace(/<link\s+rel="canonical"[^>]*\/?>\s*/gi, '');
+  notFoundHtml = notFoundHtml.replace(/<link\s+rel="canonical"[^>]*\/?>\s*/gi, () => '');
 
-  // Pre-rendered Custom404 HTML inside #root for instantaneous zero-JS and crawler rendering
   const custom404Markup = `<div class="min-h-[70vh] flex items-center justify-center px-4 py-16 text-center">
       <div class="max-w-md mx-auto space-y-6">
         <div class="relative w-24 h-24 mx-auto flex items-center justify-center">
@@ -146,7 +254,7 @@ export function runPostBuild() {
 
   notFoundHtml = notFoundHtml.replace(
     '<div id="root"></div>',
-    `<div id="root">${custom404Markup}</div>`
+    () => `<div id="root">${custom404Markup}</div>`
   );
 
   const dist404Path = path.join(distDir, '404.html');
@@ -156,5 +264,8 @@ export function runPostBuild() {
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  runPostBuild();
+  runPostBuild().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
 }

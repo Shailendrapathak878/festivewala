@@ -86,7 +86,7 @@ export const FestivalGuidesPage: React.FC = () => {
           : `${activeGuide.titleEn} | FestiveWala Festival Guide`,
         description: isHindi ? activeGuide.introHi : activeGuide.introEn,
         keywords: `${activeGuide.titleEn}, ${activeGuide.titleHi}, festival guide, traditions, rituals, eco friendly celebration`,
-        canonicalUrl: `https://festivewala.in/festival-guides/${activeGuide.slug}`,
+        canonicalUrl: `https://festivewala.in/festival-guides/${activeGuide.slug}/`,
         ogType: 'article' as const,
       };
     }
@@ -108,13 +108,14 @@ export const FestivalGuidesPage: React.FC = () => {
       headline: isHindi ? activeGuide.titleHi : activeGuide.titleEn,
       description: isHindi ? activeGuide.introHi : activeGuide.introEn,
       author: {
-        '@type': 'Organization',
-        name: 'FestiveWala Editorial Board',
-        url: 'https://festivewala.in',
+        '@type': 'Person',
+        name: 'Shailendra Pathak',
+        url: 'https://festivewala.in/about/',
       },
       publisher: {
         '@type': 'Organization',
         name: 'FestiveWala',
+        url: 'https://festivewala.in/',
         logo: {
           '@type': 'ImageObject',
           url: 'https://festivewala.in/assets/brand/favicon.svg',
@@ -122,7 +123,7 @@ export const FestivalGuidesPage: React.FC = () => {
       },
       mainEntityOfPage: {
         '@type': 'WebPage',
-        '@id': `https://festivewala.in/festival-guides/${activeGuide.slug}`,
+        '@id': `https://festivewala.in/festival-guides/${activeGuide.slug}/`,
       },
       datePublished: '2026-11-01',
       dateModified: '2026-11-01',
@@ -151,7 +152,7 @@ export const FestivalGuidesPage: React.FC = () => {
           {/* Breadcrumb / Back button */}
           <div className="flex items-center justify-between gap-4">
             <Link
-              to="/festival-guides"
+              to="/festival-guides/"
               onClick={() => setSelectedGuideId(null)}
               className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-brand-royal hover:text-brand-deep transition-colors"
             >
@@ -258,7 +259,7 @@ export const FestivalGuidesPage: React.FC = () => {
                 </span>
                 <div className="flex flex-wrap items-center gap-2.5">
                   <Link
-                    to={`/festivals/${activeGuide.relatedFestivalId}`}
+                    to={`/festivals/${activeGuide.relatedFestivalId}/`}
                     className="px-5 py-2.5 rounded-xl bg-[#24113D] text-[#F2D98B] font-bold text-xs shadow-md hover:shadow-lg transition-all flex items-center gap-2"
                   >
                     <span>{isHindi ? 'त्योहार का मुख्य पृष्ठ देखें' : 'View Festival Page'}</span>
@@ -267,13 +268,13 @@ export const FestivalGuidesPage: React.FC = () => {
                   {activeGuide.relatedFestivalId === 'chhath-puja' && (
                     <>
                       <Link
-                        to="/greetings/chhath-puja"
+                        to="/greetings/chhath-puja/"
                         className="px-4 py-2.5 rounded-xl bg-white border border-brand-gold/40 text-brand-deep font-bold text-xs shadow-sm hover:border-brand-gold transition-all"
                       >
                         {isHindi ? 'छठ ग्रीटिंग कार्ड्स' : 'Chhath Cards'}
                       </Link>
                       <Link
-                        to="/wishes/chhath-puja"
+                        to="/wishes/chhath-puja/"
                         className="px-4 py-2.5 rounded-xl bg-white border border-brand-gold/40 text-brand-deep font-bold text-xs shadow-sm hover:border-brand-gold transition-all"
                       >
                         {isHindi ? 'छठ शुभकामना संदेश' : '100 Chhath Wishes'}
@@ -294,14 +295,14 @@ export const FestivalGuidesPage: React.FC = () => {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: isHindi ? 'भारतीय त्योहार व परंपराएं संदर्शिका संग्रह' : 'Indian Festivals and Traditions Guides Collection',
-    url: 'https://festivewala.in/festival-guides',
+    url: 'https://festivewala.in/festival-guides/',
     description: seoConfig.description,
     mainEntity: {
       '@type': 'ItemList',
       itemListElement: FESTIVAL_GUIDES.map((guide, idx) => ({
         '@type': 'ListItem',
         position: idx + 1,
-        url: `https://festivewala.in/festival-guides/${guide.slug}`,
+        url: `https://festivewala.in/festival-guides/${guide.slug}/`,
         name: isHindi ? guide.titleHi : guide.titleEn,
       })),
     },

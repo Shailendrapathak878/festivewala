@@ -29,10 +29,10 @@ test.describe('FestiveWala Step 2: Complete Navigation System Verification', () 
 
     const createDropdown = nav.locator('div[data-dropdown="create"]');
     await expect(createDropdown).toBeVisible();
-    await expect(createDropdown.locator('a[href="/greeting-cards"]')).toBeVisible();
-    await expect(createDropdown.locator('a[href="/greeting-cards?mode=photo"]')).toBeVisible();
-    await expect(createDropdown.locator('a[href="/greetings/diwali"]')).toBeVisible();
-    await expect(createDropdown.locator('a[href="/greeting-studio"]')).toBeVisible();
+    await expect(createDropdown.locator('a[href="/greeting-cards/"]').first()).toBeVisible();
+    await expect(createDropdown.locator('a[href="/greeting-cards/?mode=photo"]')).toBeVisible();
+    await expect(createDropdown.locator('a[href="/greetings/diwali/"]')).toBeVisible();
+    await expect(createDropdown.locator('a[href="/greeting-cards/"]').nth(1)).toBeVisible();
 
     // 3. Wishes Dropdown
     const wishesBtn = nav.locator('button[data-nav-group="wishes"]');
@@ -42,14 +42,14 @@ test.describe('FestiveWala Step 2: Complete Navigation System Verification', () 
 
     const wishesDropdown = nav.locator('div[data-dropdown="wishes"]');
     await expect(wishesDropdown).toBeVisible();
-    await expect(wishesDropdown.locator('a[href="/wishes"]')).toBeVisible();
-    await expect(wishesDropdown.locator('a[href="/wishes?category=birthday"]')).toBeVisible();
-    await expect(wishesDropdown.locator('a[href="/wishes?category=anniversary"]')).toBeVisible();
-    await expect(wishesDropdown.locator('a[href="/wishes?category=love"]')).toBeVisible();
-    await expect(wishesDropdown.locator('a[href="/wishes?category=friendship"]')).toBeVisible();
-    await expect(wishesDropdown.locator('a[href="/wishes?category=good-morning"]')).toBeVisible();
-    await expect(wishesDropdown.locator('a[href="/wishes?category=good-night"]')).toBeVisible();
-    await expect(wishesDropdown.locator('a[href="/wishes?category=festival"]')).toBeVisible();
+    await expect(wishesDropdown.locator('a[href="/wishes/"]')).toBeVisible();
+    await expect(wishesDropdown.locator('a[href="/wishes/?category=birthday"]')).toBeVisible();
+    await expect(wishesDropdown.locator('a[href="/wishes/?category=anniversary"]')).toBeVisible();
+    await expect(wishesDropdown.locator('a[href="/wishes/?category=love"]')).toBeVisible();
+    await expect(wishesDropdown.locator('a[href="/wishes/?category=friendship"]')).toBeVisible();
+    await expect(wishesDropdown.locator('a[href="/wishes/?category=good-morning"]')).toBeVisible();
+    await expect(wishesDropdown.locator('a[href="/wishes/?category=good-night"]')).toBeVisible();
+    await expect(wishesDropdown.locator('a[href="/wishes/?category=festival"]')).toBeVisible();
 
     // 4. Explore Dropdown
     const exploreBtn = nav.locator('button[data-nav-group="explore"]');
@@ -59,12 +59,12 @@ test.describe('FestiveWala Step 2: Complete Navigation System Verification', () 
 
     const exploreDropdown = nav.locator('div[data-dropdown="explore"]');
     await expect(exploreDropdown).toBeVisible();
-    await expect(exploreDropdown.locator('a[href="/festivals"]')).toBeVisible();
-    await expect(exploreDropdown.locator('a[href="/rangoli"]')).toBeVisible();
-    await expect(exploreDropdown.locator('a[href="/decoration-ideas"]')).toBeVisible();
-    await expect(exploreDropdown.locator('a[href="/gift-ideas"]')).toBeVisible();
-    await expect(exploreDropdown.locator('a[href="/festival-guides"]')).toBeVisible();
-    await expect(exploreDropdown.locator('a[href="/inspiration"]')).toBeVisible();
+    await expect(exploreDropdown.locator('a[href="/festivals/"]')).toBeVisible();
+    await expect(exploreDropdown.locator('a[href="/rangoli/"]')).toBeVisible();
+    await expect(exploreDropdown.locator('a[href="/decoration-ideas/"]')).toBeVisible();
+    await expect(exploreDropdown.locator('a[href="/gift-ideas/"]')).toBeVisible();
+    await expect(exploreDropdown.locator('a[href="/festival-guides/"]')).toBeVisible();
+    await expect(exploreDropdown.locator('a[href="/inspiration/"]')).toBeVisible();
 
     // 5. Daily Dropdown
     const dailyBtn = nav.locator('button[data-nav-group="daily"]');
@@ -85,11 +85,11 @@ test.describe('FestiveWala Step 2: Complete Navigation System Verification', () 
 
     const moreDropdown = nav.locator('div[data-dropdown="more"]');
     await expect(moreDropdown).toBeVisible();
-    await expect(moreDropdown.locator('a[href="/about"]')).toBeVisible();
-    await expect(moreDropdown.locator('a[href="/contact"]')).toBeVisible();
-    await expect(moreDropdown.locator('a[href="/privacy-policy"]')).toBeVisible();
-    await expect(moreDropdown.locator('a[href="/terms-of-service"]')).toBeVisible();
-    await expect(moreDropdown.locator('a[href="/disclaimer"]')).toBeVisible();
+    await expect(moreDropdown.locator('a[href="/about/"]')).toBeVisible();
+    await expect(moreDropdown.locator('a[href="/contact/"]')).toBeVisible();
+    await expect(moreDropdown.locator('a[href="/privacy-policy/"]')).toBeVisible();
+    await expect(moreDropdown.locator('a[href="/terms-of-service/"]')).toBeVisible();
+    await expect(moreDropdown.locator('a[href="/disclaimer/"]')).toBeVisible();
   });
 
   test('2. Desktop Dropdown Interaction: Click, Navigation & Escape Key', async ({ page }) => {
@@ -113,12 +113,12 @@ test.describe('FestiveWala Step 2: Complete Navigation System Verification', () 
     // Re-open and click Rangoli link
     await exploreBtn.click();
     await expect(exploreDropdown).toBeVisible();
-    const rangoliLink = exploreDropdown.locator('a[href="/rangoli"]');
+    const rangoliLink = exploreDropdown.locator('a[href="/rangoli/"]');
     await rangoliLink.click();
 
     // Verify navigation occurred
-    await page.waitForURL('**/rangoli');
-    expect(page.url()).toContain('/rangoli');
+    await page.waitForURL('**/rangoli/');
+    expect(page.url()).toContain('/rangoli/');
   });
 
   test('3. Daily Dropdown: Anchor Navigation to Quote and Thought of the Day', async ({ page }) => {
@@ -162,14 +162,14 @@ test.describe('FestiveWala Step 2: Complete Navigation System Verification', () 
     // Verify Primary Navigation Categories grid (Quick links)
     const quickLinks = [
       '/',
-      '/greeting-cards',
-      '/wishes',
-      '/festivals',
-      '/rangoli',
-      '/decoration-ideas',
-      '/gift-ideas',
-      '/festival-guides',
-      '/inspiration',
+      '/greeting-cards/',
+      '/wishes/',
+      '/festivals/',
+      '/rangoli/',
+      '/decoration-ideas/',
+      '/gift-ideas/',
+      '/festival-guides/',
+      '/inspiration/',
     ];
     for (const route of quickLinks) {
       await expect(drawer.locator(`a[href="${route}"]`).first()).toBeVisible();
@@ -180,7 +180,7 @@ test.describe('FestiveWala Step 2: Complete Navigation System Verification', () 
     await expect(createAccordionBtn).toBeVisible();
 
     // Verify Start Creating CTA at bottom of drawer
-    const startCreatingBtn = drawer.locator('a[href="/greeting-cards"]:has-text("Start Creating Card")');
+    const startCreatingBtn = drawer.locator('a[href="/greeting-cards/"]:has-text("Start Creating Card")');
     await expect(startCreatingBtn).toBeVisible();
 
     // Close Drawer via X button
@@ -203,15 +203,15 @@ test.describe('FestiveWala Step 2: Complete Navigation System Verification', () 
     await expect(homeItem).toBeVisible();
     await expect(homeItem).toContainText('Home');
 
-    const createItem = bottomNav.locator('a[href="/greeting-cards"]');
+    const createItem = bottomNav.locator('a[href="/greeting-cards/"]');
     await expect(createItem).toBeVisible();
     await expect(createItem).toContainText('Create');
 
-    const wishesItem = bottomNav.locator('a[href="/wishes"]');
+    const wishesItem = bottomNav.locator('a[href="/wishes/"]');
     await expect(wishesItem).toBeVisible();
     await expect(wishesItem).toContainText('Wishes');
 
-    const exploreItem = bottomNav.locator('a[href="/festivals"]');
+    const exploreItem = bottomNav.locator('a[href="/festivals/"]');
     await expect(exploreItem).toBeVisible();
     await expect(exploreItem).toContainText('Explore');
 
@@ -247,7 +247,7 @@ test.describe('FestiveWala Step 2: Complete Navigation System Verification', () 
     await page.setViewportSize({ width: 390, height: 844 });
     await page.waitForTimeout(300);
     const bottomNav = page.locator('nav[aria-label="Mobile Bottom Navigation"]');
-    const wishesBottomLink = bottomNav.locator('a[href="/wishes"]');
+    const wishesBottomLink = bottomNav.locator('a[href="/wishes/"]');
     await expect(wishesBottomLink).toHaveClass(/text-\[#F2D98B\]/);
   });
 

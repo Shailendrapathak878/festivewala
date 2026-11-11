@@ -19,7 +19,7 @@ export const TermsPage: React.FC = () => {
       <SEOHead
         title={seoTitle}
         description={seoDescription}
-        canonicalUrl="https://festivewala.in/terms-of-service"
+        canonicalUrl="https://festivewala.in/terms-of-service/"
         ogType="website"
         lang={isHindi ? 'hi' : 'en'}
       />
@@ -62,7 +62,7 @@ export const TermsPage: React.FC = () => {
             </h3>
             <p>
               {isHindi
-                ? 'फेस्टिववाला पर उपलब्ध सभी १०० ग्रीटिंग कार्ड टेम्प्लेट्स, रंगोली आर्टवर्क, उत्सव मार्गदर्शिकाएं और साहित्यिक संदेश फेस्टिववाला की बौद्धिक संपदा हैं।'
+                ? 'फेस्टिववाला पर उपलब्ध सभी १८४ ग्रीटिंग कार्ड टेम्प्लेट्स, रंगोली आर्टवर्क, उत्सव मार्गदर्शिकाएं और साहित्यिक संदेश फेस्टिववाला की बौद्धिक संपदा हैं।'
                 : 'All greeting card layouts, vector Rangoli patterns, editorial guides, and curated festive messages available on FestiveWala are protected by copyright and intellectual property laws.'}
             </p>
             <ul className="list-disc pl-5 space-y-1.5 text-brand-dark/75">

@@ -84,7 +84,7 @@ export const FestivalDetailPage: React.FC = () => {
           ? 'Chhath Puja 2026, Chhath Puja dates 2026, Nahay Khay, Kharna, Sandhya Arghya, Usha Arghya Parana, Chhath Puja samagri, Thekua recipe, Chhath Puja wishes Hindi English, Chhathi Maiya, Surya Shashthi'
           : `${festival.nameEn}, ${festival.nameHi}, ${aliasesString}, festival celebration, rituals, recipes, wishes, greetings, decor ideas`;
 
-    const canonicalPageUrl = `https://festivewala.in/festivals/${festival.id}`;
+    const canonicalPageUrl = `https://festivewala.in/festivals/${festival.id}/`;
     const activeSchemaLang: 'en' | 'hi' | 'hi-Latn' = isHindi ? 'hi' : isHinglish ? 'hi-Latn' : 'en';
 
     // 1. WebPage Schema (links to the authoritative WebSite Knowledge Graph)
@@ -119,7 +119,7 @@ export const FestivalDetailPage: React.FC = () => {
           '@type': 'ListItem',
           position: 2,
           name: isHindi ? 'त्योहार निर्देशिका' : 'Festivals',
-          item: 'https://festivewala.in/festivals',
+          item: 'https://festivewala.in/festivals/',
         },
         {
           '@type': 'ListItem',
@@ -153,14 +153,14 @@ export const FestivalDetailPage: React.FC = () => {
       headline: articleHeadline,
       description: pageDescription,
       author: {
-        '@type': 'Organization',
-        name: 'FestiveWala Editorial Board',
-        url: 'https://festivewala.in',
+        '@type': 'Person',
+        name: 'Shailendra Pathak',
+        url: 'https://festivewala.in/about/',
       },
       publisher: {
         '@type': 'Organization',
         name: 'FestiveWala',
-        url: 'https://festivewala.in',
+        url: 'https://festivewala.in/',
         logo: {
           '@type': 'ImageObject',
           url: 'https://festivewala.in/assets/brand/favicon.svg',
@@ -225,7 +225,7 @@ export const FestivalDetailPage: React.FC = () => {
           title={seoData.pageTitle}
           description={seoData.pageDescription}
           keywords={seoData.pageKeywords}
-          canonicalUrl={`https://festivewala.in/festivals/${festival.id}`}
+          canonicalUrl={`https://festivewala.in/festivals/${festival.id}/`}
           ogType="article"
           ogImage={
             festival.id === 'chhath-puja'
@@ -247,7 +247,7 @@ export const FestivalDetailPage: React.FC = () => {
           {/* Breadcrumb Navigation */}
           <div className="flex items-center justify-between gap-4 mb-8">
             <Link
-              to="/festivals"
+              to="/festivals/"
               className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#F2D98B] hover:text-white transition-colors"
             >
               <ArrowLeft size={16} />
@@ -585,7 +585,7 @@ export const FestivalDetailPage: React.FC = () => {
                 </h2>
               </div>
               <Link
-                to="/decoration-ideas"
+                to="/decoration-ideas/"
                 className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-brand-royal hover:text-brand-deep self-start sm:self-auto"
               >
                 <span>{isHindi ? 'सभी सजावट विचार देखें' : 'Browse All Decor Ideas'}</span>
@@ -709,7 +709,7 @@ export const FestivalDetailPage: React.FC = () => {
                 </h2>
               </div>
               <Link
-                to="/gift-ideas"
+                to="/gift-ideas/"
                 className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-brand-royal hover:text-brand-deep self-start sm:self-auto"
               >
                 <span>{isHindi ? 'सम्पूर्ण उपहार गैलरी' : 'View Full Gift Guide'}</span>
@@ -769,14 +769,14 @@ export const FestivalDetailPage: React.FC = () => {
 
                 <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
                   <Link
-                    to="/wishes"
+                    to="/wishes/"
                     className="w-full sm:w-auto px-6 py-3 rounded-2xl bg-[#F2D98B] hover:bg-[#FFE082] text-[#24113D] font-bold text-xs sm:text-sm shadow-lg transition-transform active:scale-95 flex items-center justify-center gap-2 min-h-[46px]"
                   >
                     <BookOpen size={16} />
                     <span>{isHindi ? '५०० संदेश संग्रह देखें' : 'Browse 500 Festival Wishes'}</span>
                   </Link>
                   <Link
-                    to="/greeting-cards"
+                    to="/greeting-cards/"
                     className="w-full sm:w-auto px-6 py-3 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/25 text-[#FAF7F0] font-semibold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 min-h-[46px]"
                   >
                     <Palette size={16} />
@@ -812,7 +812,7 @@ export const FestivalDetailPage: React.FC = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
               <Link
-                to="/rangoli"
+                to="/rangoli/"
                 className="group p-5 rounded-2xl bg-white border border-brand-gold/30 hover:border-brand-gold shadow-sm hover:shadow-lg transition-all flex items-center justify-between"
               >
                 <div>
@@ -827,7 +827,7 @@ export const FestivalDetailPage: React.FC = () => {
               </Link>
 
               <Link
-                to="/decoration-ideas"
+                to="/decoration-ideas/"
                 className="group p-5 rounded-2xl bg-white border border-brand-gold/30 hover:border-brand-gold shadow-sm hover:shadow-lg transition-all flex items-center justify-between"
               >
                 <div>
@@ -842,7 +842,7 @@ export const FestivalDetailPage: React.FC = () => {
               </Link>
 
               <Link
-                to="/festival-guides"
+                to="/festival-guides/"
                 className="group p-5 rounded-2xl bg-white border border-brand-gold/30 hover:border-brand-gold shadow-sm hover:shadow-lg transition-all flex items-center justify-between"
               >
                 <div>

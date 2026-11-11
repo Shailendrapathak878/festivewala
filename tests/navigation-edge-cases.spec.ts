@@ -144,30 +144,30 @@ test.describe('FestiveWala Step 2: Final Navigation Edge-Case Verification', () 
     // 2. Wishes active state on nested route /wishes/dhanteras
     await page.goto('/wishes/dhanteras', { waitUntil: 'domcontentloaded' });
     await page.waitForTimeout(400);
-    await expect(bottomNav.locator('a[href="/wishes"]')).toHaveClass(/text-\[#F2D98B\]/);
+    await expect(bottomNav.locator('a[href="/wishes/"]')).toHaveClass(/text-\[#F2D98B\]/);
 
     // 3. Explore active state on nested route /festivals/dhanteras
     await page.goto('/festivals/dhanteras', { waitUntil: 'domcontentloaded' });
     await page.waitForTimeout(400);
-    await expect(bottomNav.locator('a[href="/festivals"]')).toHaveClass(/text-\[#F2D98B\]/);
+    await expect(bottomNav.locator('a[href="/festivals/"]')).toHaveClass(/text-\[#F2D98B\]/);
 
     // 4. Explore active state on /rangoli
     await page.goto('/rangoli', { waitUntil: 'domcontentloaded' });
     await page.waitForTimeout(400);
-    await expect(bottomNav.locator('a[href="/festivals"]')).toHaveClass(/text-\[#F2D98B\]/);
+    await expect(bottomNav.locator('a[href="/festivals/"]')).toHaveClass(/text-\[#F2D98B\]/);
 
-    // 5. Create button opens card maker experience (/greeting-cards)
+    // 5. Create button opens card maker experience (/greeting-cards/)
     await page.goto('/', { waitUntil: 'domcontentloaded' });
     await page.waitForTimeout(400);
-    const createBtn = bottomNav.locator('a[href="/greeting-cards"]');
+    const createBtn = bottomNav.locator('a[href="/greeting-cards/"]');
     await createBtn.click();
-    await page.waitForURL('**/greeting-cards');
-    expect(page.url()).toContain('/greeting-cards');
+    await page.waitForURL('**/greeting-cards/');
+    expect(page.url()).toContain('/greeting-cards/');
 
     // 6. Verify Create active state on photo mode nested route
     await page.goto('/greeting-cards?mode=photo', { waitUntil: 'domcontentloaded' });
     await page.waitForTimeout(400);
-    await expect(bottomNav.locator('a[href="/greeting-cards"]')).toHaveClass(/text-\[#F2D98B\]/);
+    await expect(bottomNav.locator('a[href="/greeting-cards/"]')).toHaveClass(/text-\[#F2D98B\]/);
 
     // 7. Verify bottom nav is hidden in full canvas editor mode (?edit=true)
     await page.goto('/greeting-cards?edit=true', { waitUntil: 'domcontentloaded' });
@@ -220,7 +220,7 @@ test.describe('FestiveWala Step 2: Final Navigation Edge-Case Verification', () 
     await page.waitForTimeout(250);
 
     // Verify child link is visible
-    const rangoliLink = drawer.locator('a[href="/rangoli"]').first();
+    const rangoliLink = drawer.locator('a[href="/rangoli/"]').first();
     await expect(rangoliLink).toBeVisible();
 
     // Close drawer via backdrop click on tablet

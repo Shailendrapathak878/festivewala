@@ -4,7 +4,7 @@ import { SEOHead } from '../../components/common/SEOHead';
 import { Shield, Lock, Eye, Database, Cookie, Mail } from 'lucide-react';
 
 export const PrivacyPolicyPage: React.FC = () => {
-  const { isHindi } = useLanguage();
+  const { isHindi, loc } = useLanguage();
 
   const seoTitle = isHindi
     ? 'गोपनीयता नीति — फेस्टिववाला | १००% निजी व सुरक्षित फोटो प्रोसेसिंग'
@@ -19,7 +19,7 @@ export const PrivacyPolicyPage: React.FC = () => {
       <SEOHead
         title={seoTitle}
         description={seoDescription}
-        canonicalUrl="https://festivewala.in/privacy-policy"
+        canonicalUrl="https://festivewala.in/privacy-policy/"
         ogType="website"
         lang={isHindi ? 'hi' : 'en'}
       />
@@ -147,12 +147,20 @@ export const PrivacyPolicyPage: React.FC = () => {
               <span>{isHindi ? '५. संपर्क व शिकायत निवारण' : '5. Contact & Privacy Inquiries'}</span>
             </h3>
             <p>
-              {isHindi
-                ? 'यदि आपके पास इस गोपनीयता नीति या अपने डेटा के संबंध में कोई प्रश्न है, तो कृपया हमारे गोपनीयता अधिकारी से संपर्क करें:'
-                : 'If you have questions, feedback, or requests regarding this Privacy Policy or your data, please contact our Privacy Team:'}
+              {loc(
+                'If you have questions, feedback, or requests regarding this Privacy Policy or your data, please contact Shailendra Pathak (Founder, FestiveWala):',
+                'यदि आपके पास इस गोपनीयता नीति या अपने डेटा के संबंध में कोई प्रश्न है, तो कृपया फेस्टिववाला के संस्थापक शैलेंद्र पाठक से संपर्क करें:',
+                'Agar is Privacy Policy ya aapke data ke baare mein koi question hai, to FestiveWala ke founder Shailendra Pathak se sampark karein:'
+              )}
             </p>
             <div className="p-4 rounded-xl bg-brand-ivory border border-brand-gold/20 font-mono text-xs text-brand-deep">
-              Email: privacy@festivewala.in / contact@festivewala.in
+              Email:{' '}
+              <a
+                href="mailto:Pandit979212@gmail.com"
+                className="text-brand-deep font-semibold underline hover:text-brand-gold-dark"
+              >
+                Pandit979212@gmail.com
+              </a>
             </div>
           </section>
         </div>

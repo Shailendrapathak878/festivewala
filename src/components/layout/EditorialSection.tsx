@@ -43,7 +43,7 @@ export const EditorialSection: React.FC = () => {
           </blockquote>
           <div className="w-10 sm:w-12 h-[1px] bg-brand-gold/40 mx-auto my-3" />
           <cite className="font-sans text-[10px] sm:text-xs uppercase tracking-widest-luxury font-bold text-brand-gold not-italic">
-            {isHindi ? 'फेस्टिववाला संपादकीय मंडल' : 'FestiveWala Editorial Board'}
+            {isHindi ? 'शैलेंद्र पाठक — संस्थापक, फेस्टिववाला' : 'Shailendra Pathak — Founder, FestiveWala'}
           </cite>
         </div>
 

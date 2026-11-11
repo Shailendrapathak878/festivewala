@@ -123,18 +123,18 @@ export const DesktopNavigation: React.FC<{ className?: string }> = ({ className 
       items: [
         {
           key: 'greeting-cards',
-          path: '/greeting-cards',
+          path: '/greeting-cards/',
           labelEn: 'Greeting Cards',
           labelHi: 'ग्रीटिंग कार्ड्स',
           labelHinglish: 'Greeting Cards',
-          descEn: '100+ luxury festive card templates',
-          descHi: '१००+ सुंदर व उत्सव कार्ड टेम्पलेट्स',
-          descHinglish: '100+ festive cards with photo & name',
+          descEn: '184 curated festive card & photo templates',
+          descHi: '१८४ सुंदर व उत्सव कार्ड टेम्पलेट्स',
+          descHinglish: '184 festive cards with photo & name',
           icon: <Sparkles className="w-4 h-4 text-brand-gold" />,
         },
         {
           key: 'photo-greetings',
-          path: '/greeting-cards?mode=photo',
+          path: '/greeting-cards/?mode=photo',
           labelEn: 'Photo Greetings',
           labelHi: 'फोटो ग्रीटिंग्स',
           labelHinglish: 'Photo Greetings',
@@ -145,18 +145,18 @@ export const DesktopNavigation: React.FC<{ className?: string }> = ({ className 
         },
         {
           key: 'festival-greetings',
-          path: '/greetings/diwali',
+          path: '/greetings/diwali/',
           labelEn: 'Festival Greetings',
           labelHi: 'त्योहार ग्रीटिंग्स',
           labelHinglish: 'Festival Greetings',
-          descEn: 'Diwali, Dhanteras, Holi & New Year cards',
-          descHi: 'दीपावली, धनतेरस, होली व नववर्ष कार्ड्स',
+          descEn: 'Diwali, Dhanteras & Chhath Puja cards',
+          descHi: 'दीपावली, धनतेरस व छठ पूजा कार्ड्स',
           descHinglish: 'All traditional Indian festival themes',
           icon: <Flame className="w-4 h-4 text-amber-400" />,
         },
         {
           key: 'creative-studio',
-          path: '/greeting-studio',
+          path: '/greeting-cards/',
           labelEn: 'Creative Studio',
           labelHi: 'क्रिएटिव स्टूडियो',
           labelHinglish: 'Creative Studio',
@@ -176,18 +176,18 @@ export const DesktopNavigation: React.FC<{ className?: string }> = ({ className 
       items: [
         {
           key: 'wishes-hub',
-          path: '/wishes',
+          path: '/wishes/',
           labelEn: 'Wishes Hub',
           labelHi: 'शुभकामना संग्रह',
           labelHinglish: 'Wishes Hub',
-          descEn: '1,200+ curated quotes in Hindi & English',
-          descHi: '१२००+ पावन संदेश, सुभाषित व शायरी',
-          descHinglish: '1,200+ heartfelt festival & occasion wishes',
+          descEn: '1,300 curated quotes in Hindi & English',
+          descHi: '१,३०० पावन संदेश, सुभाषित व शायरी',
+          descHinglish: '1,300 heartfelt festival & occasion wishes',
           icon: <MessageSquareHeart className="w-4 h-4 text-rose-400" />,
         },
         {
           key: 'birthday-wishes',
-          path: '/wishes?category=birthday',
+          path: '/wishes/?category=birthday',
           labelEn: 'Birthday Wishes',
           labelHi: 'जन्मदिन की शुभकामनाएं',
           labelHinglish: 'Birthday Wishes',
@@ -198,7 +198,7 @@ export const DesktopNavigation: React.FC<{ className?: string }> = ({ className 
         },
         {
           key: 'anniversary-wishes',
-          path: '/wishes?category=anniversary',
+          path: '/wishes/?category=anniversary',
           labelEn: 'Anniversary Wishes',
           labelHi: 'विवाह वर्षगांठ संदेश',
           labelHinglish: 'Anniversary Wishes',
@@ -209,7 +209,7 @@ export const DesktopNavigation: React.FC<{ className?: string }> = ({ className 
         },
         {
           key: 'love-messages',
-          path: '/wishes?category=love',
+          path: '/wishes/?category=love',
           labelEn: 'Love Messages',
           labelHi: 'प्रेम संदेश',
           labelHinglish: 'Love Messages',
@@ -220,7 +220,7 @@ export const DesktopNavigation: React.FC<{ className?: string }> = ({ className 
         },
         {
           key: 'friendship-messages',
-          path: '/wishes?category=friendship',
+          path: '/wishes/?category=friendship',
           labelEn: 'Friendship Messages',
           labelHi: 'मित्रता संदेश',
           labelHinglish: 'Friendship Messages',
@@ -231,7 +231,7 @@ export const DesktopNavigation: React.FC<{ className?: string }> = ({ className 
         },
         {
           key: 'good-morning-wishes',
-          path: '/wishes?category=good-morning',
+          path: '/wishes/?category=good-morning',
           labelEn: 'Good Morning Wishes',
           labelHi: 'सुप्रभात संदेश',
           labelHinglish: 'Good Morning Wishes',
@@ -242,7 +242,7 @@ export const DesktopNavigation: React.FC<{ className?: string }> = ({ className 
         },
         {
           key: 'good-night-wishes',
-          path: '/wishes?category=good-night',
+          path: '/wishes/?category=good-night',
           labelEn: 'Good Night Wishes',
           labelHi: 'शुभ रात्रि संदेश',
           labelHinglish: 'Good Night Wishes',
@@ -253,13 +253,13 @@ export const DesktopNavigation: React.FC<{ className?: string }> = ({ className 
         },
         {
           key: 'festival-wishes',
-          path: '/wishes?category=festival',
+          path: '/wishes/?category=festival',
           labelEn: 'Festival Wishes',
           labelHi: 'त्योहार विशेष संदेश',
           labelHinglish: 'Festival Wishes',
-          descEn: '600 traditional Sanskrit shlokas & Hindi greetings',
+          descEn: '700 traditional Sanskrit shlokas & Hindi greetings',
           descHi: 'वैदिक श्लोक व पारंपरिक उत्सव शुभकामनाएं',
-          descHinglish: '600 traditional festive greetings',
+          descHinglish: '700 traditional festive greetings',
           icon: <Flame className="w-4 h-4 text-amber-400" />,
         },
       ],
@@ -279,7 +279,7 @@ export const DesktopNavigation: React.FC<{ className?: string }> = ({ className 
       items: [
         {
           key: 'festivals',
-          path: '/festivals',
+          path: '/festivals/',
           labelEn: 'Festivals',
           labelHi: 'त्योहार कैलेंडर',
           labelHinglish: 'Festivals',
@@ -290,18 +290,18 @@ export const DesktopNavigation: React.FC<{ className?: string }> = ({ className 
         },
         {
           key: 'rangoli',
-          path: '/rangoli',
+          path: '/rangoli/',
           labelEn: 'Rangoli Designs',
           labelHi: 'रंगोली कला',
           labelHinglish: 'Rangoli Designs',
-          descEn: '60+ traditional & floral patterns',
-          descHi: '६०+ चरणबद्ध आसान व सुंदर रंगोली',
+          descEn: '8 curated traditional & floral patterns',
+          descHi: '८ चरणबद्ध आसान व सुंदर रंगोली',
           descHinglish: 'Step-by-step rangoli patterns',
           icon: <Palette className="w-4 h-4 text-amber-400" />,
         },
         {
           key: 'decorations',
-          path: '/decoration-ideas',
+          path: '/decoration-ideas/',
           labelEn: 'Decoration Ideas',
           labelHi: 'सजावट आइडियाज',
           labelHinglish: 'Decoration Ideas',
@@ -312,29 +312,29 @@ export const DesktopNavigation: React.FC<{ className?: string }> = ({ className 
         },
         {
           key: 'gifts',
-          path: '/gift-ideas',
+          path: '/gift-ideas/',
           labelEn: 'Gift Ideas',
           labelHi: 'उपहार सुझाव',
           labelHinglish: 'Gift Ideas',
-          descEn: '5 price tiers & 10 relationship categories',
-          descHi: '१० रिश्तों व ५ बजट श्रेणियों के अनुसार गिफ्ट्स',
+          descEn: '25 curated gifts across budgets & relationships',
+          descHi: 'विभिन्न बजट व रिश्तों के अनुसार २५ गिफ्ट्स',
           descHinglish: 'Thoughtful festive gifts for everyone',
           icon: <Gift className="w-4 h-4 text-rose-400" />,
         },
         {
           key: 'guides',
-          path: '/festival-guides',
+          path: '/festival-guides/',
           labelEn: 'Festival Guides',
           labelHi: 'त्योहार गाइड्स',
           labelHinglish: 'Festival Guides',
-          descEn: 'Puja vidhis, auspicious muhurats & lore',
-          descHi: 'पूजा विधि, शुभ मुहूर्त व पौराणिक कथाएं',
+          descEn: '14 detailed puja vidhis, muhurats & lore',
+          descHi: '१४ पूजा विधि, शुभ मुहूर्त व सांस्कृतिक गाइड',
           descHinglish: 'Authentic rituals & cultural guides',
           icon: <BookOpen className="w-4 h-4 text-teal-400" />,
         },
         {
           key: 'inspiration',
-          path: '/inspiration',
+          path: '/inspiration/',
           labelEn: 'Inspiration Hub',
           labelHi: 'प्रेरणा संगम',
           labelHinglish: 'Inspiration Hub',
@@ -384,38 +384,42 @@ export const DesktopNavigation: React.FC<{ className?: string }> = ({ className 
       labelEn: 'More',
       labelHi: 'अधिक',
       labelHinglish: 'More',
-      isActive: (pathname) =>
-        pathname === '/about' ||
-        pathname === '/contact' ||
-        pathname === '/privacy-policy' ||
-        pathname === '/terms-of-service' ||
-        pathname === '/disclaimer',
+      isActive: (pathname) => {
+        const clean = pathname.replace(/\/$/, '') || '/';
+        return (
+          clean === '/about' ||
+          clean === '/contact' ||
+          clean === '/privacy-policy' ||
+          clean === '/terms-of-service' ||
+          clean === '/disclaimer'
+        );
+      },
       items: [
         {
           key: 'about',
-          path: '/about',
+          path: '/about/',
           labelEn: 'About FestiveWala',
           labelHi: 'फेस्टिववाला के बारे में',
           labelHinglish: 'About FestiveWala',
-          descEn: 'Our mission, heritage philosophy & team',
-          descHi: 'हमारा उद्देश्य, परंपरा व सांस्कृतिक दर्शन',
-          descHinglish: 'Our cultural mission & dedication',
+          descEn: 'Meet founder Shailendra Pathak & platform craft',
+          descHi: 'संस्थापक शैलेंद्र पाठक व परियोजना परिचय',
+          descHinglish: 'Meet the founder & project craft',
           icon: <Info className="w-4 h-4 text-brand-gold" />,
         },
         {
           key: 'contact',
-          path: '/contact',
+          path: '/contact/',
           labelEn: 'Contact Us',
           labelHi: 'संपर्क करें',
           labelHinglish: 'Contact Us',
           descEn: 'Direct inquiries, suggestions & feedback',
           descHi: 'हमसे संपर्क करें व सुझाव साझा करें',
-          descHinglish: 'Reach out to our platform team',
+          descHinglish: 'Direct email & feedback',
           icon: <Mail className="w-4 h-4 text-emerald-400" />,
         },
         {
           key: 'privacy-policy',
-          path: '/privacy-policy',
+          path: '/privacy-policy/',
           labelEn: 'Privacy Policy',
           labelHi: 'गोपनीयता नीति',
           labelHinglish: 'Privacy Policy',
@@ -426,7 +430,7 @@ export const DesktopNavigation: React.FC<{ className?: string }> = ({ className 
         },
         {
           key: 'terms-of-service',
-          path: '/terms-of-service',
+          path: '/terms-of-service/',
           labelEn: 'Terms of Service',
           labelHi: 'सेवा की शर्तें',
           labelHinglish: 'Terms of Service',
@@ -437,7 +441,7 @@ export const DesktopNavigation: React.FC<{ className?: string }> = ({ className 
         },
         {
           key: 'disclaimer',
-          path: '/disclaimer',
+          path: '/disclaimer/',
           labelEn: 'Disclaimer',
           labelHi: 'अस्वीकरण',
           labelHinglish: 'Disclaimer',

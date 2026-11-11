@@ -1,0 +1,78 @@
+{
+  "redirects": {
+    "/privacy": "/privacy-policy/",
+    "/terms": "/terms-of-service/",
+    "/greeting-studio": "/greeting-cards/"
+  },
+  "staticExact": [
+    "/",
+    "/festivals",
+    "/wishes",
+    "/greeting-cards",
+    "/inspiration",
+    "/rangoli",
+    "/decoration-ideas",
+    "/gift-ideas",
+    "/festival-guides",
+    "/about",
+    "/contact",
+    "/privacy-policy",
+    "/terms-of-service",
+    "/disclaimer"
+  ],
+  "festivalDetailIds": [
+    "dhanteras",
+    "diwali",
+    "chhath-puja",
+    "holi",
+    "raksha-bandhan",
+    "christmas",
+    "new-year"
+  ],
+  "festivalHubSections": {
+    "greetings": [
+      "dhanteras",
+      "diwali",
+      "chhath-puja"
+    ],
+    "photo-greetings": [
+      "dhanteras",
+      "diwali",
+      "chhath-puja"
+    ],
+    "wishes": [
+      "dhanteras",
+      "diwali",
+      "chhath-puja"
+    ],
+    "gift-ideas": [
+      "dhanteras",
+      "diwali"
+    ]
+  },
+  "guideSlugs": [
+    "diwali-five-days-significance",
+    "eco-friendly-festival-guide",
+    "holi-herbal-colors-safety",
+    "festival-home-cleaning-declutter",
+    "chhath-puja-four-day-rituals-guide",
+    "chhath-nahay-khay-kharna-meaning-rules",
+    "sandhya-usha-arghya-significance-chhath",
+    "chhath-puja-samagri-soop-daura-checklist",
+    "authentic-chhath-prasad-thekua-rasiyaw-recipes",
+    "surya-dev-chhathi-maiya-history-mythology",
+    "eco-friendly-chhath-terrace-kund-guide",
+    "regional-chhath-puja-traditions-india-nepal",
+    "chhath-puja-folk-songs-cultural-meaning",
+    "chhath-36-hour-nirjala-vrat-rules-health-care"
+  ],
+  "wishesCategoryQueries": [
+    "birthday",
+    "anniversary",
+    "love",
+    "friendship",
+    "good-morning",
+    "good-night"
+  ]
+}
+

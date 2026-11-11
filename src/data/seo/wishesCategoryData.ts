@@ -79,10 +79,10 @@ export const WISHES_CATEGORIES_SEO_DATA: Record<string, WishesCategoryContent> =
       hi: 'जन्मदिन पर भेजा गया संदेश आत्मीयता का गहरा एहसास कराता है। माता-पिता व बुजुर्गों के लिए कृतज्ञता व ईश्वर कृपा की प्रार्थनाएं उपयुक्त होती हैं, जीवनसाथी के लिए भावुक व आत्मीय पंक्तियां, और खास दोस्तों के लिए मस्ती व हंसी-मजाक से भरे संदेश सबसे ज्यादा पसंद किए जाते हैं।',
     },
     internalLinks: [
-      { labelEn: 'Create Birthday Greeting Card', labelHi: 'जन्मदिन ग्रीटिंग कार्ड बनाएं', href: '/greeting-cards' },
-      { labelEn: 'Friendship Messages & Shayari', labelHi: 'मित्रता संदेश व दोस्ती शायरी', href: '/wishes?category=friendship' },
+      { labelEn: 'Create Birthday Greeting Card', labelHi: 'जन्मदिन ग्रीटिंग कार्ड बनाएं', href: '/greeting-cards/' },
+      { labelEn: 'Friendship Messages & Shayari', labelHi: 'मित्रता संदेश व दोस्ती शायरी', href: '/wishes/?category=friendship' },
       { labelEn: "Today's Quote of the Day", labelHi: 'आज का अनमोल विचार', href: '/#quote-of-the-day' },
-      { labelEn: 'Explore Festival Wishes', labelHi: 'त्योहार शुभकामनाएं संग्रह', href: '/wishes?category=festival' },
+      { labelEn: 'Explore Festival Wishes', labelHi: 'त्योहार शुभकामनाएं संग्रह', href: '/wishes/?category=festival' },
     ],
   },
 
@@ -122,10 +122,10 @@ export const WISHES_CATEGORIES_SEO_DATA: Record<string, WishesCategoryContent> =
       hi: 'विवाह वर्षगांठ दो हृदयों की साझा यात्रा और विश्वास का प्रतीक है। माता-पिता को बधाई देते समय उनके स्नेहपूर्ण मार्गदर्शन के प्रति कृतज्ञता व्यक्त करें; मित्रों के लिए उनकी अटूट जोड़ी की मंगलकामना करें; और जीवनसाथी के लिए बीते पलों की कृतज्ञता व आने वाले कल के संकल्प व्यक्त करें।',
     },
     internalLinks: [
-      { labelEn: 'Design Anniversary Greeting Card', labelHi: 'वर्षगांठ ग्रीटिंग कार्ड बनाएं', href: '/greeting-cards' },
-      { labelEn: 'Romantic Love Messages', labelHi: 'रोमांटिक प्रेम संदेश', href: '/wishes?category=love' },
+      { labelEn: 'Design Anniversary Greeting Card', labelHi: 'वर्षगांठ ग्रीटिंग कार्ड बनाएं', href: '/greeting-cards/' },
+      { labelEn: 'Romantic Love Messages', labelHi: 'रोमांटिक प्रेम संदेश', href: '/wishes/?category=love' },
       { labelEn: "Today's Thought of the Day", labelHi: 'आज का सुविचार', href: '/#thought-of-the-day' },
-      { labelEn: 'All Wishes Collection', labelHi: 'सभी शुभकामनाएं संग्रह', href: '/wishes' },
+      { labelEn: 'All Wishes Collection', labelHi: 'सभी शुभकामनाएं संग्रह', href: '/wishes/' },
     ],
   },
 
@@ -165,9 +165,9 @@ export const WISHES_CATEGORIES_SEO_DATA: Record<string, WishesCategoryContent> =
       hi: 'सच्चे प्रेम संदेश में दिखावे की जगह आत्मीयता, भरोसा और भावनात्मक संबल सबसे महत्वपूर्ण होते हैं। दैनिक जीवन में छोटे-छोटे आभार और स्नेह भरे शब्द रिश्ते को हर दिन नया और गहरा बनाते हैं।',
     },
     internalLinks: [
-      { labelEn: 'Create Romantic Photo Greeting', labelHi: 'रोमांटिक फोटो कार्ड बनाएं', href: '/greeting-cards' },
-      { labelEn: 'Wedding Anniversary Wishes', labelHi: 'विवाह वर्षगांठ संदेश', href: '/wishes?category=anniversary' },
-      { labelEn: 'Friendship Messages & Shayari', labelHi: 'मित्रता संदेश व शायरी', href: '/wishes?category=friendship' },
+      { labelEn: 'Create Romantic Photo Greeting', labelHi: 'रोमांटिक फोटो कार्ड बनाएं', href: '/greeting-cards/' },
+      { labelEn: 'Wedding Anniversary Wishes', labelHi: 'विवाह वर्षगांठ संदेश', href: '/wishes/?category=anniversary' },
+      { labelEn: 'Friendship Messages & Shayari', labelHi: 'मित्रता संदेश व शायरी', href: '/wishes/?category=friendship' },
       { labelEn: "Today's Quote of the Day", labelHi: 'आज का अनमोल विचार', href: '/#quote-of-the-day' },
     ],
   },
@@ -208,10 +208,10 @@ export const WISHES_CATEGORIES_SEO_DATA: Record<string, WishesCategoryContent> =
       hi: 'सच्ची मित्रता की नींव बिना किसी औपचारिकता के आपसी भरोसे और हंसी-मजाक पर टिकी होती है। दोस्तों को संदेश भेजते समय बनावटी शब्दों से बचें और अपनी साझा यादों तथा उनके निस्वार्थ साथ को महत्व दें।',
     },
     internalLinks: [
-      { labelEn: 'Create Custom Friend Card', labelHi: 'दोस्त के लिए कार्ड बनाएं', href: '/greeting-cards' },
-      { labelEn: 'Birthday Wishes for Friends', labelHi: 'दोस्तों के लिए जन्मदिन संदेश', href: '/wishes?category=birthday' },
+      { labelEn: 'Create Custom Friend Card', labelHi: 'दोस्त के लिए कार्ड बनाएं', href: '/greeting-cards/' },
+      { labelEn: 'Birthday Wishes for Friends', labelHi: 'दोस्तों के लिए जन्मदिन संदेश', href: '/wishes/?category=birthday' },
       { labelEn: 'Daily Morning Inspiration', labelHi: 'दैनिक प्रेरणा व विचार', href: '/#quote-of-the-day' },
-      { labelEn: 'All Wishes Collection', labelHi: 'सभी शुभकामनाएं संग्रह', href: '/wishes' },
+      { labelEn: 'All Wishes Collection', labelHi: 'सभी शुभकामनाएं संग्रह', href: '/wishes/' },
     ],
   },
 
@@ -253,8 +253,8 @@ export const WISHES_CATEGORIES_SEO_DATA: Record<string, WishesCategoryContent> =
     internalLinks: [
       { labelEn: "Quote of the Day Inspiration", labelHi: 'आज का अनमोल विचार', href: '/#quote-of-the-day' },
       { labelEn: "Thought of the Day Wisdom", labelHi: 'आज का प्रेरक सुविचार', href: '/#thought-of-the-day' },
-      { labelEn: 'Good Night Wishes & Blessings', labelHi: 'शुभ रात्रि संदेश व प्रार्थनाएं', href: '/wishes?category=good-night' },
-      { labelEn: 'Create Morning Blessing Card', labelHi: 'मॉर्निंग ग्रीटिंग कार्ड बनाएं', href: '/greeting-cards' },
+      { labelEn: 'Good Night Wishes & Blessings', labelHi: 'शुभ रात्रि संदेश व प्रार्थनाएं', href: '/wishes/?category=good-night' },
+      { labelEn: 'Create Morning Blessing Card', labelHi: 'मॉर्निंग ग्रीटिंग कार्ड बनाएं', href: '/greeting-cards/' },
     ],
   },
 
@@ -294,39 +294,39 @@ export const WISHES_CATEGORIES_SEO_DATA: Record<string, WishesCategoryContent> =
       hi: 'रात्रि का संदेश दिन भर की चिंताओं को विदा कर मन में कृतज्ञता और शांति भरने का माध्यम है। अपनों को शुभ रात्रि कहते समय बीते दिन के लिए धन्यवाद और आने वाली सुबह के लिए नई आशाओं का भाव व्यक्त करें।',
     },
     internalLinks: [
-      { labelEn: 'Good Morning Wishes & Blessings', labelHi: 'सुप्रभात संदेश व सुविचार', href: '/wishes?category=good-morning' },
+      { labelEn: 'Good Morning Wishes & Blessings', labelHi: 'सुप्रभात संदेश व सुविचार', href: '/wishes/?category=good-morning' },
       { labelEn: "Thought of the Day Reflection", labelHi: 'आज का प्रेरक सुविचार', href: '/#thought-of-the-day' },
       { labelEn: "Today's Quote of the Day", labelHi: 'आज का अनमोल विचार', href: '/#quote-of-the-day' },
-      { labelEn: 'Share Peace & Blessing Cards', labelHi: 'शुभकामना ग्रीटिंग कार्ड बनाएं', href: '/greeting-cards' },
+      { labelEn: 'Share Peace & Blessing Cards', labelHi: 'शुभकामना ग्रीटिंग कार्ड बनाएं', href: '/greeting-cards/' },
     ],
   },
 
   festival: {
     id: 'festival',
     seoTitle: {
-      en: 'Festival Wishes in Hindi & English (600+ Best Quotes) | FestiveWala',
-      hi: 'त्योहार शुभकामनाएं हिंदी व अंग्रेजी में (६००+ श्रेष्ठ संदेश) | फेस्टिववाला',
+      en: 'Festival Wishes in Hindi & English (700 Best Quotes) | FestiveWala',
+      hi: 'त्योहार शुभकामनाएं हिंदी व अंग्रेजी में (७०० श्रेष्ठ संदेश) | फेस्टिववाला',
     },
     seoDesc: {
-      en: 'Explore 600+ festival wishes in Hindi and English. Heartfelt messages for family and friends across Diwali, Dhanteras, Holi, and New Year. One-click copy & share.',
-      hi: 'हिंदी और अंग्रेजी में ६००+ पावन त्योहार शुभकामनाएं। परिवार व मित्रों के लिए दिवाली, धनतेरस, होली और नव वर्ष के सुंदर संदेश। एक क्लिक में कॉपी व शेयर करें।',
+      en: 'Explore 700 festival wishes in Hindi and English. Heartfelt messages for family and friends across Diwali, Dhanteras, Chhath Puja, and more. One-click copy & share.',
+      hi: 'हिंदी और अंग्रेजी में ७०० पावन त्योहार शुभकामनाएं। परिवार व मित्रों के लिए दिवाली, धनतेरस और छठ पूजा के सुंदर संदेश। एक क्लिक में कॉपी व शेयर करें।',
     },
     keywords: {
       en: 'festival wishes in Hindi and English, festival wishes for family, festival greetings, Indian festival wishes, Diwali wishes, Dhanteras messages, Holi greetings',
       hi: 'त्योहार शुभकामनाएं हिंदी अंग्रेजी, परिवार के लिए शुभकामनाएं, दोस्तों के लिए बधाई, हिंदी शायरी, दिवाली संदेश, होली शुभकामनाएं',
     },
     pageH1: {
-      en: 'Festival Wishes in Hindi and English (600+ Heartfelt Quotes)',
-      hi: 'त्योहार शुभकामनाएं हिंदी व अंग्रेजी में (६००+ श्रेष्ठ संदेश)',
+      en: 'Festival Wishes in Hindi and English (700 Heartfelt Quotes)',
+      hi: 'त्योहार शुभकामनाएं हिंदी व अंग्रेजी में (७०० श्रेष्ठ संदेश)',
     },
     pageSubtitle: {
       en: 'Festival wishes for family and friends. Filter by relationship, emotional tone, and language.',
-      hi: 'भारतीय त्योहारों के लिए ६००+ सुंदर संदेश: परिवार, मित्रों व अग्रजों के लिए हिंदी और अंग्रेजी में।',
+      hi: 'भारतीय त्योहारों के लिए ७०० सुंदर संदेश: परिवार, मित्रों व अग्रजों के लिए हिंदी और अंग्रेजी में।',
     },
     editorialIntro: {
-      en: 'Celebrate the cultural richness of Indian celebrations with over 600 festival wishes. From sacred Sanskrit shlokas and respectful greetings for elders to cheerful rhymes for friends and formal notes for colleagues, discover timeless festival greetings.',
-      hi: 'भारतीय पर्वों और पावन त्योहारों के लिए ६००+ प्रामाणिक शुभकामनाएं। दीपावली, धनतेरस, होली, छठ पूजा, क्रिसमस व नव वर्ष पर अपनों को भेजें पारंपरिक संस्कृत श्लोक, भावुक बधाई संदेश व सुंदर शायरी।',
-      hinglish: 'India ke sabhi festivals ke liye 600+ authentic wishes in Hindi, English aur Hinglish. Diwali, Dhanteras, Holi, Chhath aur New Year par family aur friends ke liye 1-click shareable greetings.',
+      en: 'Celebrate the cultural richness of Indian celebrations with 700 curated festival wishes (part of 1,300 total wishes across FestiveWala). From sacred Sanskrit shlokas and respectful greetings for elders to cheerful rhymes for friends and formal notes for colleagues, discover timeless festival greetings.',
+      hi: 'भारतीय पर्वों और पावन त्योहारों के लिए ७०० प्रामाणिक शुभकामनाएं (फेस्टिववाला के कुल १,३०० संदेश संग्रह का हिस्सा)। दीपावली, धनतेरस व छठ पूजा पर अपनों को भेजें पारंपरिक संस्कृत श्लोक, भावुक बधाई संदेश व सुंदर शायरी।',
+      hinglish: 'India ke sabhi festivals ke liye 700 authentic wishes in Hindi, English aur Hinglish (1,300 total wishes hub mein). Diwali, Dhanteras aur Chhath Puja par family aur friends ke liye 1-click shareable greetings.',
     },
     guideTitle: {
       en: 'How to Choose the Perfect Festival Wish for Family & Friends',
@@ -337,11 +337,11 @@ export const WISHES_CATEGORIES_SEO_DATA: Record<string, WishesCategoryContent> =
       hi: 'त्योहारों पर भेजा गया संदेश आत्मीयता का प्रतीक होता है। बुजुर्गों के लिए पारंपरिक संस्कृत श्लोक व आदरणीय शब्द उपयुक्त होते हैं, वहीं मित्रों के लिए अनौपचारिक या हिंग्लिश संदेश श्रेष्ठ रहते हैं।',
     },
     internalLinks: [
-      { labelEn: 'Festival Celebration Directory', labelHi: 'त्योहार निर्देशिका व कैलेंडर', href: '/festivals' },
-      { labelEn: 'Free Online Greeting Card Maker', labelHi: 'फ्री ऑनलाइन ग्रीटिंग कार्ड मेकर', href: '/greeting-cards' },
-      { labelEn: 'Dhanteras 2026 Puja & Guide', labelHi: 'धनतेरस २०२६ पूजन व परंपराएं', href: '/festivals/dhanteras' },
-      { labelEn: 'Diwali 2026 Muhurat & Guide', labelHi: 'दीपावली २०२६ पूजन व मुहूर्त', href: '/festivals/diwali' },
-      { labelEn: 'Rangoli Designs Gallery', labelHi: 'रंगोली डिजाइन गैलरी', href: '/rangoli' },
+      { labelEn: 'Festival Celebration Directory', labelHi: 'त्योहार निर्देशिका व कैलेंडर', href: '/festivals/' },
+      { labelEn: 'Free Online Greeting Card Maker', labelHi: 'फ्री ऑनलाइन ग्रीटिंग कार्ड मेकर', href: '/greeting-cards/' },
+      { labelEn: 'Dhanteras 2026 Puja & Guide', labelHi: 'धनतेरस २०२६ पूजन व परंपराएं', href: '/festivals/dhanteras/' },
+      { labelEn: 'Diwali 2026 Muhurat & Guide', labelHi: 'दीपावली २०२६ पूजन व मुहूर्त', href: '/festivals/diwali/' },
+      { labelEn: 'Rangoli Designs Gallery', labelHi: 'रंगोली डिजाइन गैलरी', href: '/rangoli/' },
     ],
   },
 
@@ -381,10 +381,10 @@ export const WISHES_CATEGORIES_SEO_DATA: Record<string, WishesCategoryContent> =
       hi: 'धनतेरस महापर्व पर केवल धन ही नहीं, बल्कि उत्तम स्वास्थ्य (आरोग्य) की मंगलकामना करना भी अत्यंत शुभ माना जाता है। अपनों को ऐसे संदेश भेजें जो सुख, समृद्धि और निरोगी काया दोनों का आशीर्वाद दें।',
     },
     internalLinks: [
-      { labelEn: 'Dhanteras Festival Guide & Puja Vidhi', labelHi: 'धनतेरस २०२६ पूजन विधि व संदर्शिका', href: '/festivals/dhanteras' },
-      { labelEn: 'Diwali Wishes & Greetings', labelHi: 'दीपावली शुभकामनाएं व शायरी', href: '/wishes/diwali' },
-      { labelEn: 'Free Festival Card Maker', labelHi: 'फ्री त्योहार कार्ड मेकर', href: '/greeting-cards' },
-      { labelEn: 'Rangoli Designs for Deepavali', labelHi: 'दीपावली रंगोली डिजाइन', href: '/rangoli' },
+      { labelEn: 'Dhanteras Festival Guide & Puja Vidhi', labelHi: 'धनतेरस २०२६ पूजन विधि व संदर्शिका', href: '/festivals/dhanteras/' },
+      { labelEn: 'Diwali Wishes & Greetings', labelHi: 'दीपावली शुभकामनाएं व शायरी', href: '/wishes/diwali/' },
+      { labelEn: 'Free Festival Card Maker', labelHi: 'फ्री त्योहार कार्ड मेकर', href: '/greeting-cards/' },
+      { labelEn: 'Rangoli Designs for Deepavali', labelHi: 'दीपावली रंगोली डिजाइन', href: '/rangoli/' },
     ],
   },
 
@@ -424,10 +424,10 @@ export const WISHES_CATEGORIES_SEO_DATA: Record<string, WishesCategoryContent> =
       hi: 'दीपावली पर बुजुर्गों व वरिष्ठों के लिए आदरणीय संस्कृत श्लोक व मंगलकामनाएं उपयुक्त होती हैं, जबकि मित्रों व युवा पीढ़ी के लिए भावनात्मक शायरी व व्हाट्सएप संदेश सबसे अधिक पसंद किए जाते हैं।',
     },
     internalLinks: [
-      { labelEn: 'Diwali 2026 Full Celebration Guide', labelHi: 'दीपावली २०२६ संपूर्ण मार्गदर्शिका', href: '/festivals/diwali' },
-      { labelEn: 'Dhanteras Wishes Collection', labelHi: 'धनतेरस शुभकामनाएं संग्रह', href: '/wishes/dhanteras' },
-      { labelEn: 'Rangoli Patterns for Diwali', labelHi: 'दीपावली रंगोली डिजाइन', href: '/rangoli' },
-      { labelEn: 'Create Diwali Greeting Card', labelHi: 'दीपावली ग्रीटिंग कार्ड बनाएं', href: '/greeting-cards' },
+      { labelEn: 'Diwali 2026 Full Celebration Guide', labelHi: 'दीपावली २०२६ संपूर्ण मार्गदर्शिका', href: '/festivals/diwali/' },
+      { labelEn: 'Dhanteras Wishes Collection', labelHi: 'धनतेरस शुभकामनाएं संग्रह', href: '/wishes/dhanteras/' },
+      { labelEn: 'Rangoli Patterns for Diwali', labelHi: 'दीपावली रंगोली डिजाइन', href: '/rangoli/' },
+      { labelEn: 'Create Diwali Greeting Card', labelHi: 'दीपावली ग्रीटिंग कार्ड बनाएं', href: '/greeting-cards/' },
     ],
   },
 
@@ -467,10 +467,10 @@ export const WISHES_CATEGORIES_SEO_DATA: Record<string, WishesCategoryContent> =
       hi: 'छठ महापर्व के चारों दिनों की अपनी विशिष्ट आध्यात्मिक भावना होती है — नहाय-खाय पर सात्विक शुभारंभ की बधाई, खरना पर निर्जला व्रत की शक्ति हेतु प्रार्थना, संध्या अर्घ्य पर अस्ताचल सूर्य को नमन व उषा अर्घ्य पर नव प्रभात की मंगलकामना साझा करें।',
     },
     internalLinks: [
-      { labelEn: 'Chhath Puja 2026 Complete Festival Guide', labelHi: 'छठ महापर्व २०२६ संपूर्ण संदर्शिका', href: '/festivals/chhath-puja' },
-      { labelEn: 'Chhath Puja Greeting Card Maker', labelHi: 'छठ पूजा ग्रीटिंग कार्ड मेकर', href: '/greetings/chhath-puja' },
-      { labelEn: 'Chhath Family Photo Greeting Frames', labelHi: 'छठ पूजा फोटो ग्रीटिंग फ्रेम्स', href: '/photo-greetings/chhath-puja' },
-      { labelEn: 'Chhath Ritual & Samagri Guides', labelHi: 'छठ पूजा विधि व सामग्री मार्गदर्शिका', href: '/festival-guides' },
+      { labelEn: 'Chhath Puja 2026 Complete Festival Guide', labelHi: 'छठ महापर्व २०२६ संपूर्ण संदर्शिका', href: '/festivals/chhath-puja/' },
+      { labelEn: 'Chhath Puja Greeting Card Maker', labelHi: 'छठ पूजा ग्रीटिंग कार्ड मेकर', href: '/greetings/chhath-puja/' },
+      { labelEn: 'Chhath Family Photo Greeting Frames', labelHi: 'छठ पूजा फोटो ग्रीटिंग फ्रेम्स', href: '/photo-greetings/chhath-puja/' },
+      { labelEn: 'Chhath Ritual & Samagri Guides', labelHi: 'छठ पूजा विधि व सामग्री मार्गदर्शिका', href: '/festival-guides/' },
     ],
   },
 };
