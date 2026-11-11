@@ -43,10 +43,59 @@ export const GreetingStudio: React.FC<GreetingStudioProps> = ({
   const { isHindi, isHinglish, language } = useLanguage();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // Upcoming Festivals Priority Engine
+  // Upcoming Festivals Priority Engine (picks nearest upcoming festivals that have templates)
   const upcomingFestivals = useMemo(() => getUpcomingFestivals(), []);
-  const p1FestivalId = upcomingFestivals[0]?.festival.id || 'dhanteras';
-  const p2FestivalId = upcomingFestivals[1]?.festival.id || 'diwali';
+  const availableUpcomingWithTemplates = useMemo(
+    () => upcomingFestivals.filter((u) => getGreetingsByFestival(u.festival.id).length > 0),
+    [upcomingFestivals]
+  );
+  const p1FestivalId = availableUpcomingWithTemplates[0]?.festival.id || 'chhath-puja';
+  const p2FestivalId =
+    availableUpcomingWithTemplates[1]?.festival.id ||
+    (p1FestivalId === 'diwali' ? 'dhanteras' : 'diwali');
+
+  const getFestivalHeadingMeta = (festId: string, mode: 'simple' | 'photo') => {
+    if (festId === 'chhath-puja') {
+      return {
+        emoji: '☀️',
+        title:
+          mode === 'simple'
+            ? isHindi
+              ? 'छठ पूजा २०२६ सिंपल ग्रीटिंग संग्रह (२५ डिज़ाइन)'
+              : 'Chhath Puja 2026 Simple Greetings Collection (25 Designs)'
+            : isHindi
+            ? 'छठ पूजा २०२६ फोटो ग्रीटिंग संग्रह (१० लेआउट्स)'
+            : 'Chhath Puja 2026 Photo Greetings Collection (10 Layouts)',
+        badgeCount: mode === 'simple' ? '25 / 25 Ready' : '10 / 10 Ready',
+      };
+    }
+    if (festId === 'dhanteras') {
+      return {
+        emoji: '🪙',
+        title:
+          mode === 'simple'
+            ? isHindi
+              ? 'धनतेरस २०२६ सिंपल ग्रीटिंग संग्रह (२५ डिज़ाइन)'
+              : 'Dhanteras 2026 Simple Greetings Collection (25 Designs)'
+            : isHindi
+            ? 'धनतेरस २०२६ फोटो ग्रीटिंग संग्रह (१० लेआउट्स)'
+            : 'Dhanteras 2026 Photo Greetings Collection (10 Layouts)',
+        badgeCount: mode === 'simple' ? '25 / 25 Ready' : '10 / 10 Ready',
+      };
+    }
+    return {
+      emoji: '🪔',
+      title:
+        mode === 'simple'
+          ? isHindi
+            ? 'दीपावली २०२६ सिंपल ग्रीटिंग संग्रह (१०० डिज़ाइन)'
+            : 'Diwali 2026 Simple Greetings Collection (100 Designs)'
+          : isHindi
+          ? 'दीपावली २०२६ फोटो ग्रीटिंग संग्रह (१४ लेआउट्स)'
+          : 'Diwali 2026 Photo Greetings Collection (14 Layouts)',
+      badgeCount: mode === 'simple' ? '100 / 100 Ready' : '14 / 14 Ready',
+    };
+  };
 
   // Selected Festival (defaults to 'auto' so nearest upcoming festival displays first)
   const festivalParam = defaultFestivalId || searchParams.get('festival') || 'auto';
@@ -96,6 +145,8 @@ export const GreetingStudio: React.FC<GreetingStudioProps> = ({
   const initialTemplateId = templateParam || (
     activeFestivalKey === 'dhanteras'
       ? (initialMode === 'photo' ? 'photo-dhanteras-royal-portrait' : 'dhanteras-royal-gold-purple')
+      : activeFestivalKey === 'chhath-puja'
+      ? (initialMode === 'photo' ? 'photo-chhath-surya-halo' : 'chhath-surya-arghya-imperial')
       : (initialMode === 'photo' ? 'photo-royal-portrait' : 'sovereign-lotus')
   );
   const initialTemplate =
@@ -434,103 +485,91 @@ export const GreetingStudio: React.FC<GreetingStudioProps> = ({
         {/* VIEW 1: TEMPLATE GALLERY */}
         {viewMode === 'gallery' ? (
           selectedFestivalId === 'auto' ? (
-            <div className="space-y-12">
-              {/* SECTION 1: PRIORITY 1 UPCOMING FESTIVAL (DHANTERAS) */}
-              <div data-testid="greeting-priority-1-section" className="rounded-3xl p-4 sm:p-6 bg-[#160B26]/80 border border-[#F2D98B]/30 shadow-xl">
-                <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-[#F2D98B]/20 pb-3">
-                  <div className="flex items-center gap-2">
-                    <span className="px-2.5 py-0.5 rounded-full bg-[#F2D98B]/20 text-[#F2D98B] border border-[#F2D98B]/40 text-[10px] font-bold uppercase tracking-wider">
-                      {isHindi ? 'प्रथम आगामी पर्व' : 'Priority 1 • Nearest Festival'}
-                    </span>
-                    <h2 className="text-lg sm:text-xl font-bold text-[#FAF7F0] flex items-center gap-2">
-                      <span>🪙</span>
-                      <span>
-                        {greetingMode === 'simple'
-                          ? (isHindi ? 'धनतेरस २०२६ सिंपल ग्रीटिंग संग्रह (२५ डिज़ाइन)' : 'Dhanteras 2026 Simple Greetings (25 Designs)')
-                          : (isHindi ? 'धनतेरस २०२६ फोटो ग्रीटिंग संग्रह (१० लेआउट्स)' : 'Dhanteras 2026 Photo Greetings (10 Layouts)')}
-                      </span>
-                    </h2>
+            (() => {
+              const p1Meta = getFestivalHeadingMeta(p1FestivalId, greetingMode);
+              const p2Meta = getFestivalHeadingMeta(p2FestivalId, greetingMode);
+              return (
+                <div className="space-y-12">
+                  {/* SECTION 1: PRIORITY 1 UPCOMING FESTIVAL */}
+                  <div data-testid="greeting-priority-1-section" className="rounded-3xl p-4 sm:p-6 bg-[#160B26]/80 border border-[#F2D98B]/30 shadow-xl">
+                    <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-[#F2D98B]/20 pb-3">
+                      <div className="flex items-center gap-2">
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#F2D98B]/20 text-[#F2D98B] border border-[#F2D98B]/40 text-[10px] font-bold uppercase tracking-wider">
+                          {isHindi ? 'प्रथम आगामी पर्व' : 'Priority 1 • Nearest Festival'}
+                        </span>
+                        <h2 className="text-lg sm:text-xl font-bold text-[#FAF7F0] flex items-center gap-2">
+                          <span>{p1Meta.emoji}</span>
+                          <span>{p1Meta.title}</span>
+                        </h2>
+                      </div>
+                      <span className="text-xs text-[#F2D98B] font-mono">{p1Meta.badgeCount}</span>
+                    </div>
+
+                    <TemplateGallery
+                      greetingMode={greetingMode}
+                      onGreetingModeChange={(newMode) => {
+                        setGreetingMode(newMode);
+                        setSearchParams({ mode: newMode });
+                      }}
+                      simpleTemplates={p1SimpleTemplates}
+                      photoTemplates={p1PhotoTemplates}
+                      selectedTemplateId={activeTemplate.id}
+                      onSelectTemplate={handleSelectTemplate}
+                      isHindi={isHindi}
+                      isHinglish={isHinglish}
+                      language={language}
+                      selectedRelationship={selectedRelationship}
+                      onRelationshipChange={setSelectedRelationship}
+                    />
                   </div>
-                  <span className="text-xs text-[#F2D98B] font-mono">
-                    {greetingMode === 'simple' ? '25 / 25 Ready' : '10 / 10 Ready'}
-                  </span>
-                </div>
 
-                <TemplateGallery
-                  greetingMode={greetingMode}
-                  onGreetingModeChange={(newMode) => {
-                    setGreetingMode(newMode);
-                    setSearchParams({ mode: newMode });
-                  }}
-                  simpleTemplates={p1SimpleTemplates}
-                  photoTemplates={p1PhotoTemplates}
-                  selectedTemplateId={activeTemplate.id}
-                  onSelectTemplate={handleSelectTemplate}
-                  isHindi={isHindi}
-                  isHinglish={isHinglish}
-                  language={language}
-                  selectedRelationship={selectedRelationship}
-                  onRelationshipChange={setSelectedRelationship}
-                />
-              </div>
+                  {/* SECTION 2: PRIORITY 2 UPCOMING FESTIVAL */}
+                  <div data-testid="greeting-priority-2-section" className="rounded-3xl p-4 sm:p-6 bg-[#18092E]/80 border border-brand-gold/30 shadow-xl">
+                    <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-brand-gold/20 pb-3">
+                      <div className="flex items-center gap-2">
+                        <span className="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[10px] font-bold uppercase tracking-wider">
+                          {isHindi ? 'द्वितीय आगामी पर्व' : 'Priority 2 • Following Celebration'}
+                        </span>
+                        <h2 className="text-lg sm:text-xl font-bold text-[#FAF7F0] flex items-center gap-2">
+                          <span>{p2Meta.emoji}</span>
+                          <span>{p2Meta.title}</span>
+                        </h2>
+                      </div>
+                      <span className="text-xs text-[#F2D98B] font-mono">{p2Meta.badgeCount}</span>
+                    </div>
 
-              {/* SECTION 2: PRIORITY 2 UPCOMING FESTIVAL (DIWALI) */}
-              <div data-testid="greeting-priority-2-section" className="rounded-3xl p-4 sm:p-6 bg-[#18092E]/80 border border-brand-gold/30 shadow-xl">
-                <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-brand-gold/20 pb-3">
-                  <div className="flex items-center gap-2">
-                    <span className="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[10px] font-bold uppercase tracking-wider">
-                      {isHindi ? 'द्वितीय आगामी पर्व' : 'Priority 2 • Following Celebration'}
-                    </span>
-                    <h2 className="text-lg sm:text-xl font-bold text-[#FAF7F0] flex items-center gap-2">
-                      <span>🪔</span>
-                      <span>
-                        {greetingMode === 'simple'
-                          ? (isHindi ? 'दीपावली २०२६ सिंपल ग्रीटिंग संग्रह (१०० डिज़ाइन)' : 'Diwali 2026 Simple Greetings (100 Designs)')
-                          : (isHindi ? 'दीपावली २०२६ फोटो ग्रीटिंग संग्रह (१४ लेआउट्स)' : 'Diwali 2026 Photo Greetings (14 Layouts)')}
-                      </span>
-                    </h2>
+                    <TemplateGallery
+                      greetingMode={greetingMode}
+                      onGreetingModeChange={(newMode) => {
+                        setGreetingMode(newMode);
+                        setSearchParams({ mode: newMode });
+                      }}
+                      simpleTemplates={p2SimpleTemplates}
+                      photoTemplates={p2PhotoTemplates}
+                      selectedTemplateId={activeTemplate.id}
+                      onSelectTemplate={handleSelectTemplate}
+                      isHindi={isHindi}
+                      isHinglish={isHinglish}
+                      language={language}
+                      selectedRelationship={selectedRelationship}
+                      onRelationshipChange={setSelectedRelationship}
+                    />
                   </div>
-                  <span className="text-xs text-[#F2D98B] font-mono">
-                    {greetingMode === 'simple' ? '100 / 100 Ready' : '14 / 14 Ready'}
-                  </span>
                 </div>
-
-                <TemplateGallery
-                  greetingMode={greetingMode}
-                  onGreetingModeChange={(newMode) => {
-                    setGreetingMode(newMode);
-                    setSearchParams({ mode: newMode });
-                  }}
-                  simpleTemplates={p2SimpleTemplates}
-                  photoTemplates={p2PhotoTemplates}
-                  selectedTemplateId={activeTemplate.id}
-                  onSelectTemplate={handleSelectTemplate}
-                  isHindi={isHindi}
-                  isHinglish={isHinglish}
-                  language={language}
-                  selectedRelationship={selectedRelationship}
-                  onRelationshipChange={setSelectedRelationship}
-                />
-              </div>
-            </div>
+              );
+            })()
           ) : (
-            <div>
-              <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-lg font-bold text-[#FAF7F0]">
-                  {selectedFestivalId === 'dhanteras'
-                    ? (greetingMode === 'simple'
-                      ? (isHindi ? 'धनतेरस २०२६ सिंपल ग्रीटिंग संग्रह (२५ डिज़ाइन)' : 'Dhanteras 2026 Simple Greetings Collection (25 Designs)')
-                      : (isHindi ? 'धनतेरस २०२६ फोटो ग्रीटिंग संग्रह (१० लेआउट्स)' : 'Dhanteras 2026 Photo Greetings Collection (10 Layouts)'))
-                    : (greetingMode === 'simple'
-                      ? (isHindi ? 'दिवाली २०२६ सिंपल ग्रीटिंग संग्रह (१०० डिज़ाइन)' : 'Diwali 2026 Simple Greetings Collection (100 Designs)')
-                      : (isHindi ? 'दिवाली २०२६ फोटो ग्रीटिंग संग्रह (१४ लेआउट्स)' : 'Diwali 2026 Photo Greetings Collection (14 Layouts)'))}
-                </h2>
-                <span className="text-xs text-[#F2D98B] font-mono">
-                  {selectedFestivalId === 'dhanteras'
-                    ? (greetingMode === 'simple' ? '25 / 25 Ready' : '10 / 10 Ready')
-                    : (greetingMode === 'simple' ? '100 / 100 Ready' : '14 / 14 Ready')}
-                </span>
-              </div>
+            (() => {
+              const explicitMeta = getFestivalHeadingMeta(selectedFestivalId, greetingMode);
+              return (
+                <div>
+                  <div className="mb-4 flex items-center justify-between">
+                    <h2 className="text-lg font-bold text-[#FAF7F0] flex items-center gap-2">
+                      <span>{explicitMeta.emoji}</span>
+                      <span>{explicitMeta.title}</span>
+                    </h2>
+                    <span className="text-xs text-[#F2D98B] font-mono">{explicitMeta.badgeCount}</span>
+                  </div>
 
               <TemplateGallery
                 greetingMode={greetingMode}
@@ -540,14 +579,14 @@ export const GreetingStudio: React.FC<GreetingStudioProps> = ({
                     const defSimple = currentSimpleTemplates[0] || ALL_GREETING_TEMPLATES[0];
                     setActiveTemplate(defSimple);
                     reset(createDefaultCustomization(defSimple, selectedRelationship));
-                    setSearchParams({ mode: 'simple' });
+                    setSearchParams({ festival: selectedFestivalId, mode: 'simple' });
                   } else if (newMode === 'photo' && activeTemplate.category !== 'photo-studio' && !activeTemplate.id.startsWith('photo-')) {
                     const defPhoto = currentPhotoTemplates[0] || ALL_GREETING_TEMPLATES[0];
                     setActiveTemplate(defPhoto);
                     reset(createDefaultCustomization(defPhoto, selectedRelationship));
-                    setSearchParams({ mode: 'photo' });
+                    setSearchParams({ festival: selectedFestivalId, mode: 'photo' });
                   } else {
-                    setSearchParams({ mode: newMode });
+                    setSearchParams({ festival: selectedFestivalId, mode: newMode });
                   }
                 }}
                 simpleTemplates={currentSimpleTemplates}
@@ -561,6 +600,8 @@ export const GreetingStudio: React.FC<GreetingStudioProps> = ({
                 onRelationshipChange={setSelectedRelationship}
               />
             </div>
+              );
+            })()
           )
         ) : (
           /* VIEW 2: FULL PERSONALIZATION STUDIO EDITOR */

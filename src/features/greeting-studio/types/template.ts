@@ -107,7 +107,11 @@ export interface DecorativeConfig {
     | 'corporate-prism'
     | 'festive-sweets'
     | 'celestial-galaxy'
-    | 'modern-diya';
+    | 'modern-diya'
+    | 'surya-arghya'
+    | 'bamboo-soop'
+    | 'river-ghat-sun'
+    | 'chhath-thekua-thali';
   borderStyle: 'double-gold' | 'rangoli-dots' | 'royal-filigree' | 'minimal-hairline' | 'festive-toran' | 'brushed-brass';
   compositionStyle?:
     | 'traditional-ornamental'

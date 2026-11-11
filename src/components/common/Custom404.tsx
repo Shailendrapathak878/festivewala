@@ -1,13 +1,28 @@
 import React from 'react';
 import { PrimaryButton } from './PrimaryButton';
+import { SEOHead } from './SEOHead';
 import { useLanguage } from '../../hooks/useLanguage';
 import { Home } from 'lucide-react';
 
 export const Custom404: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, isHindi } = useLanguage();
+
+  const title = isHindi
+    ? 'पृष्ठ नहीं मिला (४०४) | फेस्टिववाला'
+    : 'Page Not Found (404) | FestiveWala';
+  const description = isHindi
+    ? 'क्षमा करें, जिस पृष्ठ की आप तलाश कर रहे हैं वह मौजूद नहीं है या हटा दिया गया है।'
+    : 'Sorry, the page you are looking for does not exist or has been moved.';
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center px-4 py-16 text-center">
+    <>
+      <SEOHead
+        title={title}
+        description={description}
+        noindex={true}
+        lang={isHindi ? 'hi' : 'en'}
+      />
+      <div className="min-h-[70vh] flex items-center justify-center px-4 py-16 text-center">
       <div className="max-w-md mx-auto space-y-6">
         {/* Sacred Arch Motif */}
         <div className="relative w-24 h-24 mx-auto flex items-center justify-center">
@@ -41,6 +56,7 @@ export const Custom404: React.FC = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

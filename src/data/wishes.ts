@@ -10,6 +10,15 @@ import { SHORT_WISHES } from './wishes/short';
 import { CAPTIONS_WISHES } from './wishes/captions';
 import { BUSINESS_WISHES } from './wishes/business';
 import { DHANTERAS_WISHES_DATA } from './wishes/dhanterasWishes';
+import { CHHATH_PUJA_WISHES_DATA } from './wishes/chhathPujaWishes';
+
+// Dedicated Year-Round Occasions Datasets (100 wishes each = 600 total)
+import { BIRTHDAY_WISHES } from './wishes/birthdayWishes';
+import { ANNIVERSARY_WISHES } from './wishes/anniversaryWishes';
+import { LOVE_MESSAGES } from './wishes/loveMessages';
+import { FRIENDSHIP_MESSAGES } from './wishes/friendshipMessages';
+import { GOOD_MORNING_WISHES } from './wishes/dailyMorningWishes';
+import { GOOD_NIGHT_WISHES } from './wishes/dailyNightWishes';
 
 export {
   TRADITIONAL_WISHES,
@@ -23,6 +32,14 @@ export {
   CAPTIONS_WISHES,
   BUSINESS_WISHES,
   DHANTERAS_WISHES_DATA,
+  CHHATH_PUJA_WISHES_DATA,
+  // New Occasions Exports
+  BIRTHDAY_WISHES,
+  ANNIVERSARY_WISHES,
+  LOVE_MESSAGES,
+  FRIENDSHIP_MESSAGES,
+  GOOD_MORNING_WISHES,
+  GOOD_NIGHT_WISHES,
 };
 
 /**
@@ -42,10 +59,33 @@ export const DIWALI_WISHES_DATA: WishMessage[] = [
 ];
 
 /**
- * FestiveWala Global Curated Wishes Repository:
- * 500 Diwali Wishes + 100 Dhanteras Wishes = 600 Total Curated Wishes.
+ * FestiveWala Global Curated Festival Wishes Repository:
+ * 500 Diwali Wishes + 100 Dhanteras Wishes + 100 Chhath Puja Wishes = 700 Total Curated Festival Wishes.
  */
 export const WISHES_DATA: WishMessage[] = [
   ...DIWALI_WISHES_DATA,
   ...DHANTERAS_WISHES_DATA,
+  ...CHHATH_PUJA_WISHES_DATA,
+];
+
+/**
+ * FestiveWala Curated Year-Round Occasions Wishes Repository:
+ * 100 Birthday + 100 Anniversary + 100 Love + 100 Friendship + 100 Morning + 100 Night = 600 Total Occasion Wishes.
+ */
+export const OCCASIONS_WISHES_DATA: WishMessage[] = [
+  ...BIRTHDAY_WISHES,
+  ...ANNIVERSARY_WISHES,
+  ...LOVE_MESSAGES,
+  ...FRIENDSHIP_MESSAGES,
+  ...GOOD_MORNING_WISHES,
+  ...GOOD_NIGHT_WISHES,
+];
+
+/**
+ * FestiveWala Master Wishes Repository:
+ * 700 Festival Wishes + 600 Year-Round Occasion Wishes = 1300 Total Curated Wishes.
+ */
+export const ALL_WISHES_DATA: WishMessage[] = [
+  ...WISHES_DATA,
+  ...OCCASIONS_WISHES_DATA,
 ];

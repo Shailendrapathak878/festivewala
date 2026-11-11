@@ -26,9 +26,9 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
       tagline: 'text-[9px]',
     },
     md: {
-      icon: 'w-8 h-8 sm:w-9 sm:h-9',
-      text: 'text-xl sm:text-2xl',
-      tagline: 'text-[10px]',
+      icon: 'w-7 h-7 sm:w-9 sm:h-9',
+      text: 'text-lg sm:text-2xl',
+      tagline: 'text-[9px] sm:text-[10px]',
     },
     lg: {
       icon: 'w-10 h-10 sm:w-12 sm:h-12',

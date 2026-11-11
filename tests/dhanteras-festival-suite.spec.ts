@@ -165,8 +165,8 @@ test.describe('Dhanteras End-to-End Browser Experience', () => {
   test('Dhanteras Wishes Page loads exactly 100 wishes', async ({ page }) => {
     await page.goto('/wishes/dhanteras', { waitUntil: 'domcontentloaded' });
     
-    // Look for Dhanteras wishes title or 100 count badge
-    const badge = page.locator('text=100').first();
-    await expect(badge).toBeVisible();
+    // Verify wish cards and exact 100 Dhanteras wishes indicator in main showcase
+    await expect(page.locator('[data-testid="wish-card"]').first()).toBeVisible();
+    await expect(page.getByText('All 100 Dhanteras Wishes', { exact: true })).toBeVisible();
   });
 });

@@ -34,7 +34,7 @@ export interface GreetingEdition {
 
 export interface WishMessage {
   id: string;
-  festivalId: string;
+  festivalId?: string;
   category:
     | 'family'
     | 'friends'
@@ -48,7 +48,12 @@ export interface WishMessage {
     | 'business'
     | 'sacred'
     | 'health-happiness'
-    | 'wealth-prosperity';
+    | 'wealth-prosperity'
+    | 'birthday'
+    | 'anniversary'
+    | 'friendship'
+    | 'good-morning'
+    | 'good-night';
   categoryLabelEn: string;
   categoryLabelHi: string;
   categoryLabelHinglish?: string;

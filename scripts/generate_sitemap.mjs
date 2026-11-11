@@ -25,6 +25,7 @@ const SITEMAP_ENTRIES = [
   // Dedicated Festival Hubs
   { loc: `${BASE_URL}/festivals/dhanteras`, priority: '0.9', changefreq: 'weekly' },
   { loc: `${BASE_URL}/festivals/diwali`, priority: '0.9', changefreq: 'weekly' },
+  { loc: `${BASE_URL}/festivals/chhath-puja`, priority: '0.9', changefreq: 'weekly' },
   { loc: `${BASE_URL}/festivals/holi`, priority: '0.9', changefreq: 'weekly' },
   { loc: `${BASE_URL}/festivals/raksha-bandhan`, priority: '0.9', changefreq: 'weekly' },
   { loc: `${BASE_URL}/festivals/christmas`, priority: '0.9', changefreq: 'weekly' },
@@ -33,10 +34,21 @@ const SITEMAP_ENTRIES = [
   // Festival-Specific Hubs
   { loc: `${BASE_URL}/greetings/dhanteras`, priority: '0.9', changefreq: 'weekly' },
   { loc: `${BASE_URL}/greetings/diwali`, priority: '0.9', changefreq: 'weekly' },
+  { loc: `${BASE_URL}/greetings/chhath-puja`, priority: '0.9', changefreq: 'weekly' },
   { loc: `${BASE_URL}/wishes/dhanteras`, priority: '0.9', changefreq: 'weekly' },
   { loc: `${BASE_URL}/wishes/diwali`, priority: '0.9', changefreq: 'weekly' },
+  { loc: `${BASE_URL}/wishes/chhath-puja`, priority: '0.9', changefreq: 'weekly' },
   { loc: `${BASE_URL}/photo-greetings/dhanteras`, priority: '0.9', changefreq: 'weekly' },
   { loc: `${BASE_URL}/photo-greetings/diwali`, priority: '0.9', changefreq: 'weekly' },
+  { loc: `${BASE_URL}/photo-greetings/chhath-puja`, priority: '0.9', changefreq: 'weekly' },
+
+  // Multilingual Occasion Wishes Collections (100 Curated Wishes Each)
+  { loc: `${BASE_URL}/wishes?category=birthday`, priority: '0.8', changefreq: 'weekly' },
+  { loc: `${BASE_URL}/wishes?category=anniversary`, priority: '0.8', changefreq: 'weekly' },
+  { loc: `${BASE_URL}/wishes?category=love`, priority: '0.8', changefreq: 'weekly' },
+  { loc: `${BASE_URL}/wishes?category=friendship`, priority: '0.8', changefreq: 'weekly' },
+  { loc: `${BASE_URL}/wishes?category=good-morning`, priority: '0.8', changefreq: 'weekly' },
+  { loc: `${BASE_URL}/wishes?category=good-night`, priority: '0.8', changefreq: 'weekly' },
 
   // Inspiration & Creative Galleries
   { loc: `${BASE_URL}/inspiration`, priority: '0.8', changefreq: 'weekly' },
@@ -50,6 +62,16 @@ const SITEMAP_ENTRIES = [
   { loc: `${BASE_URL}/festival-guides/eco-friendly-festival-guide`, priority: '0.7', changefreq: 'monthly' },
   { loc: `${BASE_URL}/festival-guides/holi-herbal-colors-safety`, priority: '0.7', changefreq: 'monthly' },
   { loc: `${BASE_URL}/festival-guides/festival-home-cleaning-declutter`, priority: '0.7', changefreq: 'monthly' },
+  { loc: `${BASE_URL}/festival-guides/chhath-puja-four-day-rituals-guide`, priority: '0.7', changefreq: 'monthly' },
+  { loc: `${BASE_URL}/festival-guides/chhath-nahay-khay-kharna-meaning-rules`, priority: '0.7', changefreq: 'monthly' },
+  { loc: `${BASE_URL}/festival-guides/sandhya-usha-arghya-significance-chhath`, priority: '0.7', changefreq: 'monthly' },
+  { loc: `${BASE_URL}/festival-guides/chhath-puja-samagri-soop-daura-checklist`, priority: '0.7', changefreq: 'monthly' },
+  { loc: `${BASE_URL}/festival-guides/authentic-chhath-prasad-thekua-rasiyaw-recipes`, priority: '0.7', changefreq: 'monthly' },
+  { loc: `${BASE_URL}/festival-guides/surya-dev-chhathi-maiya-history-mythology`, priority: '0.7', changefreq: 'monthly' },
+  { loc: `${BASE_URL}/festival-guides/eco-friendly-chhath-terrace-kund-guide`, priority: '0.7', changefreq: 'monthly' },
+  { loc: `${BASE_URL}/festival-guides/regional-chhath-puja-traditions-india-nepal`, priority: '0.7', changefreq: 'monthly' },
+  { loc: `${BASE_URL}/festival-guides/chhath-puja-folk-songs-cultural-meaning`, priority: '0.7', changefreq: 'monthly' },
+  { loc: `${BASE_URL}/festival-guides/chhath-36-hour-nirjala-vrat-rules-health-care`, priority: '0.7', changefreq: 'monthly' },
 
   // Trust, E-E-A-T & Legal Pages
   { loc: `${BASE_URL}/about`, priority: '0.5', changefreq: 'monthly' },

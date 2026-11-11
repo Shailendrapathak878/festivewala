@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { RootLayout } from '../layouts/RootLayout';
 import { LoadingState } from '../components/common/LoadingState';
 
@@ -41,16 +41,16 @@ export const AppRoutes: React.FC = () => {
           <Route path="wishes/:festivalId" element={<WishesPreviewPage />} />
           <Route path="gift-ideas/:festivalId" element={<GiftIdeasPage />} />
           <Route path="greeting-cards" element={<GreetingCardsPreviewPage />} />
-          <Route path="greeting-studio" element={<GreetingCardsPreviewPage />} />
+          <Route path="greeting-studio" element={<Navigate to="/greeting-cards" replace />} />
           <Route path="wishes" element={<WishesPreviewPage />} />
           <Route path="inspiration" element={<InspirationPreviewPage />} />
           {/* Legal and Trust Pages */}
           <Route path="about" element={<AboutPage />} />
           <Route path="contact" element={<ContactPage />} />
           <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
-          <Route path="privacy" element={<PrivacyPolicyPage />} />
+          <Route path="privacy" element={<Navigate to="/privacy-policy" replace />} />
           <Route path="terms-of-service" element={<TermsPage />} />
-          <Route path="terms" element={<TermsPage />} />
+          <Route path="terms" element={<Navigate to="/terms-of-service" replace />} />
           <Route path="disclaimer" element={<DisclaimerPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>

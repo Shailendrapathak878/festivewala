@@ -1,3 +1,5 @@
+import { CHHATH_PUJA_GUIDES } from './chhathPujaGuides';
+
 export interface GuideSection {
   headingEn: string;
   headingHi: string;
@@ -269,5 +271,6 @@ export const FESTIVAL_GUIDES: FestivalGuide[] = [
       },
     ],
   },
+  ...CHHATH_PUJA_GUIDES,
 ];
 

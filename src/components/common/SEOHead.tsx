@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import type { MetaTagsConfig } from '../../data/seo/types';
 
 interface SEOHeadProps extends MetaTagsConfig {
-  lang?: 'en' | 'hi';
+  lang?: 'en' | 'hi' | 'hi-Latn' | 'hinglish';
+  noindex?: boolean;
 }
 
 function updateOrCreateMeta(attributeName: string, attributeValue: string, content: string) {
@@ -41,41 +42,55 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
   ogImage = 'https://festivewala.in/assets/brand/og-festivewala.png',
   jsonLd,
   lang = 'en',
+  noindex = false,
 }) => {
   useEffect(() => {
     // 1. Language attribute on <html> element
-    document.documentElement.lang = lang === 'hi' ? 'hi' : 'en';
+    const normalizedHtmlLang =
+      lang === 'hi' ? 'hi' : lang === 'hi-Latn' || lang === 'hinglish' ? 'hi-Latn' : 'en';
+    document.documentElement.lang = normalizedHtmlLang;
 
     // 2. Title
     document.title = title;
 
-    // 3. Primary Meta Tags
+    // 3. Robots directive & Canonical Tag
+    if (noindex) {
+      updateOrCreateMeta('name', 'robots', 'noindex, nofollow');
+      // On 404 or non-indexable routes, do not emit a canonical tag to a non-existent URL
+      const canonicalEl = document.querySelector('link[rel="canonical"]');
+      if (canonicalEl) {
+        canonicalEl.remove();
+      }
+    } else {
+      updateOrCreateMeta('name', 'robots', 'index, follow');
+      // Clean up any legacy hreflang tags to prevent Google Search Console conflicting canonical errors.
+      document.querySelectorAll('link[rel="alternate"][hreflang]').forEach((el) => el.remove());
+      updateOrCreateLink('canonical', canonicalUrl);
+    }
+
+    // 4. Primary Meta Tags
     updateOrCreateMeta('name', 'description', description);
     if (keywords) {
       updateOrCreateMeta('name', 'keywords', keywords);
     }
     updateOrCreateMeta('name', 'author', 'FestiveWala Editorial Board');
 
-    // 4. Open Graph / Facebook
+    // 5. Open Graph / Facebook
     updateOrCreateMeta('property', 'og:title', title);
     updateOrCreateMeta('property', 'og:description', description);
     updateOrCreateMeta('property', 'og:type', ogType);
-    updateOrCreateMeta('property', 'og:url', canonicalUrl);
+    if (!noindex) {
+      updateOrCreateMeta('property', 'og:url', canonicalUrl);
+    }
     updateOrCreateMeta('property', 'og:image', ogImage);
     updateOrCreateMeta('property', 'og:site_name', 'FestiveWala');
     updateOrCreateMeta('property', 'og:locale', lang === 'hi' ? 'hi_IN' : 'en_IN');
 
-    // 5. Twitter Cards
+    // 6. Twitter Cards
     updateOrCreateMeta('name', 'twitter:card', 'summary_large_image');
     updateOrCreateMeta('name', 'twitter:title', title);
     updateOrCreateMeta('name', 'twitter:description', description);
     updateOrCreateMeta('name', 'twitter:image', ogImage);
-
-    // 6. Canonical Tag
-    // Note: Single-URL client-side language switching does not use separate hreflang URLs.
-    // Clean up any legacy hreflang tags to prevent Google Search Console conflicting canonical errors.
-    document.querySelectorAll('link[rel="alternate"][hreflang]').forEach((el) => el.remove());
-    updateOrCreateLink('canonical', canonicalUrl);
 
     // 7. JSON-LD Structured Data
     const existingJsonLd = document.getElementById('seo-jsonld');
@@ -83,7 +98,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       existingJsonLd.remove();
     }
 
-    if (jsonLd) {
+    if (jsonLd && !noindex) {
       const script = document.createElement('script');
       script.id = 'seo-jsonld';
       script.type = 'application/ld+json';
@@ -97,7 +112,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
         script.remove();
       }
     };
-  }, [title, description, keywords, canonicalUrl, ogType, ogImage, jsonLd, lang]);
+  }, [title, description, keywords, canonicalUrl, ogType, ogImage, jsonLd, lang, noindex]);
 
   return null;
 };

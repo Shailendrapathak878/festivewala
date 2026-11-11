@@ -2567,3 +2567,326 @@ export function drawCelestialGalaxy(
 
   ctx.restore();
 }
+
+/**
+ * 24. Surya Dev Arghya & Sacred River Horizon (Chhath Puja)
+ * Radiant solar disk, twelve golden rays, sacred Arghya water ripples & kalash silhouette.
+ */
+export function drawSuryaArghya(
+  ctx: CanvasRenderingContext2D,
+  cx: number,
+  cy: number,
+  radius: number,
+  primaryColor: string,
+  goldColor: string
+) {
+  ctx.save();
+  ctx.translate(cx, cy);
+
+  // Warm solar aura
+  const aura = ctx.createRadialGradient(0, -radius * 0.08, radius * 0.12, 0, -radius * 0.08, radius * 0.95);
+  aura.addColorStop(0, '#FEF08A');
+  aura.addColorStop(0.35, `${goldColor}66`);
+  aura.addColorStop(1, 'transparent');
+  ctx.fillStyle = aura;
+  ctx.beginPath();
+  ctx.arc(0, -radius * 0.08, radius * 0.95, 0, Math.PI * 2);
+  ctx.fill();
+
+  // 12 Alternating Solar Rays
+  for (let i = 0; i < 16; i++) {
+    const angle = (i * Math.PI * 2) / 16;
+    const innerR = radius * 0.36;
+    const outerR = i % 2 === 0 ? radius * 0.72 : radius * 0.54;
+    ctx.beginPath();
+    ctx.moveTo(Math.cos(angle) * innerR, -radius * 0.08 + Math.sin(angle) * innerR);
+    ctx.lineTo(Math.cos(angle) * outerR, -radius * 0.08 + Math.sin(angle) * outerR);
+    ctx.strokeStyle = i % 2 === 0 ? goldColor : '#FDBA74';
+    ctx.lineWidth = i % 2 === 0 ? 2.4 : 1.5;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+  }
+
+  // Rising/Setting Sun Orb
+  const sunGrad = ctx.createLinearGradient(0, -radius * 0.42, 0, radius * 0.28);
+  sunGrad.addColorStop(0, '#FEF9C3');
+  sunGrad.addColorStop(0.5, '#F59E0B');
+  sunGrad.addColorStop(1, '#EA580C');
+  ctx.beginPath();
+  ctx.arc(0, -radius * 0.08, radius * 0.32, 0, Math.PI * 2);
+  ctx.fillStyle = sunGrad;
+  ctx.fill();
+  ctx.strokeStyle = goldColor;
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Flowing River Horizon Waves (lower third)
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(0, 0, radius * 0.92, 0.12 * Math.PI, 0.88 * Math.PI);
+  ctx.closePath();
+  ctx.clip();
+
+  const riverGrad = ctx.createLinearGradient(0, radius * 0.18, 0, radius * 0.85);
+  riverGrad.addColorStop(0, '#1E3A8A');
+  riverGrad.addColorStop(1, primaryColor);
+  ctx.fillStyle = riverGrad;
+  ctx.fillRect(-radius, radius * 0.18, radius * 2, radius * 0.75);
+
+  // Shimmering Sun Reflection Ripples
+  [0.28, 0.42, 0.56].forEach((offset, idx) => {
+    const w = radius * (0.55 - idx * 0.13);
+    ctx.beginPath();
+    ctx.moveTo(-w, radius * offset);
+    ctx.quadraticCurveTo(0, radius * (offset - 0.04), w, radius * offset);
+    ctx.strokeStyle = idx === 0 ? '#FDE047' : `${goldColor}AA`;
+    ctx.lineWidth = 2.2 - idx * 0.4;
+    ctx.stroke();
+  });
+  ctx.restore();
+
+  // Small Arghya Kalash Silhouette pouring sacred offering arc
+  ctx.fillStyle = goldColor;
+  ctx.beginPath();
+  ctx.ellipse(-radius * 0.46, radius * 0.12, radius * 0.11, radius * 0.08, -0.35, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = '#FEF08A';
+  ctx.lineWidth = 1.6;
+  ctx.beginPath();
+  ctx.moveTo(-radius * 0.36, radius * 0.1);
+  ctx.quadraticCurveTo(-radius * 0.15, radius * 0.22, -radius * 0.08, radius * 0.42);
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+/**
+ * 25. Woven Bamboo Soop with Chhath Offerings
+ * Traditional bamboo winnowing tray holding sugarcane, whole coconut, fruits, and golden earthen lamp.
+ */
+export function drawBambooSoop(
+  ctx: CanvasRenderingContext2D,
+  cx: number,
+  cy: number,
+  radius: number,
+  primaryColor: string,
+  goldColor: string
+) {
+  ctx.save();
+  ctx.translate(cx, cy);
+
+  // Sugarcane stalks sweeping upward behind the Soop
+  [-0.22, 0.18].forEach((tilt, idx) => {
+    ctx.save();
+    ctx.rotate(tilt);
+    const sx = idx === 0 ? -radius * 0.22 : radius * 0.24;
+    ctx.strokeStyle = '#84CC16';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(sx, radius * 0.18);
+    ctx.lineTo(sx, -radius * 0.72);
+    ctx.stroke();
+    // Sugarcane nodes
+    [-0.1, -0.32, -0.54].forEach((ny) => {
+      ctx.beginPath();
+      ctx.moveTo(sx - 4, radius * ny);
+      ctx.lineTo(sx + 4, radius * ny);
+      ctx.strokeStyle = '#FEF08A';
+      ctx.lineWidth = 1.4;
+      ctx.stroke();
+    });
+    // Leaf blades
+    ctx.strokeStyle = '#4ADE80';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(sx, -radius * 0.72);
+    ctx.quadraticCurveTo(sx + (idx === 0 ? -18 : 18), -radius * 0.88, sx + (idx === 0 ? -30 : 28), -radius * 0.76);
+    ctx.stroke();
+    ctx.restore();
+  });
+
+  // Bamboo Soop Trapezoid Base
+  const topW = radius * 0.68;
+  const botW = radius * 0.48;
+  ctx.beginPath();
+  ctx.moveTo(-topW, 0);
+  ctx.lineTo(topW, 0);
+  ctx.lineTo(botW, radius * 0.42);
+  ctx.quadraticCurveTo(0, radius * 0.5, -botW, radius * 0.42);
+  ctx.closePath();
+
+  const soopGrad = ctx.createLinearGradient(0, 0, 0, radius * 0.48);
+  soopGrad.addColorStop(0, '#F59E0B');
+  soopGrad.addColorStop(0.55, '#B45309');
+  soopGrad.addColorStop(1, '#78350F');
+  ctx.fillStyle = soopGrad;
+  ctx.fill();
+  ctx.strokeStyle = goldColor;
+  ctx.lineWidth = 2.2;
+  ctx.stroke();
+
+  // Woven lattice texture lines on Soop
+  ctx.strokeStyle = `${goldColor}55`;
+  ctx.lineWidth = 1;
+  for (let i = -3; i <= 3; i++) {
+    ctx.beginPath();
+    ctx.moveTo(i * radius * 0.13, 4);
+    ctx.lineTo(i * radius * 0.11, radius * 0.4);
+    ctx.stroke();
+  }
+
+  // Offerings inside Soop: Coconut, Seasonal Citrus (Dabh Nimbu), & Thekua
+  ctx.fillStyle = '#92400E';
+  ctx.beginPath();
+  ctx.ellipse(-radius * 0.22, -radius * 0.08, radius * 0.15, radius * 0.12, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = '#FACC15';
+  ctx.beginPath();
+  ctx.arc(radius * 0.06, -radius * 0.12, radius * 0.13, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = '#EA580C';
+  ctx.beginPath();
+  ctx.arc(radius * 0.28, -radius * 0.06, radius * 0.1, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Small sacred Diya at the center front
+  drawDiya(ctx, 0, radius * 0.24, radius * 0.28, primaryColor, goldColor, true);
+
+  ctx.restore();
+}
+
+/**
+ * 26. Sacred River Ghat Twilight Sunrise
+ * Stepped heritage ghat silhouette overlooking glowing solar water reflections and floating diyas.
+ */
+export function drawRiverGhatSun(
+  ctx: CanvasRenderingContext2D,
+  cx: number,
+  cy: number,
+  radius: number,
+  primaryColor: string,
+  goldColor: string
+) {
+  ctx.save();
+  ctx.translate(cx, cy);
+
+  // Outer medallion ring
+  ctx.beginPath();
+  ctx.arc(0, 0, radius * 0.88, 0, Math.PI * 2);
+  ctx.strokeStyle = `${goldColor}88`;
+  ctx.lineWidth = 1.6;
+  ctx.stroke();
+
+  // Half-orb Sun touching the horizon
+  const orbGrad = ctx.createRadialGradient(0, -radius * 0.05, 4, 0, -radius * 0.05, radius * 0.55);
+  orbGrad.addColorStop(0, '#FEF9C3');
+  orbGrad.addColorStop(0.5, '#F97316');
+  orbGrad.addColorStop(1, 'transparent');
+  ctx.fillStyle = orbGrad;
+  ctx.beginPath();
+  ctx.arc(0, -radius * 0.05, radius * 0.42, Math.PI, 0, false);
+  ctx.fill();
+
+  // Stepped Stone Ghat Silhouette on left and right edges
+  ctx.fillStyle = primaryColor;
+  ctx.strokeStyle = goldColor;
+  ctx.lineWidth = 1.2;
+  for (let step = 0; step < 3; step++) {
+    const sy = radius * (0.04 + step * 0.11);
+    const sw = radius * (0.45 - step * 0.08);
+    ctx.fillRect(-radius * 0.72, sy, sw, radius * 0.1);
+    ctx.strokeRect(-radius * 0.72, sy, sw, radius * 0.1);
+  }
+
+  // Horizon water band & golden shimmer
+  ctx.beginPath();
+  ctx.moveTo(-radius * 0.76, radius * 0.02);
+  ctx.lineTo(radius * 0.76, radius * 0.02);
+  ctx.strokeStyle = goldColor;
+  ctx.lineWidth = 1.8;
+  ctx.stroke();
+
+  [0.18, 0.34, 0.5].forEach((yOff, i) => {
+    const w = radius * (0.5 - i * 0.12);
+    ctx.beginPath();
+    ctx.moveTo(-w + radius * 0.1, radius * yOff);
+    ctx.lineTo(w + radius * 0.1, radius * yOff);
+    ctx.strokeStyle = i === 0 ? '#FEF08A' : `${goldColor}AA`;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  });
+
+  // Floating river diya lights
+  [
+    { x: radius * 0.32, y: radius * 0.28 },
+    { x: -radius * 0.05, y: radius * 0.48 },
+  ].forEach((d) => {
+    ctx.beginPath();
+    ctx.arc(d.x, d.y, 4.5, 0, Math.PI * 2);
+    ctx.fillStyle = '#FDE047';
+    ctx.fill();
+  });
+
+  ctx.restore();
+}
+
+/**
+ * 27. Traditional Thekua & Chhath Prasad Thali
+ * Sacred brass thali with stamped Thekua, rice laddoo, sugarcane, and vermilion blessings.
+ */
+export function drawChhathThekuaThali(
+  ctx: CanvasRenderingContext2D,
+  cx: number,
+  cy: number,
+  radius: number,
+  primaryColor: string,
+  goldColor: string
+) {
+  ctx.save();
+  ctx.translate(cx, cy);
+
+  // Brass / Gold Thali plate
+  ctx.beginPath();
+  ctx.arc(0, 0, radius * 0.78, 0, Math.PI * 2);
+  ctx.fillStyle = `${goldColor}1E`;
+  ctx.fill();
+  ctx.strokeStyle = goldColor;
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.arc(0, 0, radius * 0.66, 0, Math.PI * 2);
+  ctx.strokeStyle = `${goldColor}66`;
+  ctx.lineWidth = 1.2;
+  ctx.stroke();
+
+  // Crisp golden Thekua medallions arranged in ring
+  for (let i = 0; i < 6; i++) {
+    const angle = (i * Math.PI * 2) / 6;
+    const tx = Math.cos(angle) * radius * 0.36;
+    const ty = Math.sin(angle) * radius * 0.36;
+    ctx.save();
+    ctx.translate(tx, ty);
+    ctx.rotate(angle);
+    ctx.beginPath();
+    ctx.ellipse(0, 0, radius * 0.16, radius * 0.11, 0, 0, Math.PI * 2);
+    ctx.fillStyle = '#D97706';
+    ctx.fill();
+    ctx.strokeStyle = goldColor;
+    ctx.lineWidth = 1.4;
+    ctx.stroke();
+    // Stamped leaf vein detail on Thekua
+    ctx.beginPath();
+    ctx.moveTo(-radius * 0.09, 0);
+    ctx.lineTo(radius * 0.09, 0);
+    ctx.strokeStyle = '#FEF08A';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // Central Vermilion & Diya Sacred Kalash Mark
+  drawDiya(ctx, 0, 0, radius * 0.36, primaryColor, goldColor, true);
+
+  ctx.restore();
+}

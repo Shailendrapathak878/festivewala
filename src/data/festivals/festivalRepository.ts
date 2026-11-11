@@ -17,6 +17,11 @@ import { DHANTERAS_PHOTO_TEMPLATES } from '../greetings/dhanterasPhotoTemplates'
 import { DHANTERAS_WISHES_DATA } from '../wishes/dhanterasWishes';
 import { DHANTERAS_GIFT_IDEAS } from '../gifts/dhanterasGifts';
 
+// Chhath Puja Collections
+import { CHHATH_PUJA_GREETING_TEMPLATES } from '../greetings/chhathPujaGreetings';
+import { CHHATH_PUJA_PHOTO_TEMPLATES } from '../greetings/chhathPujaPhotoTemplates';
+import { CHHATH_PUJA_WISHES_DATA } from '../wishes/chhathPujaWishes';
+
 /**
  * Strict Festival-Aware Repository Architecture.
  * Enforces zero cross-contamination between festivals at data and repository level.
@@ -27,16 +32,19 @@ import { DHANTERAS_GIFT_IDEAS } from '../gifts/dhanterasGifts';
 const GREETINGS_MAP: Record<string, GreetingTemplate[]> = {
   dhanteras: DHANTERAS_GREETING_TEMPLATES,
   diwali: DIWALI_TEMPLATES,
+  'chhath-puja': CHHATH_PUJA_GREETING_TEMPLATES,
 };
 
 const PHOTO_TEMPLATES_MAP: Record<string, GreetingTemplate[]> = {
   dhanteras: DHANTERAS_PHOTO_TEMPLATES,
   diwali: DIWALI_PHOTO_TEMPLATES,
+  'chhath-puja': CHHATH_PUJA_PHOTO_TEMPLATES,
 };
 
 const WISHES_MAP: Record<string, WishMessage[]> = {
   dhanteras: DHANTERAS_WISHES_DATA,
   diwali: DIWALI_WISHES_DATA,
+  'chhath-puja': CHHATH_PUJA_WISHES_DATA,
 };
 
 const GIFTS_MAP: Record<string, GiftIdea[]> = {

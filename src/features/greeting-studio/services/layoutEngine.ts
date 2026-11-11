@@ -84,13 +84,22 @@ function computePhotoLayout(
   width: number,
   height: number
 ): LayoutBounds {
-  const isFamily = templateId === 'photo-parivar-panoramic' || templateId === 'photo-hearth-and-home';
-  const isFriends = templateId === 'photo-yaari-sparklers' || templateId === 'photo-rooftop-gang';
-  const isDuo = templateId === 'photo-festive-duet-collage';
-  const isQuad = templateId === 'photo-quad-memories-collage';
-  const isFullBleed = templateId === 'photo-cinematic-scrim' || templateId === 'photo-golden-hour-full';
-  const isSplit = templateId === 'photo-modern-split-duo';
-  const isJharokha = templateId === 'photo-traditional-jharokha';
+  const isFamily =
+    templateId === 'photo-parivar-panoramic' ||
+    templateId === 'photo-hearth-and-home' ||
+    templateId.includes('panoramic');
+  const isFriends =
+    templateId === 'photo-yaari-sparklers' ||
+    templateId === 'photo-rooftop-gang' ||
+    templateId.includes('polaroid');
+  const isDuo = templateId === 'photo-festive-duet-collage' || templateId.includes('duet');
+  const isQuad = templateId === 'photo-quad-memories-collage' || templateId.includes('quad');
+  const isFullBleed =
+    templateId === 'photo-cinematic-scrim' ||
+    templateId === 'photo-golden-hour-full' ||
+    templateId.includes('full-bleed');
+  const isSplit = templateId === 'photo-modern-split-duo' || templateId.includes('split');
+  const isJharokha = templateId === 'photo-traditional-jharokha' || templateId.includes('jharokha');
 
   const motif = { cx: width / 2, cy: 120, radius: 40 };
 

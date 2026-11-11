@@ -9,7 +9,7 @@ import { useLanguage } from '../../hooks/useLanguage';
 import { Menu, Sparkles, ChevronRight } from 'lucide-react';
 
 export const Header: React.FC = () => {
-  const { t, isHindi } = useLanguage();
+  const { t, isHindi, isHinglish } = useLanguage();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -33,8 +33,15 @@ export const Header: React.FC = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, [isMobileMenuOpen]);
 
+  // Open mobile menu from bottom nav "More" event
+  useEffect(() => {
+    const handleOpenMobileMenu = () => setIsMobileMenuOpen(true);
+    window.addEventListener('open-mobile-menu', handleOpenMobileMenu);
+    return () => window.removeEventListener('open-mobile-menu', handleOpenMobileMenu);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-40 w-full transition-all duration-300">
+    <header className="sticky top-0 z-40 w-full overflow-x-clip transition-all duration-300">
       {/* 1. Ultra-Compact Mobile-First Announcement Bar */}
       <div className="bg-brand-deep text-brand-champagne border-b border-brand-gold/30 px-3 py-1.5 text-[11px] sm:text-xs font-sans tracking-wide">
         <div className="max-w-7xl mx-auto flex items-center justify-between sm:justify-center gap-2">
@@ -80,23 +87,32 @@ export const Header: React.FC = () => {
               variant="royal"
               icon={<Sparkles size={14} className="text-brand-gold" />}
             >
-              {t.nav.createGreeting}
+              {isHindi ? 'कार्ड बनाएं' : isHinglish ? 'Create Card' : 'Start Creating'}
             </PrimaryButton>
           </div>
 
-          {/* Mobile Right Actions: Compact Language Switcher + Touch-Friendly Hamburger */}
-          <div className="flex xl:hidden items-center gap-2">
+          {/* Mobile Right Actions: Create CTA (on tablet/phablet) + Compact Language Switcher + Hamburger */}
+          <div className="flex xl:hidden items-center gap-1.5 sm:gap-2">
+            <Link
+              to="/greeting-cards"
+              className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-brand-royal text-brand-champagne border border-brand-gold/30 text-xs font-bold active:scale-95 transition-all shadow-sm focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold"
+              aria-label={isHindi ? 'कार्ड बनाएं' : 'Create Card'}
+            >
+              <Sparkles size={13} className="text-brand-gold" />
+              <span>{isHindi ? 'कार्ड बनाएं' : 'Create'}</span>
+            </Link>
+
             <LanguageSwitcher />
 
             <button
               type="button"
               onClick={() => setIsMobileMenuOpen(true)}
-              className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl text-brand-deep bg-brand-white/80 border border-brand-gold/30 hover:bg-brand-light active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold transition-all"
+              className="min-w-[40px] min-h-[40px] flex items-center justify-center rounded-xl text-brand-deep bg-brand-white/80 border border-brand-gold/30 hover:bg-brand-light active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold transition-all"
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-navigation-drawer"
               aria-label={t.nav.menuOpen}
             >
-              <Menu size={22} className="text-brand-deep" />
+              <Menu size={20} className="text-brand-deep" />
             </button>
           </div>
         </div>

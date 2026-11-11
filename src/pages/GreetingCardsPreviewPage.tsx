@@ -14,6 +14,7 @@ export const GreetingCardsPreviewPage: React.FC<GreetingCardsPreviewPageProps> =
   const { isHindi } = useLanguage();
   const isDhanteras = festivalId === 'dhanteras';
   const isDiwali = festivalId === 'diwali';
+  const isChhath = festivalId === 'chhath-puja';
   const isPhotoMode = defaultMode === 'photo';
 
   let seoTitle = isHindi ? STATIC_ROUTE_SEO.greetingCards.hi.title : STATIC_ROUTE_SEO.greetingCards.en.title;
@@ -33,18 +34,48 @@ export const GreetingCardsPreviewPage: React.FC<GreetingCardsPreviewPageProps> =
     seoTitle = isPhotoMode
       ? (isHindi ? 'धनतेरस २०२६ फोटो ग्रीटिंग कार्ड मेकर — फोटो फ्रेम व नाम जोड़ें | फेस्टिववाला' : 'Free Dhanteras 2026 Photo Greeting Card Maker — Photo Frame & Name | FestiveWala')
       : (isHindi ? 'धनतेरस २०२६ ग्रीटिंग कार्ड मेकर — २५ खास डिज़ाइन व फोटो स्टूडियो | फेस्टिववाला' : 'Free Dhanteras 2026 Greeting Card Maker — 25 Designs & Photo Studio | FestiveWala');
-    seoDesc = isHindi
-      ? 'धनतेरस के लिए २५ शाही ग्रीटिंग कार्ड और १० फोटो फ्रेम्स बनाएं। नाम जोड़ें, कस्टमाइज करें और एचडी पीएनजी डाउनलोड करें।'
-      : 'Design 25 exclusive Dhanteras greeting cards & 10 personalized photo frames. Add your name, customize wishes, and download in full 1080p+ HD PNG.';
-    keywords = 'Dhanteras greeting card, Dhanteras photo frame, Shubh Dhanteras maker, free Dhanteras wishes card';
+    seoDesc = isPhotoMode
+      ? (isHindi
+          ? 'धनतेरस २०२६ के लिए अपनी फोटो और परिवार का नाम जोड़कर १० खास पावन फोटो फ्रेम्स तैयार करें। १००% प्राइवेट व मुफ्त 1080p डाउनलोड।'
+          : 'Upload your photo into 10 sacred Dhanteras 2026 greeting frames, add your family name, and export full 1080p+ HD PNG cards free in your browser.')
+      : (isHindi
+          ? 'धनतेरस के लिए २५ शाही ग्रीटिंग कार्ड और १० फोटो फ्रेम्स बनाएं। नाम जोड़ें, कस्टमाइज करें और एचडी पीएनजी डाउनलोड करें।'
+          : 'Design 25 exclusive Dhanteras greeting cards & 10 personalized photo frames. Add your name, customize wishes, and download in full 1080p+ HD PNG.');
+    keywords = isPhotoMode
+      ? 'Dhanteras photo greeting card, Dhanteras photo frame maker, add photo Dhanteras wishes card, free Dhanteras card'
+      : 'Dhanteras greeting card, Dhanteras photo frame, Shubh Dhanteras maker, free Dhanteras wishes card';
+  } else if (isChhath) {
+    seoTitle = isPhotoMode
+      ? (isHindi
+          ? 'छठ पूजा २०२६ फोटो ग्रीटिंग कार्ड मेकर — घाट फोटो फ्रेम व नाम जोड़ें | फेस्टिववाला'
+          : 'Free Chhath Puja 2026 Photo Greeting Card Maker — Photo Frame & Name | FestiveWala')
+      : (isHindi
+          ? 'छठ पूजा २०२६ ग्रीटिंग कार्ड मेकर — २५ पावन डिज़ाइन व फोटो स्टूडियो | फेस्टिववाला'
+          : 'Free Chhath Puja 2026 Greeting Card Maker — 25 Designs & Photo Studio | FestiveWala');
+    seoDesc = isPhotoMode
+      ? (isHindi
+          ? 'छठ महापर्व २०२६ के लिए अपनी व परिवार की फोटो जोड़कर १० खास सूर्य अर्घ्य व घाट फोटो फ्रेम कार्ड तैयार करें। १००% प्राइवेट व मुफ्त 1080p डाउनलोड।'
+          : 'Add your family Chhath ghat photo to 10 bespoke Surya Dev & Arghya frames, customize in English, Hindi or Hinglish, and download free 1080p+ HD PNG cards.')
+      : (isHindi
+          ? 'छठ महापर्व के लिए २५ विशेष सूर्य अर्घ्य, बांस सूप व ठेकुआ ग्रीटिंग कार्ड और १० फोटो फ्रेम बनाएं। नाम जोड़ें और एचडी डाउनलोड करें।'
+          : 'Create 25 bespoke Chhath Puja greeting cards & 10 family photo frames featuring Surya Dev, bamboo soop, and river ghats. Free 1080p+ HD PNG download.');
+    keywords = isPhotoMode
+      ? 'Chhath Puja photo greeting card, Chhath photo frame maker, Surya Arghya photo card, Happy Chhath Puja photo wishes'
+      : 'Chhath Puja greeting card, Happy Chhath Puja card maker, Chhathi Maiya wishes card, free Chhath greeting download';
   } else if (isDiwali) {
     seoTitle = isPhotoMode
       ? (isHindi ? 'दीपावली २०२६ फोटो ग्रीटिंग कार्ड मेकर — अपनी तस्वीर जोड़ें | फेस्टिववाला' : 'Free Diwali 2026 Photo Greeting Card Maker — Add Your Photo | FestiveWala')
       : (isHindi ? 'दीपावली २०२६ ग्रीटिंग कार्ड्स — १००+ शाही डिज़ाइन्स व मुफ्त डाउनलोड | फेस्टिववाला' : 'Free Diwali 2026 Greeting Card Maker — 100+ Luxury Designs | FestiveWala');
-    seoDesc = isHindi
-      ? 'दीपावली के लिए अपनी व परिवार की तस्वीर के साथ खूबसूरत ग्रीटिंग कार्ड बनाएं। १००% सुरक्षित क्लाइंट-साइड निर्माण, तुरंत मुफ्त डाउनलोड।'
-      : 'Create customized Diwali greeting cards with your photos and name. 100% private, client-side rendering with instant high-resolution PNG download.';
-    keywords = 'Diwali greeting card maker, Diwali photo wishes, Deepavali customized card, free festive card download';
+    seoDesc = isPhotoMode
+      ? (isHindi
+          ? 'दीपावली २०२६ पर अपनी व परिवार की फोटो के साथ पावन दीप फोटो फ्रेम कार्ड बनाएं। बिना सर्वर अपलोड किए सुरक्षित मुफ्त एचडी डाउनलोड।'
+          : 'Personalize Diwali 2026 photo greeting cards with your family picture and custom Shubhkamnayein. Local-first browser rendering with free HD download.')
+      : (isHindi
+          ? 'दीपावली के लिए अपनी व परिवार की तस्वीर के साथ खूबसूरत ग्रीटिंग कार्ड बनाएं। १००% सुरक्षित क्लाइंट-साइड निर्माण, तुरंत मुफ्त डाउनलोड।'
+          : 'Create customized Diwali greeting cards with your photos and name. 100% private, client-side rendering with instant high-resolution PNG download.');
+    keywords = isPhotoMode
+      ? 'Diwali photo greeting card maker, Diwali photo frame with name, Deepavali family photo card, free photo card download'
+      : 'Diwali greeting card maker, Diwali photo wishes, Deepavali customized card, free festive card download';
   }
 
   const studioFaqs = isHindi
@@ -122,6 +153,7 @@ export const GreetingCardsPreviewPage: React.FC<GreetingCardsPreviewPageProps> =
         keywords={keywords}
         canonicalUrl={canonicalUrl}
         ogType="website"
+        ogImage="https://festivewala.in/assets/brand/og-studio.png"
         jsonLd={jsonLd}
         lang={isHindi ? 'hi' : 'en'}
       />

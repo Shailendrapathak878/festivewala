@@ -1,9 +1,7 @@
 # Cloudflare Pages Redirects
+# Domain: https://festivewala.in
 #
-# Cloudflare Pages natively provides SPA fallback routing to /index.html
-# for all client-side routes when no 404.html file is present.
-# Note: Do NOT add "/* /index.html 200" here. Cloudflare Pages detects that
-# "/*" matches "/index.html" itself, flags it as an infinite loop, and ignores it.
-#
-# Define any custom 301 or 302 redirects below if needed:
-# /old-route /new-route 301
+# Define authoritative HTTP 301 permanent redirects for legacy aliases
+/privacy /privacy-policy 301
+/terms /terms-of-service 301
+/greeting-studio /greeting-cards 301

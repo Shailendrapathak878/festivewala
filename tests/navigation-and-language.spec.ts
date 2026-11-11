@@ -17,8 +17,8 @@ test.describe('Navigation and Language Regression Suite', () => {
     const brand = page.locator('text=FestiveWala').first();
     await expect(brand).toBeVisible();
 
-    // Verify Main Nav Links
-    const cardsLink = page.locator('a[href="/greeting-cards"]').first();
+    // Verify visible Create / Greeting Studio CTA link and navigate
+    const cardsLink = page.locator('a[href="/greeting-cards"]:visible').first();
     await expect(cardsLink).toBeVisible();
     await cardsLink.click();
     await expect(page).toHaveURL(/\/greeting-cards/);
@@ -74,7 +74,7 @@ test.describe('Navigation and Language Regression Suite', () => {
     // Switch back to English
     await enButton.click();
     await page.waitForTimeout(300);
-    await expect(page.locator('text=Personalize Festive Greeting Cards').first()).toBeVisible();
+    await expect(page.locator('h1').first()).toContainText('Free Online Greeting Card Maker');
   });
 });
 

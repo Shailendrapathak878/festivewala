@@ -13,13 +13,18 @@ export const FestivalSelector: React.FC<FestivalSelectorProps> = ({
   onSelectFestival,
   isHindi,
 }) => {
+  const totalAvailableCount = FESTIVALS_LIST.reduce(
+    (sum, fest) => sum + (fest.status === 'available' ? fest.templateCount : 0),
+    0
+  );
+
   const allFestivalsWithAuto = [
     {
       id: 'auto',
       name: 'Upcoming First (Auto)',
       nameHi: '🌟 आगामी पर्व (प्राथमिकता)',
       status: 'available',
-      templateCount: 149,
+      templateCount: totalAvailableCount,
     },
     ...FESTIVALS_LIST,
   ];

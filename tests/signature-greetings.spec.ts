@@ -52,7 +52,7 @@ test.describe('Signature Greetings Regression Suite', () => {
   });
 
   test('Template Gallery UI renders dedicated Signature Greetings crown section above regular collection', async ({ page }) => {
-    await page.goto('/greeting-cards?mode=simple');
+    await page.goto('/greeting-cards?festival=diwali&mode=simple');
     
     // Check for Signature Greetings section heading
     const signatureSection = page.locator('text=Signature Greetings').first();

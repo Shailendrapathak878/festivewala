@@ -3,7 +3,15 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { SectionHeading } from '../common/SectionHeading';
 import { toastNotificationVariants } from '../animation/motionVariants';
-import { WISHES_DATA } from '../../data/wishes';
+import {
+  WISHES_DATA,
+  BIRTHDAY_WISHES,
+  ANNIVERSARY_WISHES,
+  LOVE_MESSAGES,
+  FRIENDSHIP_MESSAGES,
+  GOOD_MORNING_WISHES,
+  GOOD_NIGHT_WISHES,
+} from '../../data/wishes';
 import { useLanguage } from '../../hooks/useLanguage';
 import {
   Copy,
@@ -28,6 +36,9 @@ import {
   Palette,
   RotateCcw,
   Filter,
+  Cake,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import type { WishMessage } from '../../data/types';
 import { SmartWishesGenerator } from '../../features/wishes/components/SmartWishesGenerator';
@@ -59,7 +70,8 @@ export const WishesShowcase: React.FC<WishesShowcaseProps> = ({
   routeFestivalId,
 }) => {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const categoryParam = (searchParams.get('category') || '').trim().toLowerCase();
   const initialFestival = routeFestivalId || searchParams.get('festival') || 'all';
   const { isHindi, isHinglish, language } = useLanguage();
   const shouldReduceMotion = useReducedMotion();
@@ -81,8 +93,30 @@ export const WishesShowcase: React.FC<WishesShowcaseProps> = ({
       setSelectedFestival(fest);
     }
   }, [routeFestivalId, searchParams, selectedFestival]);
+
+  // When category changes in URL, reset sub-filters while preserving explicit route/query festival
+  useEffect(() => {
+    setActiveCategory('all');
+    setSelectedTone('all');
+    setSelectedRecipient('all');
+    setSelectedFestival(routeFestivalId || searchParams.get('festival') || 'all');
+    setSearchQuery('');
+    setVisibleCount(18);
+  }, [categoryParam, routeFestivalId, searchParams]);
+
   const [sortBy, setSortBy] = useState<'relevance' | 'shortest' | 'longest' | 'newest'>('relevance');
   const [visibleCount, setVisibleCount] = useState<number>(18);
+
+  // Identify whether an occasion category is active
+  const isOccasionCategory = useMemo(() => {
+    return ['birthday', 'anniversary', 'love', 'friendship', 'good-morning', 'good-night'].includes(categoryParam);
+  }, [categoryParam]);
+
+  const activeMainCategory = useMemo(() => {
+    if (isOccasionCategory) return categoryParam;
+    if (categoryParam === 'festival') return 'festival';
+    return 'festival'; // Default is festival
+  }, [categoryParam, isOccasionCategory]);
 
   // UI Toast State
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -103,6 +137,25 @@ export const WishesShowcase: React.FC<WishesShowcaseProps> = ({
   };
 
   const activeDataset = useMemo(() => {
+    // 1. If an occasion category is explicitly requested via URL:
+    if (isOccasionCategory) {
+      switch (categoryParam) {
+        case 'birthday':
+          return BIRTHDAY_WISHES;
+        case 'anniversary':
+          return ANNIVERSARY_WISHES;
+        case 'love':
+          return LOVE_MESSAGES;
+        case 'friendship':
+          return FRIENDSHIP_MESSAGES;
+        case 'good-morning':
+          return GOOD_MORNING_WISHES;
+        case 'good-night':
+          return GOOD_NIGHT_WISHES;
+      }
+    }
+
+    // 2. If 'festival' category or default view (fallback gracefully for unknown categories):
     if (selectedFestival !== 'all') {
       return WISHES_DATA.filter((w) => {
         const festIds = w.festivalIds || [w.festivalId];
@@ -131,16 +184,30 @@ export const WishesShowcase: React.FC<WishesShowcaseProps> = ({
 
       return 0;
     });
-  }, [selectedFestival]);
+  }, [categoryParam, isOccasionCategory, selectedFestival]);
 
   const categories = useMemo(() => {
     const isDhanteras = selectedFestival === 'dhanteras';
-    const totalLabelEn = isDhanteras ? 'All 100 Dhanteras Wishes' : `All ${activeDataset.length} Wishes`;
-    const totalLabelHi = isDhanteras ? 'सभी १०० धनतेरस संदेश' : `सभी ${activeDataset.length} संदेश`;
-    const totalLabelHinglish = isDhanteras ? 'All 100 Dhanteras Wishes' : `All ${activeDataset.length} Wishes`;
+    const isChhath = selectedFestival === 'chhath-puja';
+    const totalLabelEn = isDhanteras
+      ? 'All 100 Dhanteras Wishes'
+      : isChhath
+      ? 'All 100 Chhath Puja Wishes'
+      : `All ${activeDataset.length} Wishes`;
+    const totalLabelHi = isDhanteras
+      ? 'सभी १०० धनतेरस संदेश'
+      : isChhath
+      ? 'सभी १०० छठ पूजा संदेश'
+      : `सभी ${activeDataset.length} संदेश`;
+    const totalLabelHinglish = isDhanteras
+      ? 'All 100 Dhanteras Wishes'
+      : isChhath
+      ? 'All 100 Chhath Puja Wishes'
+      : `All ${activeDataset.length} Wishes`;
 
     return [
       { id: 'all', labelEn: totalLabelEn, labelHi: totalLabelHi, labelHinglish: totalLabelHinglish, icon: <BookOpen className="w-3.5 h-3.5" />, count: activeDataset.length },
+      { id: 'sacred', labelEn: 'Sacred Prayers', labelHi: 'पावन प्रार्थनाएं', labelHinglish: 'Sacred Prayers', icon: <Sparkles className="w-3.5 h-3.5" />, count: activeDataset.filter((w) => w.category === 'sacred').length },
       { id: 'family', labelEn: 'Family & Elders', labelHi: 'परिवार व अग्रज', labelHinglish: 'Family & Elders', icon: <Users className="w-3.5 h-3.5" />, count: activeDataset.filter((w) => w.category === 'family').length },
       { id: 'friends', labelEn: 'Friends', labelHi: 'मित्र व साथी', labelHinglish: 'Friends & Dosti', icon: <Sparkles className="w-3.5 h-3.5" />, count: activeDataset.filter((w) => w.category === 'friends').length },
       { id: 'health-happiness', labelEn: 'Health & Arogya', labelHi: 'आरोग्य व सुख', labelHinglish: 'Health & Happiness', icon: <Leaf className="w-3.5 h-3.5" />, count: activeDataset.filter((w) => w.category === 'health-happiness').length },
@@ -190,7 +257,7 @@ export const WishesShowcase: React.FC<WishesShowcaseProps> = ({
     { id: 'diwali', labelEn: '🪔 Diwali (500 Wishes)', labelHi: '🪔 दीपावली (५०० संदेश)' },
     { id: 'bhai-dooj', labelEn: 'Bhai Dooj', labelHi: 'भाई दूज' },
     { id: 'govardhan-puja', labelEn: 'Govardhan Puja', labelHi: 'गोवर्धन पूजा' },
-    { id: 'chath-puja', labelEn: 'Chhath Puja', labelHi: 'छठ पूजा' },
+    { id: 'chhath-puja', labelEn: '☀️ Chhath Puja (100 Wishes)', labelHi: '☀️ छठ पूजा (१०० संदेश)' },
     { id: 'new-year', labelEn: 'New Year', labelHi: 'नव वर्ष' },
   ];
 
@@ -209,8 +276,8 @@ export const WishesShowcase: React.FC<WishesShowcaseProps> = ({
         if (!recTypes.includes(selectedRecipient) && !recTypes.includes('general')) return false;
       }
 
-      // Festival filter
-      if (selectedFestival !== 'all') {
+      // Festival filter (only applicable for festival dataset)
+      if (activeMainCategory === 'festival' && selectedFestival !== 'all') {
         const festIds = w.festivalIds || [w.festivalId];
         if (!festIds.includes(selectedFestival)) return false;
       }
@@ -247,7 +314,7 @@ export const WishesShowcase: React.FC<WishesShowcaseProps> = ({
     }
 
     return list;
-  }, [activeCategory, selectedTone, selectedRecipient, selectedFestival, searchQuery, sortBy]);
+  }, [activeDataset, activeMainCategory, activeCategory, selectedTone, selectedRecipient, selectedFestival, searchQuery, sortBy]);
 
   const displayedWishes = useMemo(() => {
     return filteredWishes.slice(0, visibleCount);
@@ -266,13 +333,34 @@ export const WishesShowcase: React.FC<WishesShowcaseProps> = ({
   const formatWishForSharing = (wish: WishMessage) => {
     const headline = ensureCleanUnicode(getWishHeadline(wish));
     const messageBody = ensureCleanUnicode(getWishText(wish));
-    const title = headline || (isHindi ? 'शुभ दीपावली' : isHinglish ? 'Shubh Deepawali' : 'Happy Diwali');
+
+    let defaultTitle = isHindi ? 'शुभ दीपावली' : isHinglish ? 'Shubh Deepawali' : 'Happy Diwali';
+    if (wish.festivalId === 'chhath-puja') {
+      defaultTitle = isHindi ? 'शुभ छठ महापर्व' : isHinglish ? 'Shubh Chhath Puja' : 'Happy Chhath Puja';
+    } else if (wish.festivalId === 'dhanteras') {
+      defaultTitle = isHindi ? 'शुभ धनतेरस' : isHinglish ? 'Shubh Dhanteras' : 'Happy Dhanteras';
+    }
+    if (wish.category === 'birthday') {
+      defaultTitle = isHindi ? 'जन्मदिन की हार्दिक शुभकामनाएं' : 'Happy Birthday';
+    } else if (wish.category === 'anniversary') {
+      defaultTitle = isHindi ? 'विवाह वर्षगांठ की शुभकामनाएं' : 'Happy Anniversary';
+    } else if (wish.category === 'love') {
+      defaultTitle = isHindi ? 'प्रेम संदेश' : 'Love Message';
+    } else if (wish.category === 'friendship') {
+      defaultTitle = isHindi ? 'सच्ची मित्रता संदेश' : 'Friendship Message';
+    } else if (wish.category === 'good-morning') {
+      defaultTitle = isHindi ? 'सुप्रभात संदेश' : 'Good Morning';
+    } else if (wish.category === 'good-night') {
+      defaultTitle = isHindi ? 'शुभ रात्रि संदेश' : 'Good Night';
+    }
+
+    const title = headline || defaultTitle;
     const lines: string[] = [];
 
     if (headline) {
-      lines.push(`🪔✨ ${headline} ✨🪔`);
+      lines.push(`✨ ${headline} ✨`);
     } else {
-      lines.push(isHindi ? '🪔✨ शुभ दीपावली ✨🪔' : isHinglish ? '🪔✨ Shubh Deepawali! ✨🪔' : '🪔✨ Happy Diwali! ✨🪔');
+      lines.push(`✨ ${title} ✨`);
     }
 
     if (wish.shloka) {
@@ -349,9 +437,153 @@ export const WishesShowcase: React.FC<WishesShowcaseProps> = ({
   };
 
   const handleSendToStudio = (wish: WishMessage) => {
-    const title = ensureCleanUnicode(getWishHeadline(wish) || (isHindi ? 'शुभ दीपावली' : isHinglish ? 'Shubh Deepawali' : 'Happy Diwali'));
+    let defaultTitle = isHindi ? 'शुभ दीपावली' : isHinglish ? 'Shubh Deepawali' : 'Happy Diwali';
+    if (wish.category === 'birthday') defaultTitle = isHindi ? 'जन्मदिन की शुभकामनाएं' : 'Happy Birthday';
+    else if (wish.category === 'anniversary') defaultTitle = isHindi ? 'विवाह वर्षगांठ बधाई' : 'Happy Anniversary';
+    else if (wish.category === 'love') defaultTitle = isHindi ? 'प्रेम संदेश' : 'Love Message';
+    else if (wish.category === 'friendship') defaultTitle = isHindi ? 'मित्रता संदेश' : 'Friendship';
+    else if (wish.category === 'good-morning') defaultTitle = isHindi ? 'सुप्रभात' : 'Good Morning';
+    else if (wish.category === 'good-night') defaultTitle = isHindi ? 'शुभ रात्रि' : 'Good Night';
+
+    const title = ensureCleanUnicode(getWishHeadline(wish) || defaultTitle);
     const message = ensureCleanUnicode(getWishText(wish));
     navigate(`/greeting-cards?title=${encodeURIComponent(title)}&message=${encodeURIComponent(message)}`);
+  };
+
+  const headingInfo = useMemo(() => {
+    switch (activeMainCategory) {
+      case 'birthday':
+        return {
+          badge: isHindi ? 'जन्मदिन शुभकामनाएं • १०० संदेश' : 'Birthday Wishes Hub • 100 Messages',
+          title: isHindi ? '१०० मौलिक जन्मदिन शुभकामना संदेश' : '100 Curated Birthday Wishes & Blessings',
+          subtitle: isHindi
+            ? 'माता-पिता, भाई-बहन, जीवनसाथी व मित्रों के लिए विशेष जन्मदिन संदेश।'
+            : 'Heartfelt birthday greetings for mother, father, siblings, spouse, best friends, and loved ones.',
+        };
+      case 'anniversary':
+        return {
+          badge: isHindi ? 'विवाह वर्षगांठ संदेश • १०० संदेश' : 'Anniversary Wishes Hub • 100 Messages',
+          title: isHindi ? '१०० सुंदर विवाह वर्षगांठ शुभकामनाएं' : '100 Curated Wedding Anniversary Wishes',
+          subtitle: isHindi
+            ? 'दांपत्य प्रेम, माता-पिता की सालगिरह व २५वीं-५०वीं जुबली के पावन संदेश।'
+            : 'Romantic and heartfelt wedding anniversary messages for spouse, parents, and friends.',
+        };
+      case 'love':
+        return {
+          badge: isHindi ? 'प्रेम व आत्मीयता संदेश • १०० संदेश' : 'Love & Romance Hub • 100 Messages',
+          title: isHindi ? '१०० हृदयस्पर्शी प्रेम व आत्मीयता संदेश' : '100 Curated Love & Romance Messages',
+          subtitle: isHindi
+            ? 'जीवनसाथी, हमसफ़र व प्रियजनों के लिए समर्पित खूबसूरत प्रेम संदेश।'
+            : 'Deep devotion, romantic notes, and gentle emotional reassurance for your special someone.',
+        };
+      case 'friendship':
+        return {
+          badge: isHindi ? 'मित्रता व यारी संदेश • १०० संदेश' : 'Friendship Hub • 100 Messages',
+          title: isHindi ? '१०० अनमोल मित्रता व दोस्ती संदेश' : '100 Curated Friendship Messages & Quotes',
+          subtitle: isHindi
+            ? 'सच्चे दोस्तों, बचपन की यादों व कॉलेज की मस्ती से भरे यारी संदेश।'
+            : 'Celebrate genuine friendship, childhood nostalgia, funny roasts, and unshakeable loyalty.',
+        };
+      case 'good-morning':
+        return {
+          badge: isHindi ? 'सुप्रभात संदेश • १०० संदेश' : 'Good Morning Hub • 100 Messages',
+          title: isHindi ? '१०० पावन सुप्रभात एवं प्रेरणादायी संदेश' : '100 Curated Good Morning Wishes & Suprabhat',
+          subtitle: isHindi
+            ? 'सकारात्मक ऊर्जा, आध्यात्मिक शांति और नए दिन की मंगलकामनाएं।'
+            : 'Start the day with motivation, peaceful sunrise thoughts, and auspicious Suprabhat blessings.',
+        };
+      case 'good-night':
+        return {
+          badge: isHindi ? 'शुभ रात्रि संदेश • १०० संदेश' : 'Good Night Hub • 100 Messages',
+          title: isHindi ? '१०० सुखद निद्रा एवं शुभ रात्रि संदेश' : '100 Curated Good Night Wishes & Shubh Ratri',
+          subtitle: isHindi
+            ? 'मानसिक शांति, ईश्वरीय सुरक्षा और मीठे सपनों के लिए शुभ रात्रि संदेश।'
+            : 'Peaceful bedtime thoughts, mindful evening reflections, and serene Shubh Ratri blessings.',
+        };
+      default:
+        return {
+          badge: isHindi ? 'पावन शुभकामना केंद्र • ६०० संदेश' : 'Smart Wishes Hub • 600 Curated Messages',
+          title: isHindi ? '६०० पावन संदेश संग्रह एवं कस्टम विश जनरेटर' : 'Readymade Wishes & Custom Wishes Generator',
+          subtitle: isHindi
+            ? '६०० तैयार शुभकामनाओं में खोजें, रिश्ता और भाव चुनकर व्यक्तिगत संदेश बनाएं, या पसंदीदा सहेजें।'
+            : 'Browse 600 readymade festival wishes, generate custom personalized messages, or save your favorites.',
+        };
+    }
+  }, [activeMainCategory, isHindi]);
+
+  const MAIN_CATEGORIES = [
+    {
+      id: 'festival',
+      labelEn: 'Festival Wishes',
+      labelHi: 'त्योहार शुभकामनाएं',
+      labelHinglish: 'Festival Wishes',
+      icon: <Flame className="w-3.5 h-3.5" />,
+      count: 600,
+    },
+    {
+      id: 'birthday',
+      labelEn: 'Birthday',
+      labelHi: 'जन्मदिन',
+      labelHinglish: 'Birthday',
+      icon: <Cake className="w-3.5 h-3.5" />,
+      count: 100,
+    },
+    {
+      id: 'anniversary',
+      labelEn: 'Anniversary',
+      labelHi: 'वर्षगांठ',
+      labelHinglish: 'Anniversary',
+      icon: <Heart className="w-3.5 h-3.5" />,
+      count: 100,
+    },
+    {
+      id: 'love',
+      labelEn: 'Love & Romance',
+      labelHi: 'प्रेम संदेश',
+      labelHinglish: 'Love Messages',
+      icon: <Heart className="w-3.5 h-3.5" />,
+      count: 100,
+    },
+    {
+      id: 'friendship',
+      labelEn: 'Friendship',
+      labelHi: 'मित्रता व यारी',
+      labelHinglish: 'Friendship',
+      icon: <Smile className="w-3.5 h-3.5" />,
+      count: 100,
+    },
+    {
+      id: 'good-morning',
+      labelEn: 'Good Morning',
+      labelHi: 'सुप्रभात',
+      labelHinglish: 'Good Morning',
+      icon: <Sun className="w-3.5 h-3.5" />,
+      count: 100,
+    },
+    {
+      id: 'good-night',
+      labelEn: 'Good Night',
+      labelHi: 'शुभ रात्रि',
+      labelHinglish: 'Good Night',
+      icon: <Moon className="w-3.5 h-3.5" />,
+      count: 100,
+    },
+  ];
+
+  const handleSelectMainCategory = (catId: string) => {
+    setActiveCategory('all');
+    setSelectedTone('all');
+    setSelectedRecipient('all');
+    setSearchQuery('');
+    setVisibleCount(18);
+
+    const newParams = new URLSearchParams(searchParams);
+    if (catId === 'festival') {
+      newParams.set('category', 'festival');
+    } else {
+      newParams.set('category', catId);
+    }
+    setSearchParams(newParams);
   };
 
   return (
@@ -376,13 +608,9 @@ export const WishesShowcase: React.FC<WishesShowcaseProps> = ({
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <SectionHeading
-          badge={isHindi ? 'पावन शुभकामना केंद्र • ५०० संदेश' : 'Smart Wishes Hub • 500 Curated Messages'}
-          title={isHindi ? '५०० पावन संदेश संग्रह एवं कस्टम विश जनरेटर' : 'Readymade Wishes & Custom Wishes Generator'}
-          subtitle={
-            isHindi
-              ? '५०० तैयार शुभकामनाओं में खोजें, रिश्ता और भाव चुनकर व्यक्तिगत संदेश बनाएं, या पसंदीदा सहेजें।'
-              : 'Browse 500 readymade festival wishes, generate custom personalized messages, or save your favorites.'
-          }
+          badge={headingInfo.badge}
+          title={headingInfo.title}
+          subtitle={headingInfo.subtitle}
         />
 
         {/* Primary View Mode Tabs: 1. Readymade Wishes (Library) | 2. Custom Wishes (Generator) | 3. Favorites */}
@@ -445,6 +673,42 @@ export const WishesShowcase: React.FC<WishesShowcaseProps> = ({
             transition={{ duration: 0.25 }}
             className="space-y-6"
           >
+            {/* Primary Category Switcher Bar (URL-synced) */}
+            <div
+              data-testid="wishes-main-categories"
+              className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1"
+            >
+              <span className="text-[11px] font-bold uppercase tracking-wider text-brand-royal shrink-0 mr-1">
+                {isHindi ? 'श्रेणी चुनें:' : 'Category:'}
+              </span>
+              {MAIN_CATEGORIES.map((cat) => {
+                const isActive = activeMainCategory === cat.id;
+                return (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    data-testid={`wishes-category-${cat.id}`}
+                    onClick={() => handleSelectMainCategory(cat.id)}
+                    className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-200 border min-h-[40px] cursor-pointer ${
+                      isActive
+                        ? 'bg-[#24113D] text-[#F2D98B] border-[#24113D] shadow-md shadow-[#24113D]/20 font-bold scale-[1.02]'
+                        : 'bg-white text-brand-dark/80 border-brand-gold/30 hover:border-brand-gold hover:bg-brand-light/50'
+                    }`}
+                  >
+                    <span className={isActive ? 'text-[#F2D98B]' : 'text-brand-gold'}>{cat.icon}</span>
+                    <span>{isHindi ? cat.labelHi : isHinglish ? cat.labelHinglish : cat.labelEn}</span>
+                    <span
+                      className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono ${
+                        isActive ? 'bg-[#F2D98B] text-[#24113D] font-bold' : 'bg-brand-light text-brand-royal'
+                      }`}
+                    >
+                      {cat.count}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
             {/* Search and Secondary Filter Bar */}
             <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
               <div className="relative flex-grow max-w-xl">
@@ -458,8 +722,8 @@ export const WishesShowcase: React.FC<WishesShowcaseProps> = ({
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder={
                     isHindi
-                      ? '५०० संदेशों में खोजें (उदा: परिवार, माँ, दीया, व्यापार, मस्ती)...'
-                      : 'Search across 500 wishes (e.g. family, mother, diya, startup, laughter)...'
+                      ? `${activeDataset.length} संदेशों में खोजें (उदा: परिवार, माँ, दीया, व्यापार, मस्ती)...`
+                      : `Search across ${activeDataset.length} wishes (e.g. family, mother, diya, startup, laughter)...`
                   }
                   className="w-full pl-10 pr-9 py-2.5 rounded-2xl text-xs sm:text-sm bg-white border border-brand-gold/30 text-brand-dark placeholder-brand-dark/40 focus:outline-none focus:border-brand-royal focus:ring-1 focus:ring-brand-royal shadow-sm transition-all"
                 />
@@ -595,99 +859,106 @@ export const WishesShowcase: React.FC<WishesShowcaseProps> = ({
               </motion.div>
             )}
 
-            {/* Quick Festival Selection Bar */}
-            <div data-testid="wishes-festival-quick-bar" className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-brand-royal shrink-0 mr-1">
-                {isHindi ? 'पर्व चयन:' : 'Select Festival:'}
-              </span>
-              <button
-                type="button"
-                data-testid="wishes-fest-btn-all"
-                onClick={() => {
-                  setSelectedFestival('all');
-                  setActiveCategory('all');
-                  setVisibleCount(18);
-                }}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border min-h-[38px] cursor-pointer ${
-                  selectedFestival === 'all'
-                    ? 'bg-[#24113D] text-[#F2D98B] border-[#24113D] shadow-sm font-bold'
-                    : 'bg-white text-brand-dark/80 border-brand-gold/30 hover:border-brand-gold'
-                }`}
-              >
-                {isHindi ? '🌟 आगामी पर्व (प्राथमिकता)' : '🌟 Upcoming Priority (Auto)'}
-              </button>
-              <button
-                type="button"
-                data-testid="wishes-fest-btn-dhanteras"
-                onClick={() => {
-                  setSelectedFestival('dhanteras');
-                  setActiveCategory('all');
-                  setVisibleCount(18);
-                }}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border min-h-[38px] cursor-pointer ${
-                  selectedFestival === 'dhanteras'
-                    ? 'bg-[#24113D] text-[#F2D98B] border-[#24113D] shadow-sm font-bold'
-                    : 'bg-white text-brand-dark/80 border-brand-gold/30 hover:border-brand-gold'
-                }`}
-              >
-                {isHindi ? '🪙 धनतेरस (१००)' : '🪙 Dhanteras (100)'}
-              </button>
-              <button
-                type="button"
-                data-testid="wishes-fest-btn-diwali"
-                onClick={() => {
-                  setSelectedFestival('diwali');
-                  setActiveCategory('all');
-                  setVisibleCount(18);
-                }}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border min-h-[38px] cursor-pointer ${
-                  selectedFestival === 'diwali'
-                    ? 'bg-[#24113D] text-[#F2D98B] border-[#24113D] shadow-sm font-bold'
-                    : 'bg-white text-brand-dark/80 border-brand-gold/30 hover:border-brand-gold'
-                }`}
-              >
-                {isHindi ? '🪔 दीपावली (५००)' : '🪔 Diwali (500)'}
-              </button>
-            </div>
+            {/* Quick Festival Selection Bar (Only for festival category) */}
+            {activeMainCategory === 'festival' && (
+              <div data-testid="wishes-festival-quick-bar" className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-brand-royal shrink-0 mr-1">
+                  {isHindi ? 'पर्व चयन:' : 'Select Festival:'}
+                </span>
+                <button
+                  type="button"
+                  data-testid="wishes-fest-btn-all"
+                  onClick={() => {
+                    setSelectedFestival('all');
+                    setActiveCategory('all');
+                    setVisibleCount(18);
+                  }}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border min-h-[38px] cursor-pointer ${
+                    selectedFestival === 'all'
+                      ? 'bg-[#24113D] text-[#F2D98B] border-[#24113D] shadow-sm font-bold'
+                      : 'bg-white text-brand-dark/80 border-brand-gold/30 hover:border-brand-gold'
+                  }`}
+                >
+                  {isHindi ? '🌟 आगामी पर्व (प्राथमिकता)' : '🌟 Upcoming Priority (Auto)'}
+                </button>
+                <button
+                  type="button"
+                  data-testid="wishes-fest-btn-dhanteras"
+                  onClick={() => {
+                    setSelectedFestival('dhanteras');
+                    setActiveCategory('all');
+                    setVisibleCount(18);
+                  }}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border min-h-[38px] cursor-pointer ${
+                    selectedFestival === 'dhanteras'
+                      ? 'bg-[#24113D] text-[#F2D98B] border-[#24113D] shadow-sm font-bold'
+                      : 'bg-white text-brand-dark/80 border-brand-gold/30 hover:border-brand-gold'
+                  }`}
+                >
+                  {isHindi ? '🪙 धनतेरस (१००)' : '🪙 Dhanteras (100)'}
+                </button>
+                <button
+                  type="button"
+                  data-testid="wishes-fest-btn-diwali"
+                  onClick={() => {
+                    setSelectedFestival('diwali');
+                    setActiveCategory('all');
+                    setVisibleCount(18);
+                  }}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border min-h-[38px] cursor-pointer ${
+                    selectedFestival === 'diwali'
+                      ? 'bg-[#24113D] text-[#F2D98B] border-[#24113D] shadow-sm font-bold'
+                      : 'bg-white text-brand-dark/80 border-brand-gold/30 hover:border-brand-gold'
+                  }`}
+                >
+                  {isHindi ? '🪔 दीपावली (५००)' : '🪔 Diwali (500)'}
+                </button>
+              </div>
+            )}
 
-            {/* Category Navigation Pills */}
-            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2">
-              {categories.map((cat) => {
-                const isActive = activeCategory === cat.id;
-                return (
-                  <button
-                    key={cat.id}
-                    type="button"
-                    onClick={() => {
-                      setActiveCategory(cat.id);
-                      setVisibleCount(18);
-                    }}
-                    className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-200 border min-h-[42px] ${
-                      isActive
-                        ? 'bg-[#24113D] text-[#F2D98B] border-[#24113D] shadow-md shadow-[#24113D]/20 font-bold scale-[1.02]'
-                        : 'bg-white text-brand-dark/80 border-brand-gold/30 hover:border-brand-gold hover:bg-brand-light/50'
-                    }`}
-                  >
-                    <span className={isActive ? 'text-[#F2D98B]' : 'text-brand-gold'}>{cat.icon}</span>
-                    <span>{isHindi ? cat.labelHi : isHinglish ? cat.labelHinglish : cat.labelEn}</span>
-                    <span
-                      className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono ${
-                        isActive ? 'bg-[#F2D98B] text-[#24113D] font-bold' : 'bg-brand-light text-brand-royal'
+            {/* Category Navigation Pills (Only for festival category) */}
+            {activeMainCategory === 'festival' && (
+              <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2">
+                {categories.map((cat) => {
+                  const isActive = activeCategory === cat.id;
+                  return (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => {
+                        setActiveCategory(cat.id);
+                        setVisibleCount(18);
+                      }}
+                      className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-200 border min-h-[42px] ${
+                        isActive
+                          ? 'bg-[#24113D] text-[#F2D98B] border-[#24113D] shadow-md shadow-[#24113D]/20 font-bold scale-[1.02]'
+                          : 'bg-white text-brand-dark/80 border-brand-gold/30 hover:border-brand-gold hover:bg-brand-light/50'
                       }`}
                     >
-                      {cat.count}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
+                      <span className={isActive ? 'text-[#F2D98B]' : 'text-brand-gold'}>{cat.icon}</span>
+                      <span>{isHindi ? cat.labelHi : isHinglish ? cat.labelHinglish : cat.labelEn}</span>
+                      <span
+                        className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono ${
+                          isActive ? 'bg-[#F2D98B] text-[#24113D] font-bold' : 'bg-brand-light text-brand-royal'
+                        }`}
+                      >
+                        {cat.count}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
 
             {/* Results Count & Empty State */}
             <div className="flex items-center justify-between text-xs text-brand-dark/60 font-mono px-1">
-              <span>
+              <span data-testid="wishes-count-indicator">
                 {isHindi
                   ? `${filteredWishes.length} में से ${displayedWishes.length} संदेश प्रदर्शित`
                   : `Showing ${displayedWishes.length} of ${filteredWishes.length} wishes`}
+              </span>
+              <span data-testid="wishes-total-count" className="hidden">
+                {filteredWishes.length}
               </span>
             </div>
 
@@ -737,6 +1008,7 @@ export const WishesShowcase: React.FC<WishesShowcaseProps> = ({
                     <React.Fragment key={wish.id}>
                       <motion.div
                         data-testid="wish-card"
+                        data-category={wish.category}
                       whileHover={shouldReduceMotion ? undefined : { y: -4 }}
                       transition={{ duration: 0.2 }}
                       className={cardClasses}

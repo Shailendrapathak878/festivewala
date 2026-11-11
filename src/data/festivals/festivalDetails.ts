@@ -1,7 +1,9 @@
 import type { FestivalDetail } from './types';
 import { DHANTERAS_DETAIL } from './dhanterasDetails';
+import { CHHATH_PUJA_DETAIL } from './chhathPujaDetails';
 
 export const FESTIVAL_DETAILS: Record<string, FestivalDetail> = {
+  'chhath-puja': CHHATH_PUJA_DETAIL,
   dhanteras: DHANTERAS_DETAIL,
   diwali: {
     id: 'diwali',

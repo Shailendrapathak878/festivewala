@@ -10,7 +10,7 @@ export interface FestivalFAQ {
 }
 
 export interface FestivalDetail {
-  id: 'diwali' | 'dhanteras' | 'holi' | 'raksha-bandhan' | 'christmas' | 'new-year';
+  id: 'diwali' | 'dhanteras' | 'chhath-puja' | 'holi' | 'raksha-bandhan' | 'christmas' | 'new-year';
   nameEn: string;
   nameHi: string;
   regionalAliases?: string[];
@@ -22,7 +22,7 @@ export interface FestivalDetail {
   accentColor: string;
   secondaryColor: string;
   bgGradient: string;
-  heroMotif: 'diwali-diya' | 'dhanteras-kalash' | 'dhanteras-coins' | 'holi-colors' | 'rakhi-thread' | 'christmas-tree' | 'newyear-sparkler';
+  heroMotif: 'diwali-diya' | 'dhanteras-kalash' | 'dhanteras-coins' | 'chhath-arghya' | 'holi-colors' | 'rakhi-thread' | 'christmas-tree' | 'newyear-sparkler';
   about: {
     summaryEn: string;
     summaryHi: string;

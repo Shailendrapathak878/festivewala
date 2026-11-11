@@ -37,7 +37,7 @@ const FESTIVALS = [
   { id: 'dhanteras', labelEn: 'Dhanteras', labelHi: 'धनतेरस', icon: '🪙' },
   { id: 'bhai-dooj', labelEn: 'Bhai Dooj', labelHi: 'भाई दूज', icon: '🌸' },
   { id: 'govardhan-puja', labelEn: 'Govardhan Puja', labelHi: 'गोवर्धन पूजा', icon: '🌾' },
-  { id: 'chath-puja', labelEn: 'Chhath Puja', labelHi: 'छठ पूजा', icon: '☀️' },
+  { id: 'chhath-puja', labelEn: 'Chhath Puja', labelHi: 'छठ पूजा', icon: '☀️' },
   { id: 'new-year', labelEn: 'New Year', labelHi: 'नव वर्ष', icon: '🎆' },
   { id: 'general-festive', labelEn: 'All Festivals', labelHi: 'सर्व उत्सव', icon: '✨' },
 ];

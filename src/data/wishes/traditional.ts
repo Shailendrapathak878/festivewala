@@ -1290,8 +1290,7 @@ export const TRADITIONAL_WISHES: WishMessage[] = [
     "id": "wish-trad-33",
     "festivalId": "diwali",
     "festivalIds": [
-      "diwali",
-      "chath-puja"
+      "diwali"
     ],
     "category": "traditional",
     "categoryLabelEn": "Traditional Blessing",

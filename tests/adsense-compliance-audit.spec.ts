@@ -63,11 +63,19 @@ test.describe('Google AdSense Compliance & Zero-Ad Quality Audit Suite', () => {
     expect(robots).toContain('Sitemap: https://festivewala.in/sitemap.xml');
   });
 
-  test('5. Sitemap Integrity: 30 canonical URLs declared with zero 404s', () => {
+  test('5. Sitemap Integrity: canonical URLs match generator configuration with zero 404s', () => {
     const sitemap = fs.readFileSync(path.resolve('public/sitemap.xml'), 'utf-8');
-    const locs = sitemap.match(/<loc>[^<]+<\/loc>/g) || [];
+    const generatorSrc = fs.readFileSync(path.resolve('scripts/generate_sitemap.mjs'), 'utf-8');
+    const expectedEntries = [...generatorSrc.matchAll(/loc:\s*`\$\{BASE_URL\}([^`]*)`/g)].map(
+      (m) => `https://festivewala.in${m[1]}`
+    );
+    const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
 
-    expect(locs.length).toBe(30);
+    expect(expectedEntries.length).toBeGreaterThan(0);
+    expect(locs.length).toBe(expectedEntries.length);
+    for (const expectedUrl of expectedEntries) {
+      expect(locs).toContain(expectedUrl);
+    }
     expect(sitemap).toContain('https://festivewala.in/inspiration');
     expect(sitemap).toContain('https://festivewala.in/privacy-policy');
     expect(sitemap).toContain('https://festivewala.in/about');

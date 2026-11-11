@@ -187,6 +187,43 @@ export const FestivalAtmosphere: React.FC<FestivalAtmosphereProps> = ({ festival
         </div>
       );
 
+    case 'chhath-puja':
+      return (
+        <div className={`absolute inset-0 pointer-events-none overflow-hidden ${className}`} aria-hidden="true">
+          {/* Sacred Dawn / Twilight Solar Aura */}
+          <motion.div
+            animate={{
+              opacity: [0.2, 0.36, 0.2],
+              scale: [0.96, 1.05, 0.96],
+            }}
+            transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute top-1/4 right-1/5 w-72 sm:w-96 h-72 sm:h-96 rounded-full bg-gradient-to-tr from-[#F97316]/30 via-[#FBBF24]/25 to-[#EA580C]/20 blur-3xl"
+          />
+
+          {/* Shimmering Sacred River Reflection Glow */}
+          <motion.div
+            animate={{
+              opacity: [0.14, 0.28, 0.14],
+              x: [-8, 8, -8],
+            }}
+            transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
+            className="absolute bottom-8 left-1/4 w-72 sm:w-96 h-48 rounded-full bg-gradient-to-r from-amber-300/20 via-orange-400/15 to-sky-400/15 blur-3xl"
+          />
+
+          {/* Floating Sunray Particles */}
+          <motion.div
+            animate={{ opacity: [0.25, 0.9, 0.25], scale: [0.8, 1.25, 0.8] }}
+            transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute top-20 right-1/3 w-2 h-2 rounded-full bg-amber-200 shadow-gold-glow"
+          />
+          <motion.div
+            animate={{ opacity: [0.2, 0.8, 0.2], scale: [0.7, 1.2, 0.7] }}
+            transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut', delay: 1.1 }}
+            className="absolute bottom-24 right-1/4 w-1.5 h-1.5 rounded-full bg-orange-200 shadow-gold-glow"
+          />
+        </div>
+      );
+
     default:
       return null;
   }

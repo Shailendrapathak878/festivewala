@@ -111,6 +111,7 @@ export const DecorationsPage: React.FC = () => {
         keywords={seoConfig.keywords}
         canonicalUrl={seoConfig.canonicalUrl}
         ogType="website"
+        ogImage={seoConfig.ogImage}
         jsonLd={jsonLd}
         lang={isHindi ? 'hi' : 'en'}
       />

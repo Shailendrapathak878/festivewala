@@ -12,7 +12,7 @@ import {
   Palette,
   BookOpen,
 } from 'lucide-react';
-import { WISHES_DATA } from '../../../data/wishes';
+import { ALL_WISHES_DATA } from '../../../data/wishes';
 import type { WishMessage } from '../../../data/types';
 import { useSavedWishes } from '../hooks/useSavedWishes';
 import {
@@ -40,7 +40,7 @@ export const WishesFavorites: React.FC<WishesFavoritesProps> = ({
 
   // Retrieve saved wish objects
   const savedWishes = useMemo(() => {
-    return WISHES_DATA.filter((w) => savedIds.includes(w.id));
+    return ALL_WISHES_DATA.filter((w) => savedIds.includes(w.id));
   }, [savedIds]);
 
   // Categories present in saved wishes
@@ -83,7 +83,16 @@ export const WishesFavorites: React.FC<WishesFavoritesProps> = ({
   };
 
   const handleSendToStudio = (wish: WishMessage) => {
-    const title = ensureCleanUnicode(isHindi ? wish.headlineHi || 'शुभ दीपावली' : wish.headlineEn || 'Happy Diwali');
+    let fallbackTitle = isHindi ? 'शुभकामनाएं' : 'Best Wishes';
+    if (wish.category === 'birthday') fallbackTitle = isHindi ? 'जन्मदिन की शुभकामनाएं' : 'Happy Birthday';
+    else if (wish.category === 'anniversary') fallbackTitle = isHindi ? 'विवाह वर्षगांठ बधाई' : 'Happy Anniversary';
+    else if (wish.category === 'love') fallbackTitle = isHindi ? 'प्रेम संदेश' : 'Love Message';
+    else if (wish.category === 'friendship') fallbackTitle = isHindi ? 'मित्रता संदेश' : 'Friendship Message';
+    else if (wish.category === 'good-morning') fallbackTitle = isHindi ? 'सुप्रभात' : 'Good Morning';
+    else if (wish.category === 'good-night') fallbackTitle = isHindi ? 'शुभ रात्रि' : 'Good Night';
+    else fallbackTitle = isHindi ? 'शुभ दीपावली' : 'Happy Diwali';
+
+    const title = ensureCleanUnicode(isHindi ? wish.headlineHi || fallbackTitle : wish.headlineEn || fallbackTitle);
     const message = ensureCleanUnicode(isHindi ? wish.textHi : wish.textEn);
     navigate(`/greeting-cards?title=${encodeURIComponent(title)}&message=${encodeURIComponent(message)}`);
   };

@@ -73,44 +73,63 @@ test.describe('Homepage & Navigation — Discovery Integration UI', () => {
   });
 
   test('Homepage displays top 2 upcoming festivals in Countdown Section with feature links', async ({ page }) => {
+    const upcoming = getUpcomingFestivals(FESTIVALS_DATA, new Date(), 5);
+    const u1 = upcoming[0];
+    const u2 = upcoming[1];
+    const p1 = u1.festival;
+    const p2 = u2.festival;
+
     await page.goto('/');
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
 
-    // Countdown section container exists
-    const countdownSection = page.locator('[data-testid="upcoming-festivals-countdown"]');
-    await expect(countdownSection).toBeVisible();
+    // Upcoming Celebrations section & embedded carousel exist
+    const upcomingSection = page.locator('#upcoming-celebrations');
+    await expect(upcomingSection).toBeVisible();
 
-    // Priority 1 card (Dhanteras)
-    const card1 = page.locator('[data-testid="upcoming-festival-card-1"]');
-    await expect(card1).toBeVisible();
-    await expect(card1).toContainText('Dhanteras');
-    await expect(card1).toContainText('Priority 1');
+    const carousel = page.locator('[data-testid="hero-festival-carousel"]');
+    await expect(carousel).toBeVisible();
 
-    // Priority 2 card (Diwali)
-    const card2 = page.locator('[data-testid="upcoming-festival-card-2"]');
-    await expect(card2).toBeVisible();
-    await expect(card2).toContainText('Diwali');
-    await expect(card2).toContainText('Priority 2');
+    // Pause autoplay and verify Slide 1 matches Priority 1 festival & feature links
+    await page.locator('[data-testid="carousel-pause-toggle"]').click();
+    await page.locator('[data-testid="carousel-indicator-dot"]').first().click();
 
-    // Verify feature links on card 1 (Dhanteras)
-    const card1GreetingsLink = card1.locator('a[href*="/greetings/dhanteras"]');
-    await expect(card1GreetingsLink).toBeVisible();
+    await expect(page.locator('[data-testid="carousel-slide-title"]')).toContainText(p1.nameEn);
+    if (u1.features.hasGreetings) {
+      await expect(page.locator('[data-testid="carousel-btn-greetings"]')).toHaveAttribute(
+        'href',
+        `/greeting-cards?festival=${p1.id}`
+      );
+    } else {
+      await expect(page.locator('[data-testid="carousel-btn-greetings-disabled"]')).toBeDisabled();
+    }
+    await expect(page.locator('[data-testid="carousel-btn-wishes"]')).toHaveAttribute(
+      'href',
+      `/wishes?festival=${p1.id}`
+    );
+    await expect(page.locator('[data-testid="carousel-btn-guide"]')).toHaveAttribute(
+      'href',
+      u1.features.guideUrl || `/festivals/${p1.id}`
+    );
 
-    const card1WishesLink = card1.locator('a[href*="/wishes/dhanteras"]');
-    await expect(card1WishesLink).toBeVisible();
-
-    const card1GuideLink = card1.locator('a[href*="/festivals/dhanteras"]');
-    await expect(card1GuideLink).toBeVisible();
-
-    // Verify feature links on card 2 (Diwali)
-    const card2GreetingsLink = card2.getByRole('link', { name: 'Greetings' });
-    await expect(card2GreetingsLink).toBeVisible();
-
-    const card2WishesLink = card2.getByRole('link', { name: 'Wishes' });
-    await expect(card2WishesLink).toBeVisible();
+    // Advance to Slide 2 and verify Priority 2 festival & feature links
+    await page.locator('button[aria-label="Next festival"]').click();
+    await expect(page.locator('[data-testid="carousel-slide-title"]')).toContainText(p2.nameEn);
+    if (u2.features.hasGreetings) {
+      await expect(page.locator('[data-testid="carousel-btn-greetings"]')).toHaveAttribute(
+        'href',
+        `/greeting-cards?festival=${p2.id}`
+      );
+    } else {
+      await expect(page.locator('[data-testid="carousel-btn-greetings-disabled"]')).toBeDisabled();
+    }
+    await expect(page.locator('[data-testid="carousel-btn-wishes"]')).toHaveAttribute(
+      'href',
+      `/wishes?festival=${p2.id}`
+    );
   });
 
   test('Greeting Studio default priority & strict Dhanteras/Diwali isolation', async ({ page }) => {
+    await page.clock.setFixedTime(new Date('2026-11-05T10:00:00+05:30'));
     // Open Greeting Studio directly without festival query parameter
     await page.goto('/greeting-cards');
     await page.waitForLoadState('networkidle');
@@ -146,6 +165,7 @@ test.describe('Homepage & Navigation — Discovery Integration UI', () => {
   });
 
   test('Wishes section strict festival isolation and upcoming priority ordering', async ({ page }) => {
+    await page.clock.setFixedTime(new Date('2026-11-05T10:00:00+05:30'));
     await page.goto('/wishes');
     await page.waitForLoadState('networkidle');
 

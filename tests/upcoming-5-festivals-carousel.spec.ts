@@ -60,21 +60,29 @@ test.describe('Hero Upcoming 5 Festivals Carousel — Unit Engine Verification',
 });
 
 test.describe('Hero Upcoming 5 Festivals Carousel — E2E Homepage Integration', () => {
+  // Deterministic festival calendar snapshot (Nov 6, 2026: Dhanteras day) for carousel priority verification
+  const FROZEN_TEST_DATE = new Date('2026-11-06T10:00:00+05:30');
+
   test.beforeEach(async ({ page }) => {
+    await page.clock.setFixedTime(FROZEN_TEST_DATE);
     await page.addInitScript(() => {
       localStorage.setItem('festivewala_language', 'en');
       localStorage.setItem('festivewala_language_selected', 'true');
     });
   });
 
-  test('Homepage renders Carousel with exactly 5 indicator dots and controls', async ({ page }) => {
+  test('Homepage renders Carousel with dynamic priority-engine order for current controlled date', async ({ page }) => {
+    const expectedUpcoming = getUpcomingFestivals(FESTIVALS_DATA, FROZEN_TEST_DATE, 5);
+    expect(expectedUpcoming[0].festival.id).toBe('dhanteras');
+    expect(expectedUpcoming[1].festival.id).toBe('diwali');
+
     await page.goto('/');
     const carousel = page.locator('[data-testid="hero-festival-carousel"]');
     await expect(carousel).toBeVisible();
 
-    // 5 indicator dots
+    // 5 indicator dots matching expectedUpcoming count
     const dots = page.locator('[data-testid="carousel-indicator-dot"]');
-    await expect(dots).toHaveCount(5);
+    await expect(dots).toHaveCount(expectedUpcoming.length);
 
     // Prev / Next / Pause controls
     await expect(page.locator('button[aria-label="Previous festival"]')).toBeVisible();
@@ -82,14 +90,15 @@ test.describe('Hero Upcoming 5 Festivals Carousel — E2E Homepage Integration',
     await expect(page.locator('[data-testid="carousel-pause-toggle"]')).toBeVisible();
   });
 
-  test('Slide 1 is Dhanteras with live celebration status and action buttons', async ({ page }) => {
+  test('Slide 1 matches Priority 1 festival for controlled date with live status and action buttons', async ({ page }) => {
+    const expectedP1 = getUpcomingFestivals(FESTIVALS_DATA, FROZEN_TEST_DATE, 5)[0];
     await page.goto('/');
     // Pause autoplay and ensure slide 0 is active for deterministic inspection
     await page.locator('[data-testid="carousel-pause-toggle"]').click();
     await page.locator('[data-testid="carousel-indicator-dot"]').first().click();
 
     const slideTitle = page.locator('[data-testid="carousel-slide-title"]');
-    await expect(slideTitle).toContainText('Dhanteras');
+    await expect(slideTitle).toContainText(expectedP1.festival.nameEn);
 
     // On Dhanteras day (Nov 6), live celebration banner is active, countdown grid is replaced
     const celebratingBanner = page.locator('[data-testid="carousel-slide-celebrating"]');
@@ -99,17 +108,17 @@ test.describe('Hero Upcoming 5 Festivals Carousel — E2E Homepage Integration',
     // Button 1: Explore Greetings
     const greetingsBtn = page.locator('[data-testid="carousel-btn-greetings"]');
     await expect(greetingsBtn).toBeVisible();
-    await expect(greetingsBtn).toHaveAttribute('href', '/greeting-cards?festival=dhanteras');
+    await expect(greetingsBtn).toHaveAttribute('href', `/greeting-cards?festival=${expectedP1.festival.id}`);
 
     // Button 2: Explore Wishes
     const wishesBtn = page.locator('[data-testid="carousel-btn-wishes"]');
     await expect(wishesBtn).toBeVisible();
-    await expect(wishesBtn).toHaveAttribute('href', '/wishes?festival=dhanteras');
+    await expect(wishesBtn).toHaveAttribute('href', `/wishes?festival=${expectedP1.festival.id}`);
 
     // Guide link
     const guideBtn = page.locator('[data-testid="carousel-btn-guide"]');
     await expect(guideBtn).toBeVisible();
-    await expect(guideBtn).toHaveAttribute('href', '/festivals/dhanteras');
+    await expect(guideBtn).toHaveAttribute('href', `/festivals/${expectedP1.festival.id}`);
   });
 
   test('Clicking Next button advances to Diwali (Slide 2)', async ({ page }) => {

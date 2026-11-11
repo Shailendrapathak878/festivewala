@@ -133,11 +133,12 @@ test.describe('Dhanteras E2E Browser Verification with Mock Clocks', () => {
     // Countdown grid is active with 11-12 hours remaining (NOT 17 hours on Nov 6)
     const countdown = page.locator('[data-testid="carousel-slide-countdown"]');
     await expect(countdown).toBeVisible();
+    await expect(countdown).toContainText('Live Countdown');
 
-    // Check CountdownSection
-    const countdownSection = page.locator('[data-testid="upcoming-festival-card-1"]');
-    await expect(countdownSection).toBeVisible();
-    await expect(countdownSection).toContainText('Live Countdown');
+    // Verify Homepage Upcoming Celebrations container & detail page countdown
+    await expect(page.locator('#upcoming-celebrations')).toBeVisible();
+    await page.goto('/festivals/dhanteras');
+    await expect(page.locator('[data-testid="festival-countdown"]')).toBeVisible();
   });
 
   test('Browser E2E 2: Midnight Start of Dhanteras (Nov 6 00:00:05 IST) — Shows Live Celebration, NO 17h countdown', async ({ page }) => {
@@ -152,7 +153,8 @@ test.describe('Dhanteras E2E Browser Verification with Mock Clocks', () => {
     // Slide 1 title
     await expect(page.locator('[data-testid="carousel-slide-title"]')).toContainText('Dhanteras');
 
-    // Live celebration banner must be visible
+    // Live celebration banner must be visible inside Homepage Upcoming Celebrations section
+    await expect(page.locator('#upcoming-celebrations')).toBeVisible();
     const celebrationBanner = page.locator('[data-testid="carousel-slide-celebrating"]');
     await expect(celebrationBanner).toBeVisible();
     await expect(celebrationBanner).toContainText('Sacred Celebration is Live Today!');
@@ -160,12 +162,6 @@ test.describe('Dhanteras E2E Browser Verification with Mock Clocks', () => {
     // Countdown grid must NOT be visible on Dhanteras slide
     const countdownGrid = page.locator('[data-testid="carousel-slide-countdown"]');
     await expect(countdownGrid).not.toBeVisible();
-
-    // Check Homepage Countdown Section
-    const p1Card = page.locator('[data-testid="upcoming-festival-card-1"]');
-    await expect(p1Card).toBeVisible();
-    await expect(p1Card).toContainText('Live Celebration');
-    await expect(p1Card).toContainText('Sacred Celebration is Happening Now!');
 
     // Check Dhanteras Detail Page
     await page.goto('/festivals/dhanteras');

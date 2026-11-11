@@ -31,6 +31,10 @@ import {
   drawMarigoldToranMotif,
   drawFestiveSweetsMotif,
   drawCelestialGalaxy,
+  drawSuryaArghya,
+  drawBambooSoop,
+  drawRiverGhatSun,
+  drawChhathThekuaThali,
 } from './vectorDrawing';
 
 function withAlpha(color: string, alphaHex: string): string {
@@ -494,6 +498,22 @@ function drawTemplateMotif(
 
     case 'celestial-galaxy':
       drawCelestialGalaxy(ctx, motif.cx, motif.cy, motif.radius, gold, template.palette.accent);
+      break;
+
+    case 'surya-arghya':
+      drawSuryaArghya(ctx, motif.cx, motif.cy, motif.radius, template.palette.primary, gold);
+      break;
+
+    case 'bamboo-soop':
+      drawBambooSoop(ctx, motif.cx, motif.cy, motif.radius, template.palette.primary, gold);
+      break;
+
+    case 'river-ghat-sun':
+      drawRiverGhatSun(ctx, motif.cx, motif.cy, motif.radius, template.palette.primary, gold);
+      break;
+
+    case 'chhath-thekua-thali':
+      drawChhathThekuaThali(ctx, motif.cx, motif.cy, motif.radius, template.palette.primary, gold);
       break;
   }
 }

@@ -8,6 +8,7 @@ import {
   type FestivalGuide,
 } from '../data/festival-guides/guidesData';
 import { SEOHead } from '../components/common/SEOHead';
+import { Custom404 } from '../components/common/Custom404';
 import { STATIC_ROUTE_SEO } from '../data/seo/seoMetadata';
 import {
   Search,
@@ -33,8 +34,8 @@ export const FestivalGuidesPage: React.FC = () => {
 
   // Sync route param with state
   useEffect(() => {
+    setSelectedGuideId(guideId || null);
     if (guideId) {
-      setSelectedGuideId(guideId);
       window.scrollTo({ top: 0, behavior: 'instant' });
     }
   }, [guideId]);
@@ -128,6 +129,10 @@ export const FestivalGuidesPage: React.FC = () => {
     };
   }, [activeGuide, isHindi]);
 
+  if (guideId && !activeGuide) {
+    return <Custom404 />;
+  }
+
   // IF A GUIDE IS SELECTED: RENDER COMPREHENSIVE READING VIEW
   if (activeGuide) {
     return (
@@ -138,6 +143,7 @@ export const FestivalGuidesPage: React.FC = () => {
           keywords={seoConfig.keywords}
           canonicalUrl={seoConfig.canonicalUrl}
           ogType="article"
+          ogImage="https://festivewala.in/assets/brand/og-guides.png"
           jsonLd={guideSchema || undefined}
           lang={isHindi ? 'hi' : 'en'}
         />
@@ -244,19 +250,37 @@ export const FestivalGuidesPage: React.FC = () => {
               ))}
             </div>
 
-            {/* Related Festival Link */}
+            {/* Related Festival Link & Internal Hubs */}
             {activeGuide.relatedFestivalId && (
               <div className="pt-6 border-t border-brand-gold/20 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <span className="text-xs text-brand-dark/70">
                   {isHindi ? 'इस त्योहार के और अनुभव खोजें:' : 'Explore more about this celebration:'}
                 </span>
-                <Link
-                  to={`/festivals/${activeGuide.relatedFestivalId}`}
-                  className="px-5 py-2.5 rounded-xl bg-[#24113D] text-[#F2D98B] font-bold text-xs shadow-md hover:shadow-lg transition-all flex items-center gap-2"
-                >
-                  <span>{isHindi ? 'त्योहार का मुख्य पृष्ठ देखें' : 'View Festival Page'}</span>
-                  <ArrowRight size={14} />
-                </Link>
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <Link
+                    to={`/festivals/${activeGuide.relatedFestivalId}`}
+                    className="px-5 py-2.5 rounded-xl bg-[#24113D] text-[#F2D98B] font-bold text-xs shadow-md hover:shadow-lg transition-all flex items-center gap-2"
+                  >
+                    <span>{isHindi ? 'त्योहार का मुख्य पृष्ठ देखें' : 'View Festival Page'}</span>
+                    <ArrowRight size={14} />
+                  </Link>
+                  {activeGuide.relatedFestivalId === 'chhath-puja' && (
+                    <>
+                      <Link
+                        to="/greetings/chhath-puja"
+                        className="px-4 py-2.5 rounded-xl bg-white border border-brand-gold/40 text-brand-deep font-bold text-xs shadow-sm hover:border-brand-gold transition-all"
+                      >
+                        {isHindi ? 'छठ ग्रीटिंग कार्ड्स' : 'Chhath Cards'}
+                      </Link>
+                      <Link
+                        to="/wishes/chhath-puja"
+                        className="px-4 py-2.5 rounded-xl bg-white border border-brand-gold/40 text-brand-deep font-bold text-xs shadow-sm hover:border-brand-gold transition-all"
+                      >
+                        {isHindi ? 'छठ शुभकामना संदेश' : '100 Chhath Wishes'}
+                      </Link>
+                    </>
+                  )}
+                </div>
               </div>
             )}
           </article>
@@ -291,6 +315,7 @@ export const FestivalGuidesPage: React.FC = () => {
         keywords={seoConfig.keywords}
         canonicalUrl={seoConfig.canonicalUrl}
         ogType="article"
+        ogImage="https://festivewala.in/assets/brand/og-guides.png"
         jsonLd={hubSchema}
         lang={isHindi ? 'hi' : 'en'}
       />

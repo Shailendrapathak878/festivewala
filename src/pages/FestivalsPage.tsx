@@ -29,7 +29,7 @@ export const FestivalsPage: React.FC = () => {
   const seoConfig = isHindi ? STATIC_ROUTE_SEO.festivals.hi : STATIC_ROUTE_SEO.festivals.en;
 
   // Spotlight core festivals that have dedicated full experience pages
-  const spotlightIds = ['dhanteras', 'diwali', 'holi', 'raksha-bandhan', 'christmas', 'new-year'];
+  const spotlightIds = ['dhanteras', 'diwali', 'chhath-puja', 'holi', 'raksha-bandhan', 'christmas', 'new-year'];
 
   const filteredFestivals = useMemo(() => {
     return FESTIVALS_DATA.filter((f) => {
@@ -75,6 +75,7 @@ export const FestivalsPage: React.FC = () => {
         keywords={seoConfig.keywords}
         canonicalUrl={seoConfig.canonicalUrl}
         ogType="website"
+        ogImage={seoConfig.ogImage}
         jsonLd={festivalsSchema}
         lang={isHindi ? 'hi' : 'en'}
       />

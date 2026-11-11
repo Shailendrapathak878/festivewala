@@ -17,10 +17,10 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
 
   const isDark = variant === 'dark';
 
-  const LANGUAGES: Array<{ id: SupportedLanguage; label: string }> = [
-    { id: 'en', label: 'EN' },
-    { id: 'hi', label: 'हिन्दी' },
-    { id: 'hinglish', label: 'Hinglish' },
+  const LANGUAGES: Array<{ id: SupportedLanguage; label: string; shortLabel: string }> = [
+    { id: 'en', label: 'EN', shortLabel: 'EN' },
+    { id: 'hi', label: 'हिन्दी', shortLabel: 'हिन्दी' },
+    { id: 'hinglish', label: 'Hinglish', shortLabel: 'Hing' },
   ];
 
   const getPillLeft = () => {
@@ -39,7 +39,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
           : 'bg-white/90 border-brand-gold/25 shadow-sm'
       } ${className}`}
     >
-      <div className="hidden xs:flex items-center pl-1.5 pr-1 text-brand-gold">
+      <div className="hidden sm:flex items-center pl-1.5 pr-1 text-brand-gold">
         <Languages size={13} className="opacity-80" aria-hidden="true" />
       </div>
 
@@ -51,7 +51,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
               key={item.id}
               type="button"
               onClick={() => setLanguage(item.id)}
-              className={`relative z-10 px-1.5 sm:px-2.5 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold rounded-full transition-colors duration-200 focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold min-h-[28px] sm:min-h-[30px] flex items-center justify-center ${
+              className={`relative z-10 px-1 sm:px-2.5 py-0.5 sm:py-1 text-[9px] sm:text-xs font-semibold rounded-full transition-colors duration-200 focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold min-h-[26px] sm:min-h-[30px] flex items-center justify-center ${
                 isActive
                   ? 'text-brand-deep font-bold'
                   : isDark
@@ -60,7 +60,8 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
               }`}
               aria-pressed={isActive}
             >
-              {item.label}
+              <span className="hidden sm:inline">{item.label}</span>
+              <span className="sm:hidden">{item.shortLabel}</span>
             </button>
           );
         })}
